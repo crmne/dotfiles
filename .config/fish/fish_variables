@@ -27,8 +27,7 @@ SETUVAR _fisher_franciscolourenco_2F_done_files:/Users/carmine/\x2econfig/fish/c
 SETUVAR _fisher_jethrokuan_2F_z_files:/Users/carmine/\x2econfig/fish/functions/__z\x2efish\x1e/Users/carmine/\x2econfig/fish/functions/__z_add\x2efish\x1e/Users/carmine/\x2econfig/fish/functions/__z_clean\x2efish\x1e/Users/carmine/\x2econfig/fish/functions/__z_complete\x2efish\x1e/Users/carmine/\x2econfig/fish/conf\x2ed/z\x2efish
 SETUVAR _fisher_jorgebucaran_2F_bax_2E_fish_files:/Users/carmine/\x2econfig/fish/functions/bax\x2efish
 SETUVAR _fisher_jorgebucaran_2F_fisher_files:/Users/carmine/\x2econfig/fish/functions/fisher\x2efish\x1e/Users/carmine/\x2econfig/fish/completions/fisher\x2efish
-SETUVAR _fisher_joseluisq_2F_gitnow_files:/Users/carmine/\x2econfig/fish/functions/__gitnow_config_file\x2efish\x1e/Users/carmine/\x2econfig/fish/functions/__gitnow_functions\x2efish\x1e/Users/carmine/\x2econfig/fish/functions/__gitnow_manual\x2efish\x1e/Users/carmine/\x2econfig/fish/conf\x2ed/gitnow\x2efish\x1e/Users/carmine/\x2econfig/fish/conf\x2ed/gitnow_config\x2efish\x1e/Users/carmine/\x2econfig/fish/completions/__gitnow_completions\x2efish
-SETUVAR _fisher_plugins:jethrokuan/z\x1ejorgebucaran/bax\x2efish\x1efranciscolourenco/done\x1ejoseluisq/gitnow\x1ejorgebucaran/fisher
+SETUVAR _fisher_plugins:jethrokuan/z\x1ejorgebucaran/bax\x2efish\x1efranciscolourenco/done\x1ejorgebucaran/fisher
 SETUVAR _tide_color_dark_blue:0087AF
 SETUVAR _tide_color_green:5FD700
 SETUVAR _tide_color_light_blue:00AFFF
