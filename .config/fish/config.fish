@@ -11,3 +11,6 @@ set -x VISUAL $EDITOR
 # Set language
 set -x LC_ALL en_US.UTF-8
 set -x LC_CTYPE en_US.UTF-8
+
+# Homebrew M1
+set -gx PATH /opt/homebrew/bin /opt/homebrew/opt $PATH

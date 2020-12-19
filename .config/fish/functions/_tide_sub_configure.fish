@@ -6,15 +6,18 @@ function _tide_sub_configure
 
     set -g fake_columns $COLUMNS
     if test $fake_columns -gt 90
-        set -g fake_columns 90
+        set fake_columns 90
     end
     set -g fake_lines $LINES
 
-    for fn in $_tide_dir/configure/functions/*
-        source "$fn"
+    # Create an empty fake function for each item
+    for func in _fake(functions --all | string match --entire _tide_item)
+        function $func
+        end
     end
-    for promptItem in $_tide_dir/configure/prompt_items/*
-        source "$promptItem"
+
+    for file in $_tide_dir/configure/{functions, prompt_items}/*
+        source "$file"
     end
 
     _tide_begin
@@ -31,8 +34,8 @@ function _next_choice -a nextChoice
 end
 
 function _tide_menu
-    set -l bold (set_color -o)
-    set -l norm (set_color normal)
+    set -l bold (set_color -o; or echo)
+    set -l norm (set_color normal; or echo)
 
     set -l listWithSlashes (string join '/' $_tide_option_list)
 
@@ -88,4 +91,8 @@ function _tide_quit --on-signal INT
     source "$__fish_config_dir/functions/fish_prompt.fish"
     source "$__fish_config_dir/functions/_tide_left_prompt.fish"
     source "$__fish_config_dir/functions/_tide_right_prompt.fish"
+end
+
+function _find_and_remove -a name list --no-scope-shadowing
+    set -e "$list"[(contains --index $name $$list)] 2>/dev/null # Ignore error if $list doesn't contain $name
 end

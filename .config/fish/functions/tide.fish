@@ -3,16 +3,12 @@ function tide
     set -l subcommand $argv[1]
 
     if set -q _flag_version
-        printf '%s\n' $_tide_version
+        printf '%s\n' "tide, version $_tide_version"
         return 0
-    end
-
-    if set -q _flag_help
+    else if set -q _flag_help
         _tide_help
         return 0
-    end
-
-    if functions --query _tide_sub_$subcommand
+    else if functions --query _tide_sub_$subcommand
         _tide_sub_$subcommand $argv[2..-1]
     else
         _tide_help
@@ -21,9 +17,9 @@ function tide
 end
 
 function _tide_help
-    set -l b (set_color -o)
-    set -l n (set_color normal)
-    set -l bl (set_color $_tide_color_light_blue)
+    set -l b (set_color -o; or echo)
+    set -l n (set_color normal; or echo)
+    set -l bl (set_color $_tide_color_light_blue; or echo)
 
     set -l options \
         '-v or --version' \
@@ -34,12 +30,10 @@ function _tide_help
 
     set -l subcommands \
         'configure' \
-        'uninstall' \
         'bug-report' \
         'test'
     set -l subcommandDescriptions \
         'run interactive configuration wizard' \
-        'uninstall tide prompt manager' \
         'print tide configuration for use in bug reports' \
         'run tests for developers'
 

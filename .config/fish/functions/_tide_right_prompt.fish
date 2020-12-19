@@ -1,5 +1,5 @@
 function _tide_right_prompt
-    set -l splitText (_tide_fetch_right_prompt_items | string split '@NEWLINE@')
+    set -l splitText (_tide_fetch_right_prompt_items)
     set -l printAtEndedRightPromptHeight (count $splitText)
 
     if test "$tide_right_prompt_frame_enabled" = 'true'
@@ -7,7 +7,7 @@ function _tide_right_prompt
         # In this section we check if each line exist, if so add the frame to it. If not, insert a line containing only the frame
         # and update printAtEndedRightPromptHeight
 
-        set -l frameColor (set_color $tide_right_prompt_frame_color -b normal)
+        set -l frameColor (set_color $tide_right_prompt_frame_color -b normal; or echo)
 
         set splitText[1] $splitText[1]$frameColor'─╮'
 
@@ -39,7 +39,7 @@ function _tide_right_prompt
         set printAtEndedRightPromptHeight (math $printAtEndedRightPromptHeight-1)
     else
         _tide_print_at_end $splitText[-1]
-        set -g _tide_fish_right_prompt_display ' '
+        set -g _tide_fish_right_prompt_display
     end
 
     _tide_cursor_up $printAtEndedRightPromptHeight
@@ -90,7 +90,7 @@ function _tide_fetch_right_prompt_items
             set_color -b $color
 
             if test "$tide_right_prompt_pad_items" = 'true'
-                printf '%s' ' '$output(set_color -b $color)' ' # The set_color is for git_prompt which resets the background color
+                printf '%s' ' '$output(set_color -b $color; or echo)' ' # The set_color is for git_prompt which resets the background color
             else
                 printf '%s' "$output"
             end
@@ -103,10 +103,6 @@ function _tide_fetch_right_prompt_items
         set_color $previousColor -b normal
         printf '%s' $tide_right_prompt_suffix
     end
-end
-
-function fish_right_prompt
-    printf '%s' $_tide_fish_right_prompt_display
 end
 
 function _tide_print_at_end -a text
