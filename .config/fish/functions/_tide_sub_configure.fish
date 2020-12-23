@@ -5,9 +5,7 @@ function _tide_sub_configure
     end
 
     set -g fake_columns $COLUMNS
-    if test $fake_columns -gt 90
-        set fake_columns 90
-    end
+    test $fake_columns -gt 90 && set fake_columns 90
     set -g fake_lines $LINES
 
     # Create an empty fake function for each item
@@ -71,9 +69,7 @@ function _tide_option -a symbol text
 end
 
 function _tide_display_prompt -a var_name var_value
-    if test -n "$var_name"
-        set -g $var_name $var_value
-    end
+    test -n "$var_name" && set -g $var_name $var_value
     fake_prompt
     printf '\n\n'
 end
@@ -87,10 +83,11 @@ function _tide_display_restart_and_tide_quit
 end
 
 function _tide_quit --on-signal INT
-    clear
+    _tide_on_fish_exit
     source "$__fish_config_dir/functions/fish_prompt.fish"
     source "$__fish_config_dir/functions/_tide_left_prompt.fish"
     source "$__fish_config_dir/functions/_tide_right_prompt.fish"
+    clear
 end
 
 function _find_and_remove -a name list --no-scope-shadowing

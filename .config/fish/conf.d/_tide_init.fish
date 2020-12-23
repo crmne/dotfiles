@@ -1,13 +1,3 @@
-if set -q _tide_version
-    _tide_count_left_prompt_height
-
-    _tide_detect_os
-
-    _tide_git_prompt_set_vars
-
-    _tide_pwd
-end
-
 function _tide_init_install --on-event _tide_init_install
     _set_immutable _tide_color_dark_blue 0087AF
     _set_immutable _tide_color_dark_green 5FAF00
@@ -16,9 +6,7 @@ function _tide_init_install --on-event _tide_init_install
     _set_immutable _tide_color_light_blue 00AFFF
 
     _set_immutable _tide_dir "$__fish_config_dir/functions/tide"
-    _set_immutable _tide_version 2.5.0
 
-    _set_immutable NVM_DIR $HOME/.nvm
     _set_immutable VIRTUAL_ENV_DISABLE_PROMPT true
 
     set -U _tide_var_list
