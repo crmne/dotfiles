@@ -8,32 +8,19 @@ function _tide_sub_test
         # Install fisher, spout, and clownfish for testing
         fisher install IlanCosman/spout IlanCosman/clownfish
         return 0
-    end
-
-    if not functions --query spout mock
+    else if not functions --query spout mock
         set -l b (set_color -o; or echo)
         set -l n (set_color normal; or echo)
         printf '%s\n' $b'spout'$n' and'$b' clownfish'$n' must be installed to to run Tide\'s test suite. You can install them with'$b' tide test -i'$n
         return 1
     end
 
-    set -lx TERM xterm # Necessary for testing purposes, ensures color codes are printed
+    set -lx TERM xterm # Ensures color codes are printed
 
     set -l testsDir "$_tide_dir/tests"
 
-    set -l pending (mktemp -u)
-    set -l failed (mktemp -u)
-    set -l passed (mktemp -u)
-
-    set -l returnStatement 0
-
-    if set -q _flag_all
-        set argv (basename -s '.fish' $testsDir/*.fish)
-    end
-
-    if set -q _flag_CI
-        set -a argv 'CI/'(basename -s '.fish' $testsDir/CI/*.fish)
-    end
+    set -q _flag_all && set argv (string replace --all --regex '^.*/|\.fish$' '' $testsDir/*.fish)
+    set -q _flag_CI && set -a argv 'CI/'(string replace --all --regex '^.*/|\.fish$' '' $testsDir/CI/*.fish)
 
     if test (count $argv) -lt 1
         _tide_test_help
@@ -41,6 +28,10 @@ function _tide_sub_test
     end
 
     sudo --validate # Cache sudo credentials
+
+    set -l pending (mktemp -u)
+    set -l failed (mktemp -u)
+    set -l passed (mktemp -u)
 
     for test in $argv
         if spout "$testsDir/$test.fish" >$pending
@@ -69,31 +60,13 @@ function _tide_sub_test
 end
 
 function _tide_test_help
-    set -l b (set_color -o; or echo)
-    set -l n (set_color normal; or echo)
-    set -l bl (set_color $_tide_color_light_blue; or echo)
-
-    set -l optionList \
-        '  -v or --verbose' \
-        '  -a or --all' \
-        '  -h or --help' \
-        '  -i or --install' \
-        '  --CI'
-    set -l descriptionList \
-        'display test output even if passed' \
-        'run all available tests' \
-        'print this help message' \
-        'install testing dependencies' \
-        'run tests designed for CI'
-
-    printf '%s\n' 'Usage: '$bl'tide test '$n'[options] '$b'[TESTS...]'$n
-    printf '%s\n'
-    printf '%s\n' 'Options:'
-    for option in $optionList
-        printf '%s' $option
-        printf '%b' '\r'
-        _tide_cursor_right 19
-        set -l descriptionIndex (contains --index -- $option $optionList)
-        printf '%s\n' $descriptionList[$descriptionIndex]
-    end
+    printf '%s\n' \
+        'Usage: tide test [options] [tests]' \
+        '' \
+        'Options:' \
+        '  -v or --verbose  print test output even if passed' \
+        '  -a or --all      run all available tests' \
+        '  -h or --help     print this help message' \
+        '  -i or --install  install testing dependencies' \
+        '  --CI             run tests designed for CI'
 end
