@@ -24,3 +24,8 @@ set -x VISUAL $EDITOR
 # Set language
 set -x LC_ALL en_US.UTF-8
 set -x LC_CTYPE en_US.UTF-8
+
+# Fix older fish versions
+if not type -q fish_git_prompt
+    alias fish_git_prompt __fish_git_prompt
+end
