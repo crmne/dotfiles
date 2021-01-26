@@ -1,0 +1,17 @@
+# Node
+npm-debug.log
+
+# Mac
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# VSCode
+.vscode/settings.json
+
+# JetBrains
+.idea/
+
+# vi
+*~

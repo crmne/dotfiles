@@ -4,22 +4,19 @@ function finish
     set_color normal
 
     _tide_option y 'Yes'
-    printf '%b' '\n\n'
+    printf '%b' '\n'
 
-    _tide_option n 'No'
-    printf '%b' '\n\n'
-
-    switch (_tide_menu)
+    _tide_menu
+    switch $_tide_selected_option
         case y
             _tide_finish
     end
 
-    _tide_quit
+    __tide_on_fish_exit
+    clear
 end
 
 function _tide_finish
-    block --global # Event blocker prevents issues from arising while variables might be undefined etc.
-
     if contains 'prompt_char' $fake_tide_left_prompt_items
         _find_and_remove vi_mode fake_tide_right_prompt_items
     else
@@ -47,8 +44,4 @@ function _tide_finish
     end
 
     set _tide_var_list $incomingVarList
-
-    source "$__fish_config_dir/conf.d/_tide_init.fish" # Reload important startup variables
-
-    block --erase # Unblock events
 end

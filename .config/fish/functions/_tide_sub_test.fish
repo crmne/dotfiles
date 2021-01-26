@@ -5,19 +5,19 @@ function _tide_sub_test
         _tide_test_help
         return 0
     else if set -q _flag_install
-        # Install fisher, spout, and clownfish for testing
-        fisher install IlanCosman/spout IlanCosman/clownfish
+        # Install fisher, fishtape, and clownfish for testing
+        fisher install jorgebucaran/fishtape IlanCosman/clownfish
         return 0
-    else if not functions --query spout mock
-        set -l b (set_color -o; or echo)
-        set -l n (set_color normal; or echo)
-        printf '%s\n' $b'spout'$n' and'$b' clownfish'$n' must be installed to to run Tide\'s test suite. You can install them with'$b' tide test -i'$n
+    else if not functions --query fishtape mock
+        set -l b (set_color -o || echo)
+        set -l n (set_color normal || echo)
+        printf '%s\n' $b'fishtape'$n' and'$b' clownfish'$n' must be installed to to run Tide\'s test suite. You can install them with'$b' tide test -i'$n
         return 1
     end
 
     set -lx TERM xterm # Ensures color codes are printed
 
-    set -l testsDir "$_tide_dir/tests"
+    set -l testsDir "$_tide_root/functions/tide/tests"
 
     set -q _flag_all && set argv (string replace --all --regex '^.*/|\.fish$' '' $testsDir/*.fish)
     set -q _flag_CI && set -a argv 'CI/'(string replace --all --regex '^.*/|\.fish$' '' $testsDir/CI/*.fish)
@@ -34,7 +34,7 @@ function _tide_sub_test
     set -l passed (mktemp -u)
 
     for test in $argv
-        if spout "$testsDir/$test.fish" >$pending
+        if fishtape "$testsDir/$test.fish" >$pending
             if set -q _flag_verbose
                 cat $pending >>$passed
             else

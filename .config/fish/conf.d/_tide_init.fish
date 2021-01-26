@@ -5,28 +5,23 @@ function _tide_init_install --on-event _tide_init_install
     _set_immutable _tide_color_green 5FD700
     _set_immutable _tide_color_light_blue 00AFFF
 
-    _set_immutable _tide_dir "$__fish_config_dir/functions/tide"
+    # Each string replace is the regex equivalent of dirname
+    _set_immutable _tide_root (status current-filename | string replace --regex '/[^/]+$' '' | string replace --regex '/[^/]+$' '')
 
     _set_immutable VIRTUAL_ENV_DISABLE_PROMPT true
 
     set -U _tide_var_list
 
-    source "$_tide_dir/configure/choices/all/style.fish"
+    source $_tide_root/functions/_tide_sub_configure.fish
     _load_config 'lean'
-
-    source "$_tide_dir/configure/choices/all/finish.fish"
     _tide_finish
 
-    source "$__fish_config_dir/functions/fish_prompt.fish"
-
-    if status is-interactive
-        switch (read --prompt-str="Configure tide prompt? [Y/n] " | string lower)
-            case y ye yes ''
-                tide configure
-            case '*'
-                printf '%s' \n 'Run ' (set_color $fish_color_command) 'tide ' \
-                    (set_color $fish_color_param) 'configure ' (set_color normal) 'to customize your prompt.' \n
-        end
+    status is-interactive && switch (read --prompt-str="Configure tide prompt? [Y/n] " | string lower)
+        case y ye yes ''
+            tide configure
+        case '*'
+            printf '%s' \n 'Run ' (set_color $fish_color_command) 'tide ' \
+                (set_color $fish_color_param) 'configure ' (set_color normal) 'to customize your prompt.' \n
     end
 end
 

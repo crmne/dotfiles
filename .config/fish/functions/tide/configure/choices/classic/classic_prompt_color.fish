@@ -17,25 +17,20 @@ function classic_prompt_color
     _set_all_items_bg_color 1C1C1C
     _tide_display_prompt
 
-    _tide_display_restart_and_tide_quit
-
-    switch (_tide_menu)
+    _tide_menu
+    switch $_tide_selected_option
         case 1
             _set_all_items_bg_color 585858
-            _next_choice 'classic/classic_show_time'
+            _next_choice 'all/show_time'
         case 2
             _set_all_items_bg_color 444444
-            _next_choice 'classic/classic_show_time'
+            _next_choice 'all/show_time'
         case 3
             _set_all_items_bg_color 303030
-            _next_choice 'classic/classic_show_time'
+            _next_choice 'all/show_time'
         case 4
             _set_all_items_bg_color 1C1C1C
-            _next_choice 'classic/classic_show_time'
-        case r
-            _tide_begin
-        case q
-            _tide_quit
+            _next_choice 'all/show_time'
     end
 end
 
