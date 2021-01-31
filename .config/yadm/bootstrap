@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+cat > $HOME/.local/share/yadm/repo.git/info/exclude <<EOL
+# ignore everything
+/*
+
+# except
+!/.config
+/.config/*
+!/.config/fish
+!/.config/fish/**
+/.config/fish/fish_variables
+
+!/.config/yadm
+!/.config/yadm/**
+
+!/.config/git
+
+!/.gitconfig
+!/.ssh/config
+
+EOL
