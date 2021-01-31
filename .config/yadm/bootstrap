@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
-cat > $HOME/.local/share/yadm/repo.git/info/exclude <<EOL
+OLD_DIR = $HOME/.config/yadm/repo.git/info
+NEW_DIR = $HOME/.local/share/yadm/repo.git/info
+
+[ -d $NEW_DIR ] && EXCLUDE_PATH = $NEW_DIR/exclude || EXCLUDE_PATH = $OLD_DIR/exclude
+
+cat > $EXCLUDE_PATH <<EOL
 # ignore everything
 /*
 
