@@ -7,7 +7,7 @@ if [ -d ~/.local/bin ]
 end
 ## Homebrew M1
 if [ -d /opt/homebrew/bin ]
-    set -gx PATH /opt/homebrew/bin /opt/homebrew/opt $PATH
+    set -gx PATH /opt/homebrew/sbin /opt/homebrew/bin /opt/homebrew/opt $PATH
 end
 
 # Editor
