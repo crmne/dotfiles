@@ -24,4 +24,8 @@ cat > $EXCLUDE_PATH <<EOL
 !/.gitconfig
 !/.ssh/config
 
+!/.vim_runtime
+
 EOL
+
+sh ~/.vim_runtime/install_awesome_vimrc.sh

@@ -1,0 +1,3 @@
+[submodule "/Users/carmine/.vim_runtime"]
+	path = /Users/carmine/.vim_runtime
+	url = https://github.com/amix/vimrc.git
