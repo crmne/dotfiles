@@ -29,4 +29,5 @@ cat > $EXCLUDE_PATH <<EOL
 
 EOL
 
+yadm submodule update --init
 sh ~/.vim_runtime/install_awesome_vimrc.sh
