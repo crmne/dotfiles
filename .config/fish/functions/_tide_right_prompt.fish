@@ -46,25 +46,22 @@ function _tide_fetch_right_prompt_items
             if test -n "$output"
                 set -l colorName tide_"$item"_bg_color
                 set -l color $$colorName
-                test -n "$color" || set color normal
 
                 if set -e lastItemWasNewline
                     set_color $color -b normal
                     printf '%s' $tide_right_prompt_prefix
+                else if test "$color" = "$previousColor"
+                    set_color $tide_right_prompt_item_separator_same_color_color
+                    printf '%s' $tide_right_prompt_item_separator_same_color
                 else
-                    if test "$color" = "$previousColor"
-                        set_color $tide_right_prompt_item_separator_same_color_color
-                        printf '%s' $tide_right_prompt_item_separator_same_color
-                    else
-                        set_color $color -b $previousColor
-                        printf '%s' $tide_right_prompt_item_separator_diff_color
-                    end
+                    set_color $color -b $previousColor
+                    printf '%s' $tide_right_prompt_item_separator_diff_color
                 end
 
                 set_color -b $color
 
                 if test "$tide_right_prompt_pad_items" = 'true'
-                    printf '%s' " $output"(set_color -b $color || echo)' ' # The set_color is for git_prompt which resets the background color
+                    printf '%s' " $output "
                 else
                     printf '%s' "$output"
                 end

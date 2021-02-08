@@ -13,37 +13,21 @@ function style
     _load_config 'rainbow'
     _tide_display_prompt
 
-    _tide_option 4 'Pure'
-    _load_config 'pure'
-    _tide_display_prompt
-
     _tide_menu
     switch $_tide_selected_option
         case 1
             _load_config lean
-            _next_choice 'all/show_time'
+            set -g _tide_configure_style lean
         case 2
             _load_config classic
-            _next_choice 'classic/classic_prompt_color'
+            set -g _tide_configure_style classic
         case 3
             _load_config rainbow
-            _next_choice 'all/show_time'
-        case 4
-            _load_config pure
-            _next_choice 'pure/pure_nonperm_content_location'
+            set -g _tide_configure_style rainbow
     end
+    _next_choice 'all/prompt_colors'
 end
 
 function _load_config -a name
-    for var in $fake__tide_var_list
-        set -e $var
-    end
-    set -g fake__tide_var_list
-
-    for line in fake_(cat "$_tide_root/functions/tide/configure/configs/$name.fish")
-        set -a fake__tide_var_list (string split --max 1 ' ' $line)[1]
-        eval set -g $line
-    end
-
-    set -g _tide_configure_style $name
+    printf '%s\n' "set -g fake_"(cat "$_tide_root/functions/tide/configure/configs/$name.fish") | source
 end

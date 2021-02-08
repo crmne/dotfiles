@@ -1,10 +1,11 @@
 function prompt_connection_andor_frame_color
-    if test -n "$fake_tide_prompt_connection_icon"
-        set promptConnectionExists
+    if test "$_tide_16color" = true
+        _next_choice 'all/prompt_spacing'
+        return 0
     end
-    if test "$fake_tide_left_prompt_frame_enabled" = 'true' -o "$fake_tide_right_prompt_frame_enabled" = 'true'
-        set frameExists
-    end
+
+    test -n "$fake_tide_prompt_connection_icon" && set promptConnectionExists
+    test "$fake_tide_left_prompt_frame_enabled" = 'true' -o "$fake_tide_right_prompt_frame_enabled" = 'true' && set frameExists
 
     if set -q promptConnectionExists && set -q frameExists
         set title "Connection & Frame Color"
@@ -39,17 +40,14 @@ function prompt_connection_andor_frame_color
     switch $_tide_selected_option
         case 1
             _set_prompt_connection_and_frame_color 808080
-            _next_choice 'all/prompt_spacing'
         case 2
             _set_prompt_connection_and_frame_color 6C6C6C
-            _next_choice 'all/prompt_spacing'
         case 3
             _set_prompt_connection_and_frame_color 585858
-            _next_choice 'all/prompt_spacing'
         case 4
             _set_prompt_connection_and_frame_color 444444
-            _next_choice 'all/prompt_spacing'
     end
+    _next_choice 'all/prompt_spacing'
 end
 
 function _set_prompt_connection_and_frame_color -a color

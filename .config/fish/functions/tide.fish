@@ -2,7 +2,7 @@ function tide
     argparse --stop-nonopt 'v/version' 'h/help' -- $argv
 
     if set -q _flag_version
-        printf '%s\n' "tide, version 3.2.0"
+        printf '%s\n' "tide, version 4.0.0"
     else if set -q _flag_help
         _tide_help
     else if functions --query _tide_sub_$argv[1]
@@ -23,6 +23,5 @@ function _tide_help
         '' \
         'Subcommands:' \
         '  configure   run interactive configuration wizard' \
-        '  bug-report  print info for use in bug reports' \
-        '  test        run tests for developers'
+        '  bug-report  print info for use in bug reports'
 end

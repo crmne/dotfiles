@@ -31,17 +31,7 @@ function _tide_finish
         end
     end
 
-    # Delete all vars in _tide_var_list and all non fake fish_git_prompt vars
-    for var in $_tide_var_list (set -n | string match --invert --entire 'fake' | string match --entire fish_git_prompt)
-        set -e $var
+    for fakeVar in (set --names | string match --regex "^fake_tide.*")
+        set -U (string replace 'fake_' '' $fakeVar) $$fakeVar
     end
-
-    set -l incomingVarList (string replace 'fake_' '' $fake__tide_var_list)
-
-    for normalVar in $incomingVarList
-        set -l fakeVar fake_$normalVar
-        set -U $normalVar $$fakeVar
-    end
-
-    set _tide_var_list $incomingVarList
 end
