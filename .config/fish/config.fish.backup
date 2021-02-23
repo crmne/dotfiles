@@ -24,7 +24,3 @@ set -x VISUAL $EDITOR
 # Set language
 set -x LC_ALL en_US.UTF-8
 set -x LC_CTYPE en_US.UTF-8
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f $HOME/.google-cloud-sdk/path.fish.inc ]; . $HOME/.google-cloud-sdk/path.fish.inc; end
-set -g fish_user_paths "/opt/homebrew/opt/yq@3/bin" $fish_user_paths
