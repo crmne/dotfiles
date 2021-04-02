@@ -1,16 +1,16 @@
 function style
     _tide_title 'Prompt Style'
 
-    _tide_option 1 'Lean'
-    _load_config 'lean'
+    _tide_option 1 Lean
+    _load_config lean
     _tide_display_prompt
 
-    _tide_option 2 'Classic'
-    _load_config 'classic'
+    _tide_option 2 Classic
+    _load_config classic
     _tide_display_prompt
 
-    _tide_option 3 'Rainbow'
-    _load_config 'rainbow'
+    _tide_option 3 Rainbow
+    _load_config rainbow
     _tide_display_prompt
 
     _tide_menu
@@ -25,9 +25,9 @@ function style
             _load_config rainbow
             set -g _tide_configure_style rainbow
     end
-    _next_choice 'all/prompt_colors'
+    _next_choice all/prompt_colors
 end
 
 function _load_config -a name
-    printf '%s\n' "set -g fake_"(cat "$_tide_root/functions/tide/configure/configs/$name.fish") | source
+    string replace --regex '^' 'set -g fake_' <$_tide_root/functions/tide/configure/configs/$name.fish | source
 end

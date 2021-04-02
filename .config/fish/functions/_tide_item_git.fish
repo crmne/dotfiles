@@ -1,8 +1,9 @@
 function _tide_item_git
     # Branch or SHA
-    set -l location (git branch --show-current 2>/dev/null) || return
-    # --quiet ensures that it won't complain if there are no commits
-    git rev-parse --git-dir --short=8 --quiet HEAD | read --local --line gitDir sha
+    set -l branch (git branch --show-current 2>/dev/null) || return
+    # --quiet=don't complain if there are no commits
+    git rev-parse --quiet --git-dir --short HEAD | read --local --line gitDir location
+    test -n "$branch" && set location $branch # location is SHA if branch is empty
 
     # Operation
     set -l operation
@@ -10,16 +11,16 @@ function _tide_item_git
     set -l totalSteps
 
     if test -d $gitDir/rebase-merge
-        set step (cat $gitDir/rebase-merge/msgnum 2>/dev/null)
-        set totalSteps (cat $gitDir/rebase-merge/end 2>/dev/null)
+        read step <$gitDir/rebase-merge/msgnum
+        read totalSteps <$gitDir/rebase-merge/end
         if test -f $gitDir/rebase-merge/interactive
             set operation rebase-i
         else
             set operation rebase-m
         end
     else if test -d $gitDir/rebase-apply
-        set step (cat $gitDir/rebase-apply/next 2>/dev/null)
-        set totalSteps (cat $gitDir/rebase-apply/last 2>/dev/null)
+        read step <$gitDir/rebase-apply/next
+        read totalSteps <$gitDir/rebase-apply/last
         if test -f $gitDir/rebase-apply/rebasing
             set operation rebase
         else if test -f $gitDir/rebase-apply/applying
@@ -39,33 +40,26 @@ function _tide_item_git
 
     # Upstream behind/ahead
     git rev-list --count --left-right @{upstream}...HEAD 2>/dev/null |
-    read --local --delimiter=\t upstreamBehind upstreamAhead
+        read --local --delimiter=\t upstreamBehind upstreamAhead
     test "$upstreamBehind" = 0 && set -e upstreamBehind
     test "$upstreamAhead" = 0 && set -e upstreamAhead
 
-    # Git status info
-    set -l gitInfo (git status --porcelain)
-    set -l staged (string match --regex '^[ADMR] ' $gitInfo | count) || set -e staged
-    set -l dirty (string match --regex '^ [ADMR]' $gitInfo | count) || set -e dirty
-    set -l untracked (string match --regex '^\?\?' $gitInfo | count) || set -e untracked
+    # Git status/stash
+    set -l gitInfo (git -C $gitDir/.. status --porcelain)
+    set -l stash (git -C $gitDir/.. stash list | count) || set -e stash
     set -l conflicted (string match --regex '^UU' $gitInfo | count) || set -e conflicted
-
-    # Stash
-    set -l stash (git stash list | count) || set -e stash
+    set -l staged (string match --regex '^[ADMR].' $gitInfo | count) || set -e staged
+    set -l dirty (string match --regex '^.[ADMR]' $gitInfo | count) || set -e dirty
+    set -l untracked (string match --regex '^\?\?' $gitInfo | count) || set -e untracked
 
     # Print the information
-    if test -z "$location"
-        printf '%s' '@'
-        set location $sha
-    end
-
     printf '%s' \
         (set_color $tide_git_branch_color) $location \
         (set_color $tide_git_operation_color) ' '$operation ' '$step/$totalSteps \
         (set_color $tide_git_upstream_color) ' ⇣'$upstreamBehind ' ⇡'$upstreamAhead \
+        (set_color $tide_git_stash_color) ' *'$stash \
         (set_color $tide_git_conflicted_color) ' ~'$conflicted \
         (set_color $tide_git_staged_color) ' +'$staged \
         (set_color $tide_git_dirty_color) ' !'$dirty \
-        (set_color $tide_git_untracked_color) ' ?'$untracked \
-        (set_color $tide_git_stash_color) ' *'$stash
+        (set_color $tide_git_untracked_color) ' ?'$untracked
 end
