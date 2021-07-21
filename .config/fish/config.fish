@@ -24,8 +24,12 @@ set -x VISUAL $EDITOR
 # Set language
 set -x LC_ALL en_US.UTF-8
 set -x LC_CTYPE en_US.UTF-8
-set -g fish_user_paths "/opt/homebrew/opt/yq@3/bin" $fish_user_paths
-set -g fish_user_paths "/opt/homebrew/opt/mysql-client/bin" $fish_user_paths
+fish_add_path /opt/homebrew/opt/yq@3/bin
+fish_add_path /opt/homebrew/opt/mysql-client/bin
+fish_add_path /opt/homebrew/anaconda3/bin
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/carmine/google-cloud-sdk/path.fish.inc' ]; . '/Users/carmine/google-cloud-sdk/path.fish.inc'; end
+if [ -f ~/google-cloud-sdk/path.fish.inc ]; . ~/google-cloud-sdk/path.fish.inc; end
+
+set -gx CPATH /opt/homebrew/include $CPATH
+set -gx LIBRARY_PATH /opt/homebrew/lib $LIBRARY_PATH
