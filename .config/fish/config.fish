@@ -11,7 +11,7 @@ if [ -d /opt/homebrew ]
     fish_add_path /opt/homebrew/sbin /opt/homebrew/bin /opt/homebrew/opt
     fish_add_path /opt/homebrew/opt/yq@3/bin
     fish_add_path /opt/homebrew/opt/mysql-client/bin
-    fish_add_path -gp /opt/homebrew/anaconda3/bin
+    fish_add_path /opt/homebrew/opt/ruby/bin
 end
 
 if status is-interactive
@@ -37,4 +37,3 @@ set -x LC_CTYPE en_US.UTF-8
 if [ -f ~/google-cloud-sdk/path.fish.inc ]; . ~/google-cloud-sdk/path.fish.inc; end
 
 test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
-
