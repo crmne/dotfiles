@@ -10,3 +10,5 @@
 	rebase = true
 [init]
 	defaultBranch = main
+[http]
+	cookiefile = /Users/carmine/.gitcookies
