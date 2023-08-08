@@ -1,22 +1,17 @@
 function _tide_item_character
-    if test $_tide_last_status = 0
-        set_color $tide_character_color
-    else
-        set_color $tide_character_color_failure
-    end
+    test $_tide_status = 0 && set_color $tide_character_color || set_color $tide_character_color_failure
 
-    if test "$fish_key_bindings" = fish_default_key_bindings
-        printf %s $tide_character_icon
-    else
+    set -q add_prefix || echo -ns ' '
+
+    test "$fish_key_bindings" = fish_default_key_bindings && echo -ns $tide_character_icon ||
         switch $fish_bind_mode
             case insert
-                printf %s $tide_character_icon
+                echo -ns $tide_character_icon
             case default
-                printf %s $tide_character_vi_icon_default
+                echo -ns $tide_character_vi_icon_default
             case replace replace_one
-                printf %s $tide_character_vi_icon_replace
+                echo -ns $tide_character_vi_icon_replace
             case visual
-                printf %s $tide_character_vi_icon_visual
+                echo -ns $tide_character_vi_icon_visual
         end
-    end
 end
