@@ -14,6 +14,14 @@ if [ -d /opt/homebrew ]
     fish_add_path /opt/homebrew/opt/ruby/bin
 end
 
+# PyCharm
+if [ -d "/Applications/PyCharm CE.app/Contents/MacOS" ]
+    fish_add_path "/Applications/PyCharm CE.app/Contents/MacOS"
+end
+if [ -d "/Applications/PyCharm.app/Contents/MacOS" ]
+    fish_add_path "/Applications/PyCharm.app/Contents/MacOS"
+end
+
 if status is-interactive
     # Commands to run in interactive sessions can go here
 end
