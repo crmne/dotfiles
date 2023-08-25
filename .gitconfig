@@ -12,3 +12,5 @@
 	defaultBranch = main
 [http]
 	cookiefile = /Users/carmine/.gitcookies
+[core]
+	excludesfile = /Users/carmine/.gitignore
