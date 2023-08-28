@@ -27,7 +27,10 @@ if status is-interactive
 end
 
 # Editor
-if type -q code
+if type -q nvim
+    alias vim=nvim
+    set -x EDITOR "nvim"
+else if type -q code
     set -x EDITOR "code -w"
 else if type -q code-exploration
     alias code code-exploration
@@ -45,3 +48,6 @@ set -x LC_CTYPE en_US.UTF-8
 if [ -f ~/google-cloud-sdk/path.fish.inc ]; . ~/google-cloud-sdk/path.fish.inc; end
 
 test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
+
+# starship prompt
+starship init fish | source
