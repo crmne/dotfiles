@@ -4,3 +4,6 @@
 [submodule "/Users/carmine/.config/nvim"]
 	path = /Users/carmine/.config/nvim
 	url = https://github.com/NvChad/NvChad
+[submodule "/Users/carmine/.tmux/plugins/tpm"]
+	path = /Users/carmine/.tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
