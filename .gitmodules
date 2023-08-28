@@ -1,3 +1,6 @@
 [submodule ".vim_runtime"]
 	path = .vim_runtime
 	url = https://github.com/amix/vimrc.git
+[submodule "/Users/carmine/.config/nvim"]
+	path = /Users/carmine/.config/nvim
+	url = https://github.com/NvChad/NvChad
