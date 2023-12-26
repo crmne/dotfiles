@@ -12,6 +12,7 @@ if [ -d /opt/homebrew ]
     fish_add_path /opt/homebrew/opt/yq@3/bin
     fish_add_path /opt/homebrew/opt/mysql-client/bin
     fish_add_path /opt/homebrew/opt/ruby/bin
+    fish_add_path /opt/homebrew/opt/ruby@3.1/bin
 end
 
 # PyCharm
