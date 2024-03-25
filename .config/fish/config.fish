@@ -11,8 +11,6 @@ if [ -d /opt/homebrew ]
     fish_add_path /opt/homebrew/sbin /opt/homebrew/bin /opt/homebrew/opt
     fish_add_path /opt/homebrew/opt/yq@3/bin
     fish_add_path /opt/homebrew/opt/mysql-client/bin
-    fish_add_path /opt/homebrew/opt/ruby/bin
-    fish_add_path /opt/homebrew/opt/ruby@3.1/bin
 end
 
 # PyCharm
@@ -50,3 +48,5 @@ if [ -f ~/google-cloud-sdk/path.fish.inc ]; . ~/google-cloud-sdk/path.fish.inc; 
 
 test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
 
+# rbenv
+status --is-interactive; and rbenv init - fish | source
