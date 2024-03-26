@@ -50,3 +50,6 @@ test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shel
 
 # rbenv
 status --is-interactive; and rbenv init - fish | source
+
+# pyenv
+pyenv init - | source

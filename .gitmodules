@@ -1,9 +1,9 @@
 [submodule ".vim_runtime"]
 	path = .vim_runtime
 	url = https://github.com/amix/vimrc.git
-[submodule "/Users/carmine/.config/nvim"]
-	path = /Users/carmine/.config/nvim
+[submodule ".config/nvim"]
+	path = .config/nvim
 	url = https://github.com/NvChad/NvChad
-[submodule "/Users/carmine/.tmux/plugins/tpm"]
-	path = /Users/carmine/.tmux/plugins/tpm
+[submodule ".tmux/plugins/tpm"]
+	path = .tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
