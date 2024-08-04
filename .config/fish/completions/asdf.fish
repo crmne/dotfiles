@@ -1,0 +1,1 @@
+/home/carmine/.asdf/completions/asdf.fish
