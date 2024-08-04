@@ -1,7 +1,6 @@
 jorgebucaran/fisher
 jethrokuan/z
 patrickf1/fzf.fish
-jhillyerd/plugin-git
-franciscolourenco/done
-jorgebucaran/replay.fish
-ilancosman/tide@v5
+ilancosman/tide@v6
+danhper/fish-ssh-agent
+halostatue/fish-direnv
