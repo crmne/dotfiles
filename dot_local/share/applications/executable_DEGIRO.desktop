@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=DEGIRO
+Comment=DEGIRO
+Exec=omarchy-launch-webapp https://trader.degiro.nl/trader/#/portfolio/assets
+Terminal=false
+Type=Application
+Icon=/home/carmine/.local/share/applications/icons/DEGIRO.png
+StartupNotify=true
