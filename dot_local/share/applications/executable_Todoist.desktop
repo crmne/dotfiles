@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Todoist
+Comment=Todoist
+Exec=omarchy-launch-webapp https://app.todoist.com/app
+Terminal=false
+Type=Application
+Icon=/home/carmine/.local/share/applications/icons/Todoist.png
+StartupNotify=true

@@ -1,0 +1,12 @@
+provider_installation {
+  dev_overrides {
+    "forwardemail/forwardemail" = "/home/carmine/.local/share/mise/installs/go/1.25.3/bin"
+  }
+  filesystem_mirror {
+    path    = "/home/carmine/.terraform.d/plugins"
+    include = ["forwardemail/forwardemail"]
+  }
+  direct {
+    exclude = ["forwardemail/forwardemail"]
+  }
+}
