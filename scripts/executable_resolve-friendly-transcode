@@ -1,0 +1,235 @@
+#!/usr/bin/env fish
+
+# resolve-friendly-transcode
+#
+# Usage:
+#   resolve-friendly-transcode [-o DIR] [--vcodec CODEC] [--acodec CODEC] file1 [file2 ...]
+#
+# Behaviour:
+#   - Positional args are input files
+#   - Optional -o / --output DIR: where to write outputs
+#     * If omitted -> outputs go to current directory (pwd)
+#   - Output name: <basename>_resolve.mp4
+#
+#   Video:
+#     - If codec = h264 AND pix_fmt = yuv420p -> copy
+#     - If codec is in a small Resolve-friendly list AND pix_fmt = yuv420p -> copy
+#     - Otherwise -> transcode to H.264 (default: libx264, change with --vcodec)
+#
+#   Audio:
+#     - AAC is always transcoded (Resolve Linux hates AAC)
+#     - mp3 / pcm / flac / opus / ac3 -> copy
+#     - everything else -> transcode to MP3 (or what you picked with --acodec)
+#
+#   Examples:
+#     resolve-friendly-transcode *.mp4
+#     resolve-friendly-transcode -o ~/fixed *.mp4
+#     resolve-friendly-transcode --vcodec h264_nvenc --acodec mp3 *.mkv
+
+function die
+    echo $argv[1] >&2
+    exit 1
+end
+
+function usage
+    echo "Usage:"
+    echo "  resolve-friendly-transcode [-o DIR] [--vcodec CODEC] [--acodec CODEC] file1 [file2 ...]"
+    echo
+    echo "Defaults:"
+    echo "  video: transcode to libx264 (when needed)"
+    echo "  audio: transcode to mp3 via libmp3lame (when needed)"
+    exit 1
+end
+
+# --- sanity checks ---------------------------------------------------------
+
+if not type -q ffmpeg
+    die "ffmpeg not found. Please install ffmpeg."
+end
+
+if not type -q ffprobe
+    die "ffprobe not found. Please install ffmpeg/ffprobe."
+end
+
+# --- parse args ------------------------------------------------------------
+
+set -l outdir ""
+set -l target_vcodec libx264 # what we transcode TO when needed
+set -l target_acodec mp3 # what we transcode TO when needed
+set -l inputs
+
+set i 1
+while test $i -le (count $argv)
+    set arg $argv[$i]
+
+    switch $arg
+        case -h --help
+            usage
+
+        case -o --output
+            set i (math $i + 1)
+            if test $i -gt (count $argv)
+                die "Missing directory after $arg"
+            end
+            set outdir $argv[$i]
+
+        case --vcodec
+            set i (math $i + 1)
+            if test $i -gt (count $argv)
+                die "Missing value after --vcodec"
+            end
+            set target_vcodec $argv[$i]
+
+        case --acodec
+            set i (math $i + 1)
+            if test $i -gt (count $argv)
+                die "Missing value after --acodec"
+            end
+            set target_acodec $argv[$i]
+
+        case '*'
+            set inputs $inputs $arg
+    end
+
+    set i (math $i + 1)
+end
+
+if test (count $inputs) -lt 1
+    usage
+end
+
+# If no output dir: use current directory
+if test -z "$outdir"
+    set outdir (pwd)
+end
+
+if not test -d "$outdir"
+    die "Output directory does not exist: $outdir"
+end
+
+# --- known-good codecs for Resolve on Linux --------------------------------
+# NOTE: not exhaustive, just a pragmatic minimal set
+
+set -g SUPPORTED_VIDEO h264 hevc mpeg4 prores dnxhd dnxhr
+
+# AAC is intentionally NOT in here
+set -g SUPPORTED_AUDIO \
+    pcm_s16le pcm_s24le pcm_s32le \
+    pcm_f32le pcm_f64le \
+    mp3 flac opus ac3
+
+# --- worker ----------------------------------------------------------------
+
+function process_one
+    set -l in "$argv[1]"
+    set -l outdir "$argv[2]"
+    set -l target_vcodec "$argv[3]"
+    set -l target_acodec "$argv[4]"
+
+    if not test -f "$in"
+        die "Input file missing: $in"
+    end
+
+    set -l base (basename "$in")
+    set -l stem (string replace -r '\.[^./]+$' '' -- "$base")
+    set -l out "$outdir"/"$stem"_resolve.mp4
+
+    # Probe video/audio
+    set -l v_codec (ffprobe -v error -select_streams v:0 \
+    -show_entries stream=codec_name -of csv=p=0 "$in")
+    set -l v_pixfmt (ffprobe -v error -select_streams v:0 \
+    -show_entries stream=pix_fmt -of csv=p=0 "$in")
+    set -l a_codec (ffprobe -v error -select_streams a:0 \
+    -show_entries stream=codec_name -of csv=p=0 "$in")
+
+    if test -z "$v_codec"
+        die "No video stream in: $in"
+    end
+
+    echo "Input: $in"
+    echo "  Video codec:   $v_codec"
+    echo "  Video pix_fmt: $v_pixfmt"
+    if test -n "$a_codec"
+        echo "  Audio codec:   $a_codec"
+    else
+        echo "  Audio codec:   (none)"
+    end
+
+    # --- decide video --------------------------------------------------------
+    set -l vcodec_args
+    set -l vnote
+
+    if contains -- $v_codec $SUPPORTED_VIDEO; and test "$v_pixfmt" = yuv420p
+        set vcodec_args -c:v copy
+        set vnote "Keep video as-is ($v_codec, $v_pixfmt)"
+    else
+        # Normalize to “boring” H.264 8-bit 4:2:0
+        # If you want NVENC, call with: --vcodec h264_nvenc
+        set vcodec_args -c:v $target_vcodec -pix_fmt yuv420p
+        set vnote "Transcode video: $v_codec/$v_pixfmt -> $target_vcodec, yuv420p"
+    end
+
+    # --- decide audio --------------------------------------------------------
+    set -l acodec_args
+    set -l anote
+
+    if test -n "$a_codec"
+        if test "$a_codec" = aac
+            set need_transcode 1
+        else if contains -- $a_codec $SUPPORTED_AUDIO
+            set need_transcode 0
+        else
+            set need_transcode 1
+        end
+
+        if test "$need_transcode" = 0
+            set acodec_args -c:a copy
+            set anote "Keep audio as-is ($a_codec)"
+        else
+            switch $target_acodec
+                case mp3
+                    set acodec_args -c:a libmp3lame -q:a 2
+                    set anote "Transcode audio: $a_codec -> mp3 (libmp3lame)"
+                case aac
+                    set acodec_args -c:a aac -b:a 192k
+                    set anote "Transcode audio: $a_codec -> aac"
+                case pcm_s16le
+                    set acodec_args -c:a pcm_s16le
+                    set anote "Transcode audio: $a_codec -> pcm_s16le"
+                case '*'
+                    # use whatever encoder name the user gave
+                    set acodec_args -c:a $target_acodec
+                    set anote "Transcode audio: $a_codec -> $target_acodec"
+            end
+        end
+    else
+        set acodec_args
+        set anote "No audio stream"
+    end
+
+    echo
+    echo "Plan:"
+    echo "  $vnote"
+    echo "  $anote"
+    echo "  Output → $out"
+    echo
+
+    ffmpeg -hide_banner -loglevel error -y \
+        -i "$in" \
+        $vcodec_args \
+        $acodec_args \
+        "$out"
+
+    if test $status -ne 0
+        die "ffmpeg failed for $in"
+    end
+
+    echo "Done ✅ → $out"
+    echo
+end
+
+# --- run all inputs --------------------------------------------------------
+
+for f in $inputs
+    process_one "$f" "$outdir" "$target_vcodec" "$target_acodec"
+end
