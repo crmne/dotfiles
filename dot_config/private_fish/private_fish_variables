@@ -43,4 +43,4 @@ SETUVAR fish_pager_color_selected_background:\x2dr
 SETUVAR fish_pager_color_selected_completion:\x1d
 SETUVAR fish_pager_color_selected_description:\x1d
 SETUVAR fish_pager_color_selected_prefix:\x1d
-SETUVAR fish_user_paths:/home/carmine/scripts\x1e/home/carmine/\x2elocal/share/mise/installs/node/latest/bin
+SETUVAR fish_user_paths:/home/carmine/\x2elocal/bin\x1e/home/carmine/scripts\x1e/home/carmine/\x2elocal/share/mise/installs/node/latest/bin
