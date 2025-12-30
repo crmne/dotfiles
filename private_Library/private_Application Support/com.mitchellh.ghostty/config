@@ -48,7 +48,7 @@
 # # Just for example:
 # resize-overlay-duration = 4s 200ms
 font-size = 13
-window-padding-x = 0
-window-padding-y = 0
+window-padding-x = 4
+window-padding-y = 4
 background-opacity = 0.9
 background-blur = true
