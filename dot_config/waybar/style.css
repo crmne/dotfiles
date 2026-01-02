@@ -1,7 +1,17 @@
 @import "../omarchy/current/theme/waybar.css";
 
+window#waybar {
+  background-color: transparent;
+}
+
+window#waybar > box {
+  margin: 0;
+  margin-bottom: 4px;
+  background-color: alpha(@background, 0.8);
+  box-shadow: 0 0 3px rgba(26, 26, 26, 1);
+}
+
 * {
-  background-color: @background;
   color: @foreground;
 
   border: none;
