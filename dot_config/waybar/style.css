@@ -17,8 +17,8 @@ window#waybar > box {
   border: none;
   border-radius: 0;
   min-height: 0;
-  font-family: 'Inter';
-  font-size: 13px;
+  font-family: 'iA Writer Duo S';
+  font-size: 12px;
 }
 
 .modules-left {
