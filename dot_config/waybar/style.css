@@ -1,3 +1,4 @@
+@import "voxtype.css";
 @import "../omarchy/current/theme/waybar.css";
 
 window#waybar {
