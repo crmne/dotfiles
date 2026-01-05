@@ -10,24 +10,8 @@
 state_file = "auto"
 
 [hotkey]
-# Key to hold for push-to-talk
-# Common choices: SCROLLLOCK, PAUSE, RIGHTALT, F13-F24
-# Use `evtest` to find key names for your keyboard
-key = "F20"
-
-# Optional modifier keys that must also be held
-# Example: modifiers = ["LEFTCTRL", "LEFTALT"]
-modifiers = ["LEFTALT"]
-
-# Activation mode: "push_to_talk" or "toggle"
-# - push_to_talk: Hold hotkey to record, release to transcribe (default)
-# - toggle: Press hotkey once to start recording, press again to stop
-mode = "toggle"
-
-# Enable built-in hotkey detection (default: true)
-# Set to false when using compositor keybindings (Hyprland, Sway) instead
-# When disabled, use `voxtype record start/stop/toggle` to control recording
-# enabled = true
+key = ""
+enabled = false
 
 [audio]
 # Audio input device ("default" uses system default)
@@ -41,8 +25,8 @@ sample_rate = 16000
 max_duration_secs = 600
 
 [audio.feedback]
-# Enable audio feedback sounds (beeps when recording starts/stops)
-enabled = false
+# Enable audio feedback sounds (beeps whenks for watching!n recording starts/stops)
+enabled = true
 #
 # Sound theme: "default", "subtle", "mechanical", or path to custom theme directory
 theme = "default"
@@ -68,6 +52,9 @@ translate = false
 
 # Number of CPU threads for inference (omit for auto-detection)
 # threads = 4
+
+# Don't use GPU when we don't need it
+on_demand_loading = true
 
 [output]
 # Primary output mode: "type" or "clipboard"

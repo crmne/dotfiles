@@ -1,5 +1,10 @@
 #custom-voxtype {
-    padding: 0 10px;
+    margin: 0 16px 0 0;
+    font-size: 12px;
+    font-weight: bold;
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
+    transition: color 150ms ease-in-out, border-color 150ms ease-in-out;
 }
 
 #custom-voxtype.recording {
@@ -8,11 +13,7 @@
 }
 
 #custom-voxtype.transcribing {
-    color: #f1fa8c;
-}
-
-#custom-voxtype.idle {
-    color: #50fa7b;
+    color: #ff5555;
 }
 
 #custom-voxtype.stopped {

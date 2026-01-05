@@ -180,15 +180,18 @@
   "custom/voxtype": {
     "exec": "voxtype status --follow --format json",
     "return-type": "json",
-    "format": "{}",
-    "tooltip": true,
-    "on-click": "systemctl --user restart voxtype"
+    "format": "{icon}",
+    "format-icons": {
+      "recording": "\uEC1C",
+      "transcribing": "\uEC1C",
+      "idle": "\uEC1C",
+      "stopped": "\uEC12",
+      "default": "\uEC12"
+    },
+    "tooltip": true
   },
   "tray": {
     "icon-size": 12,
     "spacing": 17
-  },
-  "include": [
-    "/home/carmine/.config/waybar/hyprwhspr-module.jsonc"
-  ]
+  }
 }
