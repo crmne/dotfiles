@@ -1,0 +1,33 @@
+#!/usr/bin/env fish
+
+set -l code_dir "$HOME/Code"
+
+for bin in gh git
+  if not type -q $bin
+    echo "Missing dependency: $bin"
+    exit 1
+  end
+end
+
+mkdir -p "$code_dir"
+
+set -l repos (gh repo list --limit 1000 --json name,sshUrl,isArchived --jq '.[] | select(.isArchived | not) | [.name, .sshUrl] | @tsv')
+
+for line in $repos
+  set -l parts (string split "\t" -- $line)
+  set -l name $parts[1]
+  set -l url $parts[2]
+  set -l repo_dir "$code_dir/$name"
+
+  if test -e "$repo_dir"
+    echo "Skip: $repo_dir already exists"
+    continue
+  end
+
+  read -l -P "Clone $name? [y/N] " confirm
+  if string match -qr '^(y|yes)$' -- (string lower -- $confirm)
+    git clone $url "$repo_dir"
+  else
+    echo "Skip: $name"
+  end
+end
