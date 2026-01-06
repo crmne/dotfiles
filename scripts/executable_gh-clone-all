@@ -11,12 +11,7 @@ end
 
 mkdir -p "$code_dir"
 
-set -l repos (gh repo list --limit 1000 --json name,sshUrl,isArchived --jq '.[] | select(.isArchived | not) | [.name, .sshUrl] | @tsv')
-
-for line in $repos
-  set -l parts (string split "\t" -- $line)
-  set -l name $parts[1]
-  set -l url $parts[2]
+gh repo list --limit 1000 --json name,sshUrl,isArchived --jq '.[] | select(.isArchived | not) | "\(.name) \(.sshUrl)"' | while read -l name url
   set -l repo_dir "$code_dir/$name"
 
   if test -e "$repo_dir"
@@ -24,7 +19,7 @@ for line in $repos
     continue
   end
 
-  read -l -P "Clone $name? [y/N] " confirm
+  read -l -P "Clone $name? [y/N] " confirm < /dev/tty
   if string match -qr '^(y|yes)$' -- (string lower -- $confirm)
     git clone $url "$repo_dir"
   else
