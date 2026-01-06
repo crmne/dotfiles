@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Immich
+Comment=Immich
+Exec=omarchy-launch-webapp https://photos.paolino.me
+Terminal=false
+Type=Application
+Icon=/home/carmine/.local/share/applications/icons/Immich.png
+StartupNotify=true
