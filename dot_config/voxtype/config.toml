@@ -26,7 +26,7 @@ fallback_to_clipboard = true
 
 # Delay between typed characters in milliseconds
 # 0 = fastest possible, increase if characters are dropped
-type_delay_ms = 1
+type_delay_ms = 2
 
 [output.notification]
 on_recording_start = false
