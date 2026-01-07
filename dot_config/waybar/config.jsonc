@@ -180,14 +180,7 @@
   "custom/voxtype": {
     "exec": "voxtype status --follow --format json",
     "return-type": "json",
-    "format": "{icon}",
-    "format-icons": {
-      "recording": "\uEC1C",
-      "transcribing": "\uEC1C",
-      "idle": "\uEC1C",
-      "stopped": "\uEC12",
-      "default": "\uEC12"
-    },
+    "format": "{}",
     "tooltip": true
   },
   "tray": {
