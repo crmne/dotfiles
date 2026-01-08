@@ -18,7 +18,7 @@ volume = 0.7
 model = "base.en"
 language = "en"
 translate = false
-on_demand_loading = true
+on_demand_loading = true # saves your GPU until it's needed
 
 [output]
 mode = "type"
