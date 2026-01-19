@@ -10,7 +10,7 @@ window {
 }
 
 label {
-  font-family: 'iA Writer Duo S';
+  font-family: 'JetBrainsMono Nerd Font';
   font-size: 11pt;
 
   color: @label;
