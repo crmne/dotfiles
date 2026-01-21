@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Telegram
+Comment=Telegram
+Exec=omarchy-launch-webapp https://web.telegram.org
+Terminal=false
+Type=Application
+Icon=/home/carmine/.local/share/applications/icons/Telegram.png
+StartupNotify=true
