@@ -15,13 +15,13 @@ theme = "default"
 volume = 0.7
 
 [whisper]
-model = "base.en"
+model = "small.en"
 language = "en"
 translate = false
 on_demand_loading = true # saves your GPU until it's needed
 
 [output]
-mode = "type"
+mode = "clipboard"
 fallback_to_clipboard = true
 
 # Delay between typed characters in milliseconds
