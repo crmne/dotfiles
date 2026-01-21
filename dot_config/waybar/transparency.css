@@ -1,0 +1,7 @@
+window#waybar {
+  background-color: transparent;
+}
+
+window#waybar > box {
+  background-color: alpha(@background, 0.9);
+}

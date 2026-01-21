@@ -1,4 +1,5 @@
 @import "../omarchy/current/theme/waybar.css";
+@import "transparency.css";
 
 * {
   background-color: @background;
