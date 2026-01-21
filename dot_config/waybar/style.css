@@ -1,18 +1,7 @@
-@import "voxtype.css";
 @import "../omarchy/current/theme/waybar.css";
 
-window#waybar {
-  background-color: transparent;
-}
-
-window#waybar > box {
-  margin: 0;
-  margin-bottom: 4px;
-  background-color: alpha(@background, 0.8);
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
-}
-
 * {
+  background-color: @background;
   color: @foreground;
 
   border: none;
@@ -76,7 +65,7 @@ tooltip {
 }
 
 #clock {
-  margin-left: 5px;
+  margin-left: 8.75px;
 }
 
 .hidden {
@@ -91,5 +80,14 @@ tooltip {
 }
 
 #custom-screenrecording-indicator.active {
+  color: #a55555;
+}
+
+#custom-voxtype {
+  min-width: 12px;
+  margin: 0 0 0 7.5px;
+}
+
+#custom-voxtype.recording {
   color: #a55555;
 }
