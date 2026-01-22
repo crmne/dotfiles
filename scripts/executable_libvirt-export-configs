@@ -1,0 +1,21 @@
+#!/bin/bash
+set -euo pipefail
+
+URI="${LIBVIRT_URI:-qemu:///session}"
+DEST_DIR="$HOME/Nextcloud/libvirt"
+
+mkdir -p "$DEST_DIR"
+
+if [ "$#" -gt 0 ]; then
+  names=("$@")
+else
+  mapfile -t names < <(virsh -c "$URI" list --all --name | awk 'NF')
+fi
+
+for name in "${names[@]}"; do
+  tmpfile="${DEST_DIR}/${name}.xml.tmp"
+  outfile="${DEST_DIR}/${name}.xml"
+  virsh -c "$URI" dumpxml "$name" > "$tmpfile"
+  mv "$tmpfile" "$outfile"
+  echo "Exported $name -> $outfile"
+done
