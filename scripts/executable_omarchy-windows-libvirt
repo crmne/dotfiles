@@ -1,0 +1,374 @@
+#!/bin/bash
+
+VM_NAME_DEFAULT="win11"
+LIBVIRT_URI="${LIBVIRT_URI:-qemu:///session}"
+IMAGES_DIR="$HOME/.local/share/libvirt/images"
+NVRAM_DIR="$HOME/.local/share/libvirt/qemu/nvram"
+DOWNLOADS_DIR="$HOME/Downloads"
+
+DEFAULT_RAM_GB=8
+DEFAULT_CORES=4
+DEFAULT_DISK_GB=80
+
+require_cmd() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+install_deps() {
+  local pkgs=(qemu-full libvirt virt-manager virt-viewer edk2-ovmf swtpm gum)
+
+  if require_cmd omarchy-pkg-add; then
+    omarchy-pkg-add "${pkgs[@]}"
+    return
+  fi
+
+  if require_cmd pacman; then
+    if sudo -n true >/dev/null 2>&1; then
+      sudo pacman -S --needed "${pkgs[@]}"
+    else
+      echo "Missing packages. Install with:"
+      echo "  sudo pacman -S --needed ${pkgs[*]}"
+      exit 1
+    fi
+  fi
+}
+
+check_prereqs() {
+  if [ ! -e /dev/kvm ]; then
+    gum style \
+      --border normal \
+      --padding "1 2" \
+      --margin "1" \
+      "❌ KVM virtualization not available!" \
+      "" \
+      "Please enable virtualization in BIOS or run:" \
+      "  sudo modprobe kvm-intel  # for Intel CPUs" \
+      "  sudo modprobe kvm-amd    # for AMD CPUs"
+    exit 1
+  fi
+
+  if [ ! -r /dev/kvm ] || [ ! -w /dev/kvm ]; then
+    gum style \
+      --border normal \
+      --padding "1 2" \
+      --margin "1" \
+      "❌ /dev/kvm is not accessible to your user." \
+      "" \
+      "Fix by adding yourself to the kvm group, then log out/in:" \
+      "  sudo usermod -aG kvm $USER"
+    exit 1
+  fi
+
+  if [ ! -f /usr/share/edk2/x64/OVMF_CODE.secboot.4m.fd ]; then
+    echo "❌ OVMF Secure Boot firmware not found."
+    echo "Install edk2-ovmf and try again."
+    exit 1
+  fi
+}
+
+download_iso() {
+  local url="$1"
+  local out="$2"
+
+  if require_cmd curl; then
+    curl -L -o "$out" "$url"
+  elif require_cmd wget; then
+    wget -O "$out" "$url"
+  else
+    echo "❌ curl or wget is required to download the ISO."
+    exit 1
+  fi
+}
+
+prompt_iso() {
+  local iso_path
+  iso_path=$(gum input \
+    --placeholder="$DOWNLOADS_DIR/Win11_*.iso" \
+    --value="$DOWNLOADS_DIR/Win11_25H2_English_x64.iso" \
+    --header="Path to Windows 11 ISO (leave blank to download)")
+
+  if [ -z "$iso_path" ]; then
+    local url
+    url=$(gum input --placeholder="https://..." --header="ISO download URL (paste a direct link)")
+    if [ -z "$url" ]; then
+      echo "Installation cancelled by user"
+      exit 1
+    fi
+
+    mkdir -p "$DOWNLOADS_DIR"
+    iso_path="$DOWNLOADS_DIR/Win11.iso"
+    echo "Downloading ISO to $iso_path..."
+    download_iso "$url" "$iso_path"
+  fi
+
+  if [ ! -f "$iso_path" ]; then
+    echo "❌ ISO not found: $iso_path"
+    exit 1
+  fi
+
+  echo "$iso_path"
+}
+
+install_windows() {
+  trap "echo ''; echo 'Installation cancelled by user'; exit 1" INT
+
+  install_deps
+  check_prereqs
+
+  mkdir -p "$IMAGES_DIR" "$NVRAM_DIR"
+
+  local total_ram_gb total_cores
+  total_ram_gb=$(awk 'NR==1 {printf "%d", $2/1024/1024}' /proc/meminfo)
+  total_cores=$(nproc)
+
+  echo ""
+  echo "System Resources Detected:"
+  echo "  Total RAM: ${total_ram_gb}G"
+  echo "  Total CPU Cores: $total_cores"
+  echo ""
+
+  local ram_options=""
+  for size in 4 8 12 16 24 32 48 64; do
+    if [ "$size" -le "$total_ram_gb" ]; then
+      ram_options="$ram_options ${size}G"
+    fi
+  done
+
+  local selected_ram
+  selected_ram=$(echo "$ram_options" | tr ' ' '\n' | gum choose \
+    --selected="${DEFAULT_RAM_GB}G" \
+    --header="How much RAM would you like to allocate to Windows VM?")
+  [ -z "$selected_ram" ] && echo "Installation cancelled by user" && exit 1
+
+  local selected_cores
+  selected_cores=$(gum input \
+    --placeholder="Number of CPU cores (1-$total_cores)" \
+    --value="$DEFAULT_CORES" \
+    --header="How many CPU cores would you like to allocate to Windows VM?" \
+    --char-limit=2)
+  [ -z "$selected_cores" ] && echo "Installation cancelled by user" && exit 1
+
+  if ! [[ "$selected_cores" =~ ^[0-9]+$ ]] || [ "$selected_cores" -lt 1 ] || [ "$selected_cores" -gt "$total_cores" ]; then
+    echo "Invalid input. Using default: $DEFAULT_CORES cores"
+    selected_cores="$DEFAULT_CORES"
+  fi
+
+  local available_space max_disk_gb
+  available_space=$(df "$HOME" | awk 'NR==2 {print int($4/1024/1024)}')
+  max_disk_gb=$((available_space - 10))
+  if [ "$max_disk_gb" -lt 32 ]; then
+    echo "❌ Insufficient disk space for Windows VM!"
+    echo "   Available: ${available_space}GB"
+    echo "   Minimum required: 42GB (32GB disk + 10GB for Windows image)"
+    exit 1
+  fi
+
+  local disk_options=""
+  for size in 32 64 80 128 256 512; do
+    if [ "$size" -le "$max_disk_gb" ]; then
+      disk_options="$disk_options ${size}G"
+    fi
+  done
+
+  local default_disk="${DEFAULT_DISK_GB}G"
+  if ! echo "$disk_options" | grep -q "$default_disk"; then
+    default_disk="64G"
+  fi
+
+  local selected_disk
+  selected_disk=$(echo "$disk_options" | tr ' ' '\n' | gum choose \
+    --selected="$default_disk" \
+    --header="How much disk space would you like to give Windows VM? (80GB+ recommended)")
+  [ -z "$selected_disk" ] && echo "Installation cancelled by user" && exit 1
+
+  local iso_path
+  iso_path=$(prompt_iso)
+
+  local vm_name
+  vm_name=$(gum input --value="$VM_NAME_DEFAULT" --header="VM name:")
+  [ -z "$vm_name" ] && vm_name="$VM_NAME_DEFAULT"
+
+  local ram_gb disk_gb ram_mib
+  ram_gb=$(echo "$selected_ram" | sed 's/G//')
+  disk_gb=$(echo "$selected_disk" | sed 's/G//')
+  ram_mib=$((ram_gb * 1024))
+
+  local disk_path="$IMAGES_DIR/${vm_name}.qcow2"
+  local nvram_path="$NVRAM_DIR/${vm_name}_VARS.fd"
+
+  gum style \
+    --border normal \
+    --padding "1 2" \
+    --margin "1" \
+    --align left \
+    --bold \
+    "Windows VM Configuration" \
+    "" \
+    "Name:      $vm_name" \
+    "RAM:       $selected_ram" \
+    "CPU:       $selected_cores cores (1 socket)" \
+    "Disk:      $selected_disk" \
+    "ISO:       $iso_path" \
+    "Storage:   $disk_path"
+
+  echo ""
+  if ! gum confirm "Proceed with this configuration?"; then
+    echo "Installation cancelled by user"
+    exit 1
+  fi
+
+  if virsh -c "$LIBVIRT_URI" dominfo "$vm_name" >/dev/null 2>&1; then
+    if gum confirm "A VM named '$vm_name' already exists. Replace it?"; then
+      virsh -c "$LIBVIRT_URI" undefine "$vm_name" --nvram >/dev/null 2>&1 || true
+    else
+      echo "Installation cancelled by user"
+      exit 1
+    fi
+  fi
+
+  if [ -f "$disk_path" ]; then
+    if gum confirm "Disk already exists at $disk_path. Reuse it?"; then
+      :
+    else
+      rm -f "$disk_path"
+      qemu-img create -f qcow2 "$disk_path" "${disk_gb}G"
+    fi
+  else
+    qemu-img create -f qcow2 "$disk_path" "${disk_gb}G"
+  fi
+
+  if [ ! -f "$nvram_path" ]; then
+    cp -f /usr/share/edk2/x64/OVMF_VARS.4m.fd "$nvram_path"
+  fi
+
+  cat << EOF > /tmp/${vm_name}.xml
+<domain type='kvm'>
+  <name>${vm_name}</name>
+  <metadata>
+    <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
+      <libosinfo:os id="http://microsoft.com/win/11"/>
+    </libosinfo:libosinfo>
+  </metadata>
+  <memory unit='MiB'>${ram_mib}</memory>
+  <currentMemory unit='MiB'>${ram_mib}</currentMemory>
+  <vcpu placement='static'>${selected_cores}</vcpu>
+  <cpu mode='host-passthrough' check='none'>
+    <topology sockets='1' cores='${selected_cores}' threads='1'/>
+  </cpu>
+  <os>
+    <type arch='x86_64' machine='q35'>hvm</type>
+    <boot dev='cdrom'/>
+    <boot dev='hd'/>
+    <loader readonly='yes' type='pflash'>/usr/share/edk2/x64/OVMF_CODE.secboot.4m.fd</loader>
+    <nvram>${nvram_path}</nvram>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+    <hyperv>
+      <relaxed state='on'/>
+      <vapic state='on'/>
+      <spinlocks state='on' retries='8191'/>
+    </hyperv>
+    <vmport state='off'/>
+  </features>
+  <clock offset='localtime'>
+    <timer name='rtc' tickpolicy='catchup'/>
+    <timer name='pit' tickpolicy='delay'/>
+    <timer name='hpet' present='no'/>
+  </clock>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>restart</on_crash>
+  <devices>
+    <emulator>/usr/bin/qemu-system-x86_64</emulator>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2'/>
+      <source file='${disk_path}'/>
+      <target dev='sda' bus='sata'/>
+    </disk>
+    <disk type='file' device='cdrom'>
+      <driver name='qemu' type='raw'/>
+      <source file='${iso_path}'/>
+      <target dev='sdb' bus='sata'/>
+      <readonly/>
+    </disk>
+    <controller type='usb' model='qemu-xhci'/>
+    <controller type='sata' index='0'/>
+    <controller type='pci' model='pcie-root'/>
+    <controller type='virtio-serial' index='0'/>
+    <interface type='user'>
+      <model type='e1000e'/>
+    </interface>
+    <input type='tablet' bus='usb'/>
+    <tpm model='tpm-crb'>
+      <backend type='emulator'/>
+    </tpm>
+    <graphics type='spice' autoport='yes' listen='127.0.0.1'/>
+    <video>
+      <model type='qxl' heads='1' primary='yes'/>
+    </video>
+    <sound model='ich9'/>
+    <channel type='spicevmc'>
+      <target type='virtio' name='com.redhat.spice.0'/>
+    </channel>
+    <memballoon model='virtio'/>
+  </devices>
+</domain>
+EOF
+
+  virsh -c "$LIBVIRT_URI" define "/tmp/${vm_name}.xml"
+
+  echo ""
+  echo "Windows VM defined (not started)."
+  echo "Open virt-manager and connect to the user session to see it."
+  echo "VM name: $vm_name"
+  echo "Disk: $disk_path"
+  echo "ISO: $iso_path"
+}
+
+remove_windows() {
+  local vm_name
+  vm_name=$(gum input --value="$VM_NAME_DEFAULT" --header="VM name to remove:")
+  [ -z "$vm_name" ] && vm_name="$VM_NAME_DEFAULT"
+
+  if ! virsh -c "$LIBVIRT_URI" dominfo "$vm_name" >/dev/null 2>&1; then
+    echo "VM '$vm_name' not found."
+    exit 1
+  fi
+
+  if ! gum confirm "Undefine VM '$vm_name'? (disk will remain)"; then
+    echo "Removal cancelled"
+    exit 1
+  fi
+
+  virsh -c "$LIBVIRT_URI" undefine "$vm_name" --nvram
+  echo "VM removed. Disk left in place."
+}
+
+show_usage() {
+  echo "Usage: $(basename "$0") [command]"
+  echo ""
+  echo "Commands:"
+  echo "  install   Configure a Windows 11 VM in libvirt (no auto-start)"
+  echo "  remove    Undefine the VM (keeps disk by default)"
+  echo "  help      Show this help"
+}
+
+case "$1" in
+  install)
+    install_windows
+    ;;
+  remove)
+    remove_windows
+    ;;
+  help|--help|-h|"")
+    show_usage
+    ;;
+  *)
+    echo "Unknown command: $1" >&2
+    echo "" >&2
+    show_usage >&2
+    exit 1
+    ;;
+esac
