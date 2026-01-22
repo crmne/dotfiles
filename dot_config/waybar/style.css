@@ -34,11 +34,20 @@
 #cpu,
 #battery,
 #pulseaudio,
+#idle_inhibitor,
 #custom-omarchy,
 #custom-screenrecording-indicator,
 #custom-update {
   min-width: 12px;
   margin: 0 7.5px;
+}
+
+#idle_inhibitor {
+  margin-right: 9px;
+}
+
+#pulseaudio {
+  margin-right: 9px;
 }
 
 #tray {
@@ -50,7 +59,7 @@
 }
 
 #network {
-  margin-right: 13px;
+  margin-right: 10px;
 }
 
 #custom-expand-icon {
