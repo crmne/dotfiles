@@ -199,16 +199,28 @@
     "max-length": 48,
     "rewrite": {
       "^Alacritty (.*)$": "  $1",
+      "^1password (.*)$": "󰌾  $1",
+      "^Audacity4 (.*)$": "󰍬  $1",
+      "^BambuStudio (.*)$": "󰆧  $1",
+      "^FreeCAD (.*)$": "󰻬  $1",
+      "^blender (.*)$": "󰂫  $1",
+      "^brave\\-browser (.*)$": "󰈹  $1",
+      "^chrome\\-app\\.hey\\.com__calendar_weeks_\\-Default (.*)$": "  $1",
+      "^chrome\\-app\\.hey\\.com__\\-Default (.*)$": "󰇮  $1",
       "^chromium (.*)$": "  $1",
       "^chrome\\-app\\.todoist\\.com__app\\-Default (.*)$": "  $1",
+      "^chrome\\-chatgpt\\.com__\\-Default (.*)$": "󰭹  $1",
+      "^chrome\\-launchpad\\.37signals\\.com__\\-Default (.*)$": "󰆼  $1",
       "^chrome\\-music\\.apple\\.com__\\-Default (.*)$": "󰝚  $1",
+      "^chrome\\-trader\\.degiro\\.nl__trader_\\-Default (.*)$": "󰄿  $1",
       "^chrome\\-discord\\.com__.*-Default (.*)$": "󰙯  $1",
+      "^com\\.bitwig\\.BitwigStudi (.*)$": "󰎈  $1",
+      "^darktable (.*)$": "󰄄  $1",
+      "^li\\.oever\\.aether (.*)$": "󰎈  $1",
+      "^org\\.gnome\\.Calculator (.*)$": "󰃬  $1",
+      "^org\\.gnome\\.Nautilus (.*)$": "󰉋  $1",
       "^org\\.omarchy\\.wiremix (.*)$": "󰕾  $1",
-      "^firefox (.*)$": "  $1",
-      "^code\\-oss (.*)$": "󰨞  $1",
-      "^code (.*)$": "󰨞  $1",
-      "^slack (.*)$": "󰒱  $1",
-      "^spotify (.*)$": "  $1"
+      "^resolve (.*)$": "󰕧  $1",
     }
   }
 }
