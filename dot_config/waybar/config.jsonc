@@ -222,6 +222,7 @@
       "^org\\.omarchy\\.wiremix (.*)$": "󰕾  $1",
       "^resolve (.*)$": "󰕧  $1",
       "^Steam (.*)$": "󰓓  $1",
+      "^chrome\\-web\\.whatsapp\\.com__\\-Default (.*)$": "󰖣  $1",
     }
   }
 }
