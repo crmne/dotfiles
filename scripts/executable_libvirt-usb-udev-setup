@@ -1,0 +1,81 @@
+#!/bin/bash
+
+set -euo pipefail
+
+RULES_FILE="/etc/udev/rules.d/99-libvirt-usb.rules"
+
+USB_DEVICES=(
+  "17cc:1600 Native Instruments Maschine MK3"
+  "17cc:1610 Native Instruments KOMPLETE KONTROL S49 MK2"
+  "1235:0102 Focusrite-Novation LaunchKey Mini MK3"
+  "1235:0103 Focusrite-Novation Launchpad X"
+  "0634:5602 Micron Technology, Inc. CT2000X6SSD9"
+  "0499:1703 Yamaha Corp. MG-XU"
+  "0b05:1932 ASUSTek Computer, Inc. ROG STRIX Arion"
+  "0951:177f Kingston Technology DataTraveler Max"
+)
+
+require_root() {
+  if [ "${EUID:-$(id -u)}" -ne 0 ]; then
+    if command -v sudo >/dev/null 2>&1; then
+      exec sudo -E "$0" "$@"
+    fi
+    echo "This script needs root to edit ${RULES_FILE}."
+    echo "Run: sudo $0"
+    exit 1
+  fi
+}
+
+ensure_rules_file() {
+  if [ ! -f "$RULES_FILE" ]; then
+    cat <<'EOF' >"$RULES_FILE"
+# Allow user-session VMs to access specific USB devices by VID/PID
+EOF
+  fi
+}
+
+match_rule() {
+  local vid="$1"
+  local pid="$2"
+
+  if command -v rg >/dev/null 2>&1; then
+    rg -q "ATTR\\{idVendor\\}==\"${vid}\".*ATTR\\{idProduct\\}==\"${pid}\"" "$RULES_FILE"
+  else
+    grep -Eq "ATTR\\{idVendor\\}==\"${vid}\".*ATTR\\{idProduct\\}==\"${pid}\"" "$RULES_FILE"
+  fi
+}
+
+add_rules() {
+  local updated=0
+  local entry vid pid comment rule
+
+  for entry in "${USB_DEVICES[@]}"; do
+    vid="${entry%%:*}"
+    pid="${entry#*:}"
+    pid="${pid%% *}"
+    comment="${entry#* }"
+    rule="SUBSYSTEM==\"usb\", ATTR{idVendor}==\"${vid}\", ATTR{idProduct}==\"${pid}\", MODE=\"0666\""
+
+    if ! match_rule "$vid" "$pid"; then
+      printf "\n# %s\n%s\n" "$comment" "$rule" >>"$RULES_FILE"
+      updated=1
+    fi
+  done
+
+  if [ "$updated" -eq 0 ]; then
+    echo "udev rules already include these devices."
+  else
+    echo "udev rules updated: ${RULES_FILE}"
+  fi
+}
+
+reload_rules() {
+  udevadm control --reload-rules
+  udevadm trigger
+  echo "udev rules reloaded."
+}
+
+require_root "$@"
+ensure_rules_file
+add_rules
+reload_rules

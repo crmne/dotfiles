@@ -188,10 +188,11 @@ install_windows() {
   vm_name=$(gum input --value="$VM_NAME_DEFAULT" --header="VM name:")
   [ -z "$vm_name" ] && vm_name="$VM_NAME_DEFAULT"
 
-  local ram_gb disk_gb ram_mib
+  local ram_gb disk_gb ram_mib ram_kib
   ram_gb=$(echo "$selected_ram" | sed 's/G//')
   disk_gb=$(echo "$selected_disk" | sed 's/G//')
   ram_mib=$((ram_gb * 1024))
+  ram_kib=$((ram_mib * 1024))
 
   local disk_path="$IMAGES_DIR/${vm_name}.qcow2"
   local nvram_path="$NVRAM_DIR/${vm_name}_VARS.fd"
@@ -249,29 +250,33 @@ install_windows() {
       <libosinfo:os id="http://microsoft.com/win/11"/>
     </libosinfo:libosinfo>
   </metadata>
-  <memory unit='MiB'>${ram_mib}</memory>
-  <currentMemory unit='MiB'>${ram_mib}</currentMemory>
+  <memory unit='KiB'>${ram_kib}</memory>
+  <currentMemory unit='KiB'>${ram_kib}</currentMemory>
   <vcpu placement='static'>${selected_cores}</vcpu>
-  <cpu mode='host-passthrough' check='none'>
-    <topology sockets='1' cores='${selected_cores}' threads='1'/>
-  </cpu>
-  <os>
-    <type arch='x86_64' machine='q35'>hvm</type>
-    <boot dev='cdrom'/>
-    <boot dev='hd'/>
-    <loader readonly='yes' type='pflash'>/usr/share/edk2/x64/OVMF_CODE.secboot.4m.fd</loader>
-    <nvram>${nvram_path}</nvram>
+  <os firmware='efi'>
+    <type arch='x86_64' machine='pc-q35-10.1'>hvm</type>
+    <firmware>
+      <feature enabled='no' name='enrolled-keys'/>
+      <feature enabled='yes' name='secure-boot'/>
+    </firmware>
+    <loader readonly='yes' secure='yes' type='pflash' format='raw'>/usr/share/edk2/x64/OVMF_CODE.secboot.4m.fd</loader>
+    <nvram template='/usr/share/edk2/x64/OVMF_VARS.4m.fd' templateFormat='raw' format='raw'>${nvram_path}</nvram>
+    <bootmenu enable='no'/>
   </os>
   <features>
     <acpi/>
     <apic/>
-    <hyperv>
+    <hyperv mode='custom'>
       <relaxed state='on'/>
       <vapic state='on'/>
       <spinlocks state='on' retries='8191'/>
     </hyperv>
     <vmport state='off'/>
+    <smm state='on'/>
   </features>
+  <cpu mode='host-passthrough' check='none' migratable='on'>
+    <topology sockets='1' dies='1' clusters='1' cores='${selected_cores}' threads='1'/>
+  </cpu>
   <clock offset='localtime'>
     <timer name='rtc' tickpolicy='catchup'/>
     <timer name='pit' tickpolicy='delay'/>
@@ -286,33 +291,149 @@ install_windows() {
       <driver name='qemu' type='qcow2'/>
       <source file='${disk_path}'/>
       <target dev='sda' bus='sata'/>
+      <address type='drive' controller='0' bus='0' target='0' unit='0'/>
     </disk>
     <disk type='file' device='cdrom'>
       <driver name='qemu' type='raw'/>
       <source file='${iso_path}'/>
       <target dev='sdb' bus='sata'/>
       <readonly/>
+      <boot order='1'/>
+      <address type='drive' controller='0' bus='0' target='0' unit='1'/>
     </disk>
-    <controller type='usb' model='qemu-xhci'/>
-    <controller type='sata' index='0'/>
-    <controller type='pci' model='pcie-root'/>
-    <controller type='virtio-serial' index='0'/>
+    <controller type='usb' index='0' model='qemu-xhci'>
+      <address type='pci' domain='0x0000' bus='0x02' slot='0x00' function='0x0'/>
+    </controller>
+    <controller type='sata' index='0'>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x1f' function='0x2'/>
+    </controller>
+    <controller type='pci' index='0' model='pcie-root'/>
+    <controller type='pci' index='1' model='pcie-root-port'>
+      <model name='pcie-root-port'/>
+      <target chassis='1' port='0x10'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x0' multifunction='on'/>
+    </controller>
+    <controller type='pci' index='2' model='pcie-root-port'>
+      <model name='pcie-root-port'/>
+      <target chassis='2' port='0x11'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x1'/>
+    </controller>
+    <controller type='pci' index='3' model='pcie-root-port'>
+      <model name='pcie-root-port'/>
+      <target chassis='3' port='0x12'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x2'/>
+    </controller>
+    <controller type='pci' index='4' model='pcie-root-port'>
+      <model name='pcie-root-port'/>
+      <target chassis='4' port='0x13'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x3'/>
+    </controller>
+    <controller type='pci' index='5' model='pcie-root-port'>
+      <model name='pcie-root-port'/>
+      <target chassis='5' port='0x14'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x4'/>
+    </controller>
+    <controller type='pci' index='6' model='pcie-root-port'>
+      <model name='pcie-root-port'/>
+      <target chassis='6' port='0x15'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x5'/>
+    </controller>
+    <controller type='virtio-serial' index='0'>
+      <address type='pci' domain='0x0000' bus='0x03' slot='0x00' function='0x0'/>
+    </controller>
     <interface type='user'>
+      <mac address='52:54:00:48:ba:ca'/>
       <model type='e1000e'/>
+      <address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
     </interface>
-    <input type='tablet' bus='usb'/>
-    <tpm model='tpm-crb'>
-      <backend type='emulator'/>
-    </tpm>
-    <graphics type='spice' autoport='yes' listen='127.0.0.1'/>
-    <video>
-      <model type='qxl' heads='1' primary='yes'/>
-    </video>
-    <sound model='ich9'/>
     <channel type='spicevmc'>
       <target type='virtio' name='com.redhat.spice.0'/>
+      <address type='virtio-serial' controller='0' bus='0' port='1'/>
     </channel>
-    <memballoon model='virtio'/>
+    <input type='tablet' bus='usb'>
+      <address type='usb' bus='0' port='1'/>
+    </input>
+    <input type='mouse' bus='ps2'/>
+    <input type='keyboard' bus='ps2'/>
+    <tpm model='tpm-crb'>
+      <backend type='emulator' version='2.0'>
+        <profile name='default-v1'/>
+      </backend>
+    </tpm>
+    <graphics type='spice' autoport='yes' listen='127.0.0.1'>
+      <listen type='address' address='127.0.0.1'/>
+    </graphics>
+    <sound model='ich9'>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x1b' function='0x0'/>
+    </sound>
+    <audio id='1' type='spice'/>
+    <video>
+      <model type='qxl' ram='65536' vram='65536' vgamem='16384' heads='1' primary='yes'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x0'/>
+    </video>
+    <hostdev mode='subsystem' type='usb' managed='yes'>
+      <source startupPolicy='optional'>
+        <vendor id='0x17cc'/>
+        <product id='0x1600'/>
+      </source>
+      <address type='usb' bus='0' port='3'/>
+    </hostdev>
+    <hostdev mode='subsystem' type='usb' managed='yes'>
+      <source startupPolicy='optional'>
+        <vendor id='0x17cc'/>
+        <product id='0x1610'/>
+      </source>
+      <address type='usb' bus='0' port='4'/>
+    </hostdev>
+    <hostdev mode='subsystem' type='usb' managed='yes'>
+      <source startupPolicy='optional'>
+        <vendor id='0x1235'/>
+        <product id='0x0102'/>
+      </source>
+      <address type='usb' bus='0' port='2.1'/>
+    </hostdev>
+    <hostdev mode='subsystem' type='usb' managed='yes'>
+      <source startupPolicy='optional'>
+        <vendor id='0x1235'/>
+        <product id='0x0103'/>
+      </source>
+      <address type='usb' bus='0' port='2.2'/>
+    </hostdev>
+    <hostdev mode='subsystem' type='usb' managed='yes'>
+      <source startupPolicy='optional'>
+        <vendor id='0x0634'/>
+        <product id='0x5602'/>
+      </source>
+      <address type='usb' bus='0' port='2.3'/>
+    </hostdev>
+    <hostdev mode='subsystem' type='usb' managed='yes'>
+      <source startupPolicy='optional'>
+        <vendor id='0x0499'/>
+        <product id='0x1703'/>
+      </source>
+      <address type='usb' bus='0' port='2.4'/>
+    </hostdev>
+    <hostdev mode='subsystem' type='usb' managed='yes'>
+      <source startupPolicy='optional'>
+        <vendor id='0x0b05'/>
+        <product id='0x1932'/>
+      </source>
+      <address type='usb' bus='0' port='2.5'/>
+    </hostdev>
+    <hostdev mode='subsystem' type='usb' managed='yes'>
+      <source startupPolicy='optional'>
+        <vendor id='0x0951'/>
+        <product id='0x177f'/>
+      </source>
+      <address type='usb' bus='0' port='2.6'/>
+    </hostdev>
+    <hub type='usb'>
+      <address type='usb' bus='0' port='2'/>
+    </hub>
+    <watchdog model='itco' action='reset'/>
+    <memballoon model='virtio'>
+      <address type='pci' domain='0x0000' bus='0x05' slot='0x00' function='0x0'/>
+    </memballoon>
   </devices>
 </domain>
 EOF
