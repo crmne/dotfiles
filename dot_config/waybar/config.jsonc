@@ -6,7 +6,8 @@
   "height": 26,
   "modules-left": [
    // "custom/omarchy",
-    "hyprland/workspaces"
+    "hyprland/workspaces",
+    "hyprland/window"
   ],
   "modules-center": [
     "clock#date",
@@ -16,6 +17,7 @@
     "custom/screenrecording-indicator"
   ],
   "modules-right": [
+    "mpris",
     "group/tray-expander",
     "bluetooth",
     "network",
@@ -177,5 +179,36 @@
   "tray": {
     "icon-size": 12,
     "spacing": 12
+  },
+  "mpris": {
+    "format": "{player_icon} {artist} — {title}",
+    "format-paused": "{status_icon} {artist} — {title}",
+    "tooltip-format": "{artist} — {title}",
+    "tooltip-format-paused": "{artist} — {title}",
+    "player-icons": {
+      "default": "󰐊"
+    },
+    "status-icons": {
+      "paused": "󰏤"
+    },
+    "title-len": 32,
+    "max-length": 64
+  },
+  "hyprland/window": {
+    "format": "{class} {title}",
+    "max-length": 48,
+    "rewrite": {
+      "^Alacritty (.*)$": "  $1",
+      "^chromium (.*)$": "  $1",
+      "^chrome\\-app\\.todoist\\.com__app\\-Default (.*)$": "  $1",
+      "^chrome\\-music\\.apple\\.com__\\-Default (.*)$": "󰝚  $1",
+      "^org\\.omarchy\\.wiremix (.*)$": "󰕾  $1",
+      "^firefox (.*)$": "  $1",
+      "^code\\-oss (.*)$": "󰨞  $1",
+      "^code (.*)$": "󰨞  $1",
+      "^slack (.*)$": "󰒱  $1",
+      "^discord (.*)$": "󰙯  $1",
+      "^spotify (.*)$": "  $1"
+    }
   }
 }

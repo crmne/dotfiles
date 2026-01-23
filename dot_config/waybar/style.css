@@ -56,6 +56,13 @@
   color: @background;
 }
 
+#window {
+  padding: 1px 6px;
+  margin-left: 4px;
+  opacity: 0.9;
+}
+
+
 #clock.date,
 #clock.time,
 #custom-update,
@@ -81,6 +88,7 @@
 #group-tray-expander,
 #bluetooth,
 #pulseaudio,
+#mpris,
 #cpu,
 #battery {
   padding: 1px 8px;
