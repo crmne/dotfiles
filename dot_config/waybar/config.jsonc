@@ -3,13 +3,14 @@
   "layer": "top",
   "position": "top",
   "spacing": 0,
-  "height": 28,
+  "height": 26,
   "modules-left": [
    // "custom/omarchy",
     "hyprland/workspaces"
   ],
   "modules-center": [
-    "clock",
+    "clock#date",
+    "clock#time",
     "custom/update",
     "custom/voxtype",
     "custom/screenrecording-indicator"
@@ -75,9 +76,13 @@
     "on-click": "omarchy-launch-or-focus-tui btop",
     "on-click-right": "alacritty"
   },
-  "clock": {
-    "format": "{:L%A %H:%M}",
-    "format-alt": "{:L%d %B W%V %Y}",
+  "clock#date": {
+    "format": "{:L%a %d %b}",
+    "tooltip": false,
+    "on-click": "omarchy-launch-webapp \"https://app.hey.com/calendar/weeks/\""
+  },
+  "clock#time": {
+    "format": "{:L%H:%M}",
     "tooltip": false,
     "on-click-right": "omarchy-launch-floating-terminal-with-presentation omarchy-tz-select"
   },
@@ -171,6 +176,6 @@
   },
   "tray": {
     "icon-size": 12,
-    "spacing": 8
+    "spacing": 12
   }
 }

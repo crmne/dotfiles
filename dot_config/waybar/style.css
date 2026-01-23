@@ -56,7 +56,8 @@
   color: @background;
 }
 
-#clock,
+#clock.date,
+#clock.time,
 #custom-update,
 #custom-voxtype,
 #custom-screenrecording-indicator {
@@ -64,8 +65,13 @@
   margin: 0;
 }
 
-#clock {
-  padding: 1px 8px 1px 10px;
+#clock.date {
+  padding: 1px 6px 1px 10px;
+  margin-right: 2px;
+}
+
+#clock.time {
+  padding: 1px 8px 1px 6px;
 }
 
 #custom-screenrecording-indicator {
@@ -74,17 +80,36 @@
 
 #group-tray-expander,
 #bluetooth,
-#network,
 #pulseaudio,
 #cpu,
 #battery {
   padding: 1px 8px;
   margin: 0;
+  min-width: 12px;
+}
+
+#network {
+  padding: 1px 6px;
+  margin: 0;
+  min-width: 12px;
 }
 
 #custom-expand-icon,
 #tray {
-  padding: 1px 6px;
+  padding: 1px 4px;
+  min-width: 12px;
+}
+
+#group-tray-expander {
+  padding-left: 6px;
+}
+
+#cpu {
+  padding-right: 6px;
+}
+
+#battery {
+  padding-left: 6px;
 }
 
 #cpu,
