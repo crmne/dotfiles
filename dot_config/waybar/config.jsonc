@@ -221,6 +221,7 @@
       "^org\\.gnome\\.Nautilus (.*)$": "󰉋  $1",
       "^org\\.omarchy\\.wiremix (.*)$": "󰕾  $1",
       "^resolve (.*)$": "󰕧  $1",
+      "^Steam (.*)$": "󰓓  $1",
     }
   }
 }
