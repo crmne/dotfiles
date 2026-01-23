@@ -200,7 +200,7 @@
     "rewrite": {
       "^Alacritty (.*)$": "  $1",
       "^chromium (.*)$": "  $1",
-      "^chrome\\-app\\.todoist\\.com__app\\-Default (.*)$": "  $1",
+      "^chrome\\-app\\.todoist\\.com__app\\-Default (.*)$": "  $1",
       "^chrome\\-music\\.apple\\.com__\\-Default (.*)$": "󰝚  $1",
       "^org\\.omarchy\\.wiremix (.*)$": "󰕾  $1",
       "^firefox (.*)$": "  $1",
