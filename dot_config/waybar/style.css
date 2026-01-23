@@ -75,6 +75,7 @@
 #clock.date {
   padding: 1px 6px 1px 10px;
   margin-right: 2px;
+  color: alpha(@foreground, 0.7);
 }
 
 #clock.time {

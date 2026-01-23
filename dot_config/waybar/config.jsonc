@@ -3,7 +3,7 @@
   "layer": "top",
   "position": "top",
   "spacing": 0,
-  "height": 26,
+  "height": 20,
   "modules-left": [
    // "custom/omarchy",
     "hyprland/workspaces",
@@ -79,7 +79,7 @@
     "on-click-right": "alacritty"
   },
   "clock#date": {
-    "format": "{:L%a %d %b}",
+    "format": "{:L%a %b %d}",
     "tooltip": false,
     "on-click": "omarchy-launch-webapp \"https://app.hey.com/calendar/weeks/\""
   },
@@ -202,12 +202,12 @@
       "^chromium (.*)$": "  $1",
       "^chrome\\-app\\.todoist\\.com__app\\-Default (.*)$": "  $1",
       "^chrome\\-music\\.apple\\.com__\\-Default (.*)$": "󰝚  $1",
+      "^chrome\\-discord\\.com__.*-Default (.*)$": "󰙯  $1",
       "^org\\.omarchy\\.wiremix (.*)$": "󰕾  $1",
       "^firefox (.*)$": "  $1",
       "^code\\-oss (.*)$": "󰨞  $1",
       "^code (.*)$": "󰨞  $1",
       "^slack (.*)$": "󰒱  $1",
-      "^discord (.*)$": "󰙯  $1",
       "^spotify (.*)$": "  $1"
     }
   }
