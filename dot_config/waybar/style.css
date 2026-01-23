@@ -1,19 +1,33 @@
 @import "../omarchy/current/theme/waybar.css";
 @import "transparency.css";
 
-* {
-  background-color: @background;
-  color: @foreground;
+@define-color island alpha(@background, 0.85);
 
+* {
+  background-color: transparent;
+  color: @foreground;
   border: none;
   border-radius: 0;
   min-height: 0;
-  font-family: 'JetBrainsMono Nerd Font';
-  font-size: 12px;
+  font-family: "Commit Mono Nerd Font", "CommitMono Nerd Font", "JetBrainsMono Nerd Font";
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+  background-color: @island;
+  border-radius: 12px;
+  padding: 1px 8px;
 }
 
 .modules-left {
   margin-left: 8px;
+}
+
+.modules-center {
+  margin: 0 6px;
 }
 
 .modules-right {
@@ -23,12 +37,54 @@
 #workspaces button {
   all: initial;
   padding: 0 6px;
-  margin: 0 1.5px;
+  margin: 0 1px;
   min-width: 9px;
+  border-radius: 6px;
 }
 
 #workspaces button.empty {
   opacity: 0.5;
+}
+
+#workspaces {
+  padding: 1px 6px;
+}
+
+#workspaces button.active,
+#workspaces button.focused {
+  background-color: alpha(@foreground, 0.25);
+  color: @background;
+}
+
+#clock,
+#custom-update,
+#custom-voxtype,
+#custom-screenrecording-indicator {
+  padding: 1px 8px;
+  margin: 0;
+}
+
+#clock {
+  padding: 1px 8px 1px 10px;
+}
+
+#custom-screenrecording-indicator {
+  padding: 1px 10px 1px 8px;
+}
+
+#group-tray-expander,
+#bluetooth,
+#network,
+#pulseaudio,
+#cpu,
+#battery {
+  padding: 1px 8px;
+  margin: 0;
+}
+
+#custom-expand-icon,
+#tray {
+  padding: 1px 6px;
 }
 
 #cpu,
@@ -37,33 +93,9 @@
 #idle_inhibitor,
 #custom-omarchy,
 #custom-screenrecording-indicator,
-#custom-update {
+#custom-update,
+#custom-voxtype {
   min-width: 12px;
-  margin: 0 7.5px;
-}
-
-#idle_inhibitor {
-  margin-right: 9px;
-}
-
-#pulseaudio {
-  margin-right: 9px;
-}
-
-#tray {
-  margin-right: 16px;
-}
-
-#bluetooth {
-  margin-right: 17px;
-}
-
-#network {
-  margin-right: 10px;
-}
-
-#custom-expand-icon {
-  margin-right: 18px;
 }
 
 tooltip {
@@ -74,28 +106,17 @@ tooltip {
   font-size: 10px;
 }
 
-#clock {
-  margin-left: 8.75px;
-}
-
 .hidden {
   opacity: 0;
 }
 
 #custom-screenrecording-indicator {
-  min-width: 12px;
-  margin-left: 5px;
   font-size: 10px;
   padding-bottom: 1px;
 }
 
 #custom-screenrecording-indicator.active {
   color: #a55555;
-}
-
-#custom-voxtype {
-  min-width: 12px;
-  margin: 0 0 0 7.5px;
 }
 
 #custom-voxtype.recording {
