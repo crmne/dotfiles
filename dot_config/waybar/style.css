@@ -97,6 +97,10 @@
   min-width: 12px;
 }
 
+#mpris.paused {
+  color: alpha(@foreground, 0.5);
+}
+
 #network {
   padding: 1px 6px;
   margin: 0;
