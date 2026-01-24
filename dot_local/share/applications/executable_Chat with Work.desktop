@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Chat with Work
+Comment=Chat with Work
+Exec=omarchy-launch-webapp https://chatwithwork.com/chats/new
+Terminal=false
+Type=Application
+Icon=/home/carmine/.local/share/applications/icons/Chat with Work.png
+StartupNotify=true

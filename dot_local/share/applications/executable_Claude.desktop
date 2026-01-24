@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Claude
+Comment=Claude
+Exec=omarchy-launch-webapp https://claude.ai
+Terminal=false
+Type=Application
+Icon=/home/carmine/.local/share/applications/icons/Claude.png
+StartupNotify=true
