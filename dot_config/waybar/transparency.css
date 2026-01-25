@@ -1,8 +1,0 @@
-window#waybar {
-  background-color: alpha(@background, 0.28);
-}
-
-window#waybar > box {
-  background-color: transparent;
-  padding: 2px 6px;
-}

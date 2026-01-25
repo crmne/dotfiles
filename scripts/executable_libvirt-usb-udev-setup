@@ -10,7 +10,6 @@ USB_DEVICES=(
   "1235:0102 Focusrite-Novation LaunchKey Mini MK3"
   "1235:0103 Focusrite-Novation Launchpad X"
   "0634:5602 Micron Technology, Inc. CT2000X6SSD9"
-  "0499:1703 Yamaha Corp. MG-XU"
   "0b05:1932 ASUSTek Computer, Inc. ROG STRIX Arion"
   "0951:177f Kingston Technology DataTraveler Max"
 )

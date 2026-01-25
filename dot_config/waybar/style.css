@@ -1,7 +1,14 @@
 @import "../omarchy/current/theme/waybar.css";
-@import "transparency.css";
 
-@define-color island alpha(@background, 0.85);
+@define-color island alpha(@background, 0.80);
+
+window#waybar {
+  background-color: alpha(@background, 0.50);
+}
+
+window#waybar > box {
+  background-color: transparent;
+}
 
 * {
   background-color: transparent;
@@ -9,7 +16,7 @@
   border: none;
   border-radius: 0;
   min-height: 0;
-  font-family: "Liberation Sans";
+  font-family: "Liberation Sans", "JetBrainsMono Nerd Font";
   font-weight: 700;
   font-size: 14px;
 }
@@ -17,20 +24,45 @@
 .modules-left,
 .modules-center,
 .modules-right {
-  background-color: @island;
-  border-radius: 12px;
-  padding: 1px 4px;
+  background-color: transparent;
+  padding: 0 4px;
+  background-repeat: no-repeat;
 }
 
 .modules-left {
-  margin-left: 0px;
+  padding-left: 0;
+  padding-right: 12px;
+  background-image:
+    linear-gradient(@island, @island),
+    linear-gradient(-60deg, transparent 50%, @island 50%);
+  background-size: 100% 100%, 12px 100%;
+  background-position: left top, right top;
+  background-origin: content-box, padding-box;
+  background-clip: content-box, padding-box;
 }
 
 .modules-center {
-  margin: 0 6px;
+  padding: 0 12px;
+  background-image:
+    linear-gradient(@island, @island),
+    linear-gradient(60deg, transparent 50%, @island 50%),
+    linear-gradient(-60deg, transparent 50%, @island 50%);
+  background-size: 100% 100%, 12px 100%, 12px 100%;
+  background-position: center top, left top, right top;
+  background-origin: content-box, padding-box, padding-box;
+  background-clip: content-box, padding-box, padding-box;
 }
 
 .modules-right {
+  padding-left: 12px;
+  padding-right: 0;
+  background-image:
+    linear-gradient(@island, @island),
+    linear-gradient(60deg, transparent 50%, @island 50%);
+  background-size: 100% 100%, 12px 100%;
+  background-position: right top, left top;
+  background-origin: content-box, padding-box;
+  background-clip: content-box, padding-box;
   margin-right: 0px;
 }
 
@@ -62,6 +94,11 @@
   opacity: 0.9;
 }
 
+window#waybar.empty #window {
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
 
 #clock.date,
 #clock.time,

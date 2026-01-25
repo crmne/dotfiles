@@ -3,18 +3,18 @@
   "layer": "top",
   "position": "top",
   "spacing": 0,
-  "height": 20,
+  "height": 22,
   "modules-left": [
    // "custom/omarchy",
     "hyprland/workspaces",
-    "hyprland/window"
+    "hyprland/window",
   ],
   "modules-center": [
     "clock#date",
     "clock#time",
     "custom/update",
     "custom/voxtype",
-    "custom/screenrecording-indicator"
+    "custom/screenrecording-indicator",
   ],
   "modules-right": [
     "mpris",
@@ -196,6 +196,7 @@
   },
   "hyprland/window": {
     "format": "{class} {title}",
+    "format-empty": "",
     "max-length": 48,
     "rewrite": {
       "^Alacritty (.*)$": "  $1",

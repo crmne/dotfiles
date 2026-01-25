@@ -408,13 +408,6 @@ install_windows() {
     </hostdev>
     <hostdev mode='subsystem' type='usb' managed='yes'>
       <source startupPolicy='optional'>
-        <vendor id='0x0499'/>
-        <product id='0x1703'/>
-      </source>
-      <address type='usb' bus='0' port='2.4'/>
-    </hostdev>
-    <hostdev mode='subsystem' type='usb' managed='yes'>
-      <source startupPolicy='optional'>
         <vendor id='0x0b05'/>
         <product id='0x1932'/>
       </source>
