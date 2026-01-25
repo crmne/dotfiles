@@ -5,9 +5,11 @@
 }
 
 * {
-  font-family: monospace;
+  font-family: "JetBrainsMono Nerd Font";
   font-size: 16px;
+  font-weight: 700;
   color: @text;
+  word-spacing: 3px;
 }
 
 scrollbar {
@@ -23,11 +25,11 @@ scrollbar {
 }
 
 .box-wrapper {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
   background: alpha(@base, 0.90);
   padding: 20px;
   border: 2px solid @border;
-  border-radius: 10px;
+  border-radius: 4px;
 }
 
 .preview-box {

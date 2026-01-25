@@ -1,16 +1,15 @@
 @import "../omarchy/current/theme/swayosd.css";
 
 window {
-  border-radius: 0;
   opacity: 0.97;
   border: 2px solid @border-color;
-  border-radius: 10px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
 
   background-color: @background-color;
 }
 
 label {
-  font-family: 'JetBrainsMono Nerd Font';
+  font-family: 'Inter';
   font-size: 11pt;
 
   color: @label;
