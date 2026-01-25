@@ -76,7 +76,9 @@ window#waybar > box {
 }
 
 #workspaces {
-  padding: 1px 6px;
+  padding: 4px;
+  padding-left: 10px;
+  padding-right: 0;
 }
 
 #workspaces button.active,
@@ -86,8 +88,10 @@ window#waybar > box {
 }
 
 #window {
-  padding: 1px 6px;
-  margin-left: 4px;
+  padding: 0;
+  padding-right: 6px;
+  padding-bottom: 2px;
+  margin-left: 6px;
   opacity: 0.9;
 }
 
@@ -126,7 +130,7 @@ window#waybar.empty #window {
 #mpris,
 #cpu,
 #battery {
-  padding: 1px 8px;
+  padding: 2px 8px;
   margin: 0;
   min-width: 12px;
 }
@@ -157,6 +161,7 @@ window#waybar.empty #window {
 
 #battery {
   padding-left: 6px;
+  padding-right: 10px;
 }
 
 #cpu,
