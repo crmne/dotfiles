@@ -3,7 +3,7 @@
 @define-color island alpha(@background, 0.80);
 
 window#waybar {
-  background-color: alpha(@background, 0.50);
+  background-color: alpha(@background, 0.20);
 }
 
 window#waybar > box {
@@ -15,7 +15,7 @@ window#waybar > box {
   color: @foreground;
   border: none;
   border-radius: 0;
-  min-height: 0;
+  min-height: 1.5em;
   font-family: "Liberation Sans", "JetBrainsMono Nerd Font";
   font-weight: 700;
   font-size: 14px;
@@ -31,35 +31,35 @@ window#waybar > box {
 
 .modules-left {
   padding-left: 0;
-  padding-right: 12px;
+  padding-right: 20px;
   background-image:
     linear-gradient(@island, @island),
     linear-gradient(-60deg, transparent 50%, @island 50%);
-  background-size: 100% 100%, 12px 100%;
+  background-size: 100% 100%, 20px 100%;
   background-position: left top, right top;
   background-origin: content-box, padding-box;
   background-clip: content-box, padding-box;
 }
 
 .modules-center {
-  padding: 0 12px;
+  padding: 0 20px;
   background-image:
     linear-gradient(@island, @island),
     linear-gradient(60deg, transparent 50%, @island 50%),
     linear-gradient(-60deg, transparent 50%, @island 50%);
-  background-size: 100% 100%, 12px 100%, 12px 100%;
+  background-size: 100% 100%, 20px 100%, 20px 100%;
   background-position: center top, left top, right top;
   background-origin: content-box, padding-box, padding-box;
   background-clip: content-box, padding-box, padding-box;
 }
 
 .modules-right {
-  padding-left: 12px;
+  padding-left: 20px;
   padding-right: 0;
   background-image:
     linear-gradient(@island, @island),
     linear-gradient(60deg, transparent 50%, @island 50%);
-  background-size: 100% 100%, 12px 100%;
+  background-size: 100% 100%, 20px 100%;
   background-position: right top, left top;
   background-origin: content-box, padding-box;
   background-clip: content-box, padding-box;
