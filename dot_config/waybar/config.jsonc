@@ -218,6 +218,7 @@
       "^chrome\\-trader\\.degiro\\.nl__trader_\\-Default (.*)$": "󰄿  $1",
       "^chrome\\-discord\\.com__.*-Default (.*)$": "󰙯  $1",
       "^chrome\\-grok\\.com__\\-Default (.*)$": "󰭹  $1",
+      "^chrome\\-x\\.com__\\-Default (.*)$": "  $1",
       "^com\\.bitwig\\.BitwigStudi (.*)$": "󰎈  $1",
       "^darktable (.*)$": "󰄄  $1",
       "^li\\.oever\\.aether (.*)$": "󰎈  $1",

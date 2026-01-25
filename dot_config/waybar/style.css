@@ -173,6 +173,7 @@ window#waybar.empty #window {
 #custom-update,
 #custom-voxtype {
   min-width: 12px;
+  padding-bottom: 2px;
 }
 
 tooltip {
