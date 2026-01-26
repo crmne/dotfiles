@@ -241,6 +241,7 @@
       "^org\\.omarchy\\.btop (.*)$": "󰍛  $1",
       "^org\\.omarchy\\.terminal (.*)$": "  $1",
       "^com\\.obsproject\\.Studio (.*)$": "󰐊  $1",
+      "^com\\.github\\.xournalpp\\.xournalpp (.*)$": "󰏪  $1",
       "^TUI\\.tile lazydocker(.*)$": "󰡨  $1",
       "^lazydocker (.*)$": "󰡨  $1",
       "^resolve (.*)$": "󰕧  $1",
