@@ -1,0 +1,37 @@
+# See https://git-scm.com/docs/git-config
+
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+[init]
+	defaultBranch = master
+[pull]
+	rebase = true 			 # Rebase (instead of merge) on pull
+[push]
+	autoSetupRemote = true   # Automatically set upstream branch on push
+[diff]
+	algorithm = histogram    # Clearer diffs on moved/edited lines
+	colorMoved = plain       # Highlight moved blocks in diffs
+	mnemonicPrefix = true    # More intuitive refs in diff output
+[commit]
+	verbose = true           # Include diff comment in commit message template
+	gpgsign = true
+[column]
+	ui = auto 			     # Output in columns when possible
+[branch]
+	sort = -committerdate    # Sort branches by most recent commit first
+[tag]
+	sort = -version:refname  # Sort version numbers as you would expect
+[rerere]
+	enabled = true           # Record and reuse conflict resolutions
+	autoupdate = true        # Apply stored conflict resolutions automatically
+[user]
+	name = Carmine Paolino
+	email = carmine@paolino.me
+	signingkey = ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCs4h2c1LEbCihCX49Z2aagUOvlNYsHsFUjzrYi7T/1FnNt+diMnC/Ki7nGyDZQ7glxCJsmTZvfpDd9pHtfaFqHsFyf3DI6AoV2TAGyuAE7zVWg7U1bmw4TQBy0NOAq03D8m47pZWn3/p4nznLyloOxsBkYc0qmzAKRMjR1e7ANnVf06yAvwEk+GlU7+Yuhiu7JFRP6fEpiEzpiNYGVY+gdRpZ6pMBFTzE1c8cRkS/4Bf0lBZDAzC8+PBTW77uCLCFrn/rsbLm6IgwszGuEZ43Xf/v7EacLmPzKMRMt+aksD46jEfZ6TsUKE7n0WuZOdz/t4qXCxnNjF4ITejUASvVmJCnWtuOtJsyzYHDCpSpbpcv6q8uMfDSGxudQY5mEbZ1/XSH0rjWNmDswYaDngvovWt/SPXc7Qozei42MYsdD3hGbBwG5dDQmd24psrSBiZ9gX+I/34UDCd3JdnUTK2+HSIfIkhn/ulIarCjqjYZSOwThAZbZ+yV5FaSTBJ+h8ds=
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /opt/1Password/op-ssh-sign
