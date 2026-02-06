@@ -80,7 +80,7 @@ window#waybar.empty #window {
 #custom-update,
 #custom-voxtype,
 #custom-screenrecording-indicator {
-  padding: 1px 8px;
+  padding: 1px 4px;
   margin: 0;
 }
 
