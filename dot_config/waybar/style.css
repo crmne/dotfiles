@@ -3,7 +3,7 @@
 @define-color island alpha(@background, 0.80);
 
 window#waybar {
-  background-color: alpha(@background, 0.20);
+  background-color: transparent;
 }
 
 window#waybar > box {
