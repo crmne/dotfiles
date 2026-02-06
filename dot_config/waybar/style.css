@@ -1,6 +1,6 @@
 @import "../omarchy/current/theme/waybar.css";
 
-@define-color island alpha(@background, 0.90);
+@define-color island alpha(@background, 0.80);
 
 window#waybar {
   background-color: alpha(@background, 0.20);
@@ -13,54 +13,29 @@ window#waybar > box {
 * {
   background-color: transparent;
   color: @foreground;
-  font-family: "Inter", "JetBrainsMono Nerd Font";
+  font-family: "JetBrainsMono Nerd Font";
   font-weight: 700;
-  font-size: 13px;
-}
-
-.modules-left,
-.modules-center,
-.modules-right {
-  background-color: transparent;
-  padding: 0 4px;
-  background-repeat: no-repeat;
+  font-size: 12px;
 }
 
 .modules-left {
-  padding-left: 0;
-  padding-right: 20px;
-  background-image:
-    linear-gradient(@island, @island),
-    linear-gradient(-60deg, transparent 50%, @island 50%);
-  background-size: 100% 100%, 20px 100%;
-  background-position: left top, right top;
-  background-origin: content-box, padding-box;
-  background-clip: content-box, padding-box;
+  padding-right: 10px;
+  background: @island;
+  border-bottom-right-radius: 10px;
 }
 
 .modules-center {
-  padding: 0 20px;
-  background-image:
-    linear-gradient(@island, @island),
-    linear-gradient(60deg, transparent 50%, @island 50%),
-    linear-gradient(-60deg, transparent 50%, @island 50%);
-  background-size: 100% 100%, 20px 100%, 20px 100%;
-  background-position: center top, left top, right top;
-  background-origin: content-box, padding-box, padding-box;
-  background-clip: content-box, padding-box, padding-box;
+  padding: 0 10px;
+  background: @island;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 .modules-right {
-  padding-left: 20px;
+  padding-left: 10px;
   padding-right: 0;
-  background-image:
-    linear-gradient(@island, @island),
-    linear-gradient(60deg, transparent 50%, @island 50%);
-  background-size: 100% 100%, 20px 100%;
-  background-position: right top, left top;
-  background-origin: content-box, padding-box;
-  background-clip: content-box, padding-box;
-  margin-right: 0px;
+  background: @island;
+  border-bottom-left-radius: 10px;
 }
 
 #workspaces button {
@@ -90,8 +65,7 @@ window#waybar > box {
 #window {
   padding: 0;
   padding-right: 6px;
-  padding-bottom: 2px;
-  margin-left: 6px;
+  margin-left: 10px;
   opacity: 0.9;
 }
 
@@ -135,6 +109,10 @@ window#waybar.empty #window {
   min-width: 12px;
 }
 
+#bluetooth {
+  padding: 1px 5px;
+}
+
 #mpris.paused {
   color: alpha(@foreground, 0.5);
 }
@@ -148,6 +126,7 @@ window#waybar.empty #window {
 #custom-expand-icon,
 #tray {
   padding: 1px 4px;
+  padding-right: 8px;
   min-width: 12px;
 }
 
@@ -173,7 +152,6 @@ window#waybar.empty #window {
 #custom-update,
 #custom-voxtype {
   min-width: 12px;
-  padding-bottom: 2px;
 }
 
 tooltip {
@@ -190,7 +168,6 @@ tooltip {
 
 #custom-screenrecording-indicator {
   font-size: 10px;
-  padding-bottom: 1px;
 }
 
 #custom-screenrecording-indicator.active {
