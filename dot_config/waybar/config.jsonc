@@ -22,6 +22,7 @@
     "bluetooth",
     "network",
     "pulseaudio",
+    "disk",
     "cpu",
     // "idle_inhibitor",
     "battery"
@@ -74,7 +75,12 @@
   },
   "cpu": {
     "interval": 5,
-    "format": "󰍛",
+    "format": "{usage}%",
+    "tooltip-format": "{usage}%",
+    "states": {
+      "warning": 70,
+      "critical": 90
+    },
     "on-click": "omarchy-launch-or-focus-tui btop",
     "on-click-right": "alacritty"
   },
@@ -100,6 +106,12 @@
     "interval": 3,
     "spacing": 1,
     "on-click": "omarchy-launch-wifi"
+  },
+  "disk": {
+    "interval": 30,
+    "format": "{percentage_used}%",
+    "path": "/",
+    "tooltip-format": "/ {used}/{total} ({percentage_used}%)"
   },
   "battery": {
     "format": "{capacity}% {icon}",
@@ -183,6 +195,7 @@
   "mpris": {
     "format": "{player_icon} {artist} — {title}",
     "format-paused": "{status_icon} {artist} — {title}",
+    "format-stopped": "",
     "tooltip-format": "{artist} — {title}",
     "tooltip-format-paused": "{artist} — {title}",
     "player-icons": {

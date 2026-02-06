@@ -18,10 +18,19 @@ window#waybar > box {
   font-size: 12px;
 }
 
+.modules-left,
+.modules-center,
+.modules-right {
+  border-bottom-style: solid;
+  border-width: 1px;
+  border-color: alpha(@foreground, 0.2);
+}
+
 .modules-left {
   padding-right: 10px;
   background: @island;
   border-bottom-right-radius: 10px;
+  border-right-style: solid;
 }
 
 .modules-center {
@@ -29,6 +38,8 @@ window#waybar > box {
   background: @island;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  border-left-style: solid;
+  border-right-style: solid;
 }
 
 .modules-right {
@@ -36,6 +47,7 @@ window#waybar > box {
   padding-right: 0;
   background: @island;
   border-bottom-left-radius: 10px;
+  border-left-style: solid;
 }
 
 #workspaces button {
@@ -87,7 +99,7 @@ window#waybar.empty #window {
 #clock.date {
   padding: 1px 6px 1px 10px;
   margin-right: 2px;
-  color: alpha(@foreground, 0.7);
+  color: alpha(@foreground, 0.8);
 }
 
 #clock.time {
@@ -101,9 +113,22 @@ window#waybar.empty #window {
 #group-tray-expander,
 #bluetooth,
 #pulseaudio,
-#mpris,
+#network.speed,
+#disk,
 #cpu,
 #battery {
+  padding: 2px 8px;
+  margin: 0;
+  min-width: 12px;
+}
+
+#mpris {
+  padding: 0;
+  margin: 0;
+}
+
+#mpris.playing,
+#mpris.paused {
   padding: 2px 8px;
   margin: 0;
   min-width: 12px;
@@ -123,9 +148,15 @@ window#waybar.empty #window {
   min-width: 12px;
 }
 
+#disk {
+  font-size: 10px;
+  letter-spacing: 0.3px;
+}
+
+
 #custom-expand-icon,
 #tray {
-  padding: 1px 4px;
+  padding: 0 6px;
   padding-right: 8px;
   min-width: 12px;
 }
@@ -136,6 +167,16 @@ window#waybar.empty #window {
 
 #cpu {
   padding-right: 6px;
+  font-size: 10px;
+  letter-spacing: 0.3px;
+}
+
+#cpu.warning {
+  color: #e0b04a;
+}
+
+#cpu.critical {
+  color: #e26a6a;
 }
 
 #battery {
@@ -156,6 +197,10 @@ window#waybar.empty #window {
 
 tooltip {
   padding: 2px;
+  background-color: @island;
+  color: @foreground;
+  border-radius: 6px;
+  border: 1px solid alpha(@foreground, 0.2);
 }
 
 #custom-update {
