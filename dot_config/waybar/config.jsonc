@@ -236,6 +236,7 @@
       "^chrome\\-launchpad\\.37signals\\.com__\\-Default (.*)$": "󰆼  $1",
       "^chrome\\-music\\.apple\\.com__\\-Default (.*)$": "󰝚  $1",
       "^chrome\\-music\\.youtube\\.com__\\-Default (.*)$": "󰝚  $1",
+      "^chrome\\-youtube\\.com__\\-Default (.*)$": "  $1",
       "^chrome\\-trader\\.degiro\\.nl__trader_\\-Default (.*)$": "󰄿  $1",
       "^chrome\\-discord\\.com__.*-Default (.*)$": "󰙯  $1",
       "^chrome\\-grok\\.com__\\-Default (.*)$": "󰭹  $1",
