@@ -1,0 +1,49 @@
+{
+  "displays": [
+    {
+      "name": "eDP-1",
+      "description": "Samsung Display Corp. ATNA60CL10-0",
+      "x": 1900,
+      "y": 1584,
+      "physical_width": 2880,
+      "physical_height": 1800,
+      "transform": "normal",
+      "scale": 1.5,
+      "scale_filter": null,
+      "refresh": 120.0,
+      "dpms": true,
+      "adaptive_sync": false,
+      "custom_mode": false,
+      "mirror": "",
+      "ten_bit": true,
+      "active": true
+    },
+    {
+      "name": "HDMI-A-1",
+      "description": "Samsung Electric Company SAMSUNG 0x01000E00",
+      "x": 3820,
+      "y": 624,
+      "physical_width": 3840,
+      "physical_height": 2160,
+      "transform": "normal",
+      "scale": 1.0,
+      "scale_filter": null,
+      "refresh": 60.0,
+      "dpms": true,
+      "adaptive_sync": false,
+      "custom_mode": false,
+      "mirror": "",
+      "ten_bit": false,
+      "active": true
+    }
+  ],
+  "config": {
+    "view-scale": 0.15,
+    "snap-threshold": 10,
+    "indicator-timeout": 500,
+    "custom-mode": [],
+    "use-desc": true,
+    "confirm-timeout": 10,
+    "profile-bound-wallpapers": true
+  }
+}
