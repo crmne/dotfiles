@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=ncdu
+Comment=ncdu
+Exec=xdg-terminal-exec --app-id=TUI.float -e ncdu -x $HOME
+Terminal=false
+Type=Application
+Icon=/home/carmine/.local/share/applications/icons/ncdu.png
+StartupNotify=true
