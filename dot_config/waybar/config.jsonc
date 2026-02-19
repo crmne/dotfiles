@@ -17,6 +17,10 @@
     "custom/screenrecording-indicator",
   ],
   "modules-right": [
+    "mpris#prev",
+    "mpris#toggle",
+    "mpris#next",
+    "image#album-art",
     "mpris",
     "group/tray-expander",
     "bluetooth",
@@ -193,8 +197,8 @@
     "spacing": 12
   },
   "mpris": {
-    "format": "{player_icon} {artist} — {title}",
-    "format-paused": "{status_icon} {artist} — {title}",
+    "format": "{artist} — {title}",
+    "format-paused": "{artist} — {title}",
     "format-stopped": "",
     "tooltip-format": "{artist} — {title}",
     "tooltip-format-paused": "{artist} — {title}",
@@ -206,6 +210,40 @@
     },
     "title-len": 32,
     "max-length": 64
+  },
+  "mpris#prev": {
+    "format": "󰒮",
+    "format-paused": "󰒮",
+    "format-stopped": "",
+    "tooltip": false,
+    "on-click": "playerctl previous"
+  },
+  "mpris#toggle": {
+    "format": "{status_icon}",
+    "format-paused": "{status_icon}",
+    "format-stopped": "",
+    "tooltip": false,
+    "status-icons": {
+      "playing": "󰏤",
+      "paused": "󰐊"
+    },
+    "on-click": "playerctl play-pause"
+  },
+  "mpris#next": {
+    "format": "󰒭",
+    "format-paused": "󰒭",
+    "format-stopped": "",
+    "tooltip": false,
+    "on-click": "playerctl next"
+  },
+  "image#album-art": {
+    "exec": "/home/carmine/.config/waybar/scripts/mpris-album-art.sh",
+    "size": 16,
+    "interval": 2,
+    "tooltip": false,
+    "on-click": "playerctl play-pause",
+    "on-click-middle": "playerctl previous",
+    "on-click-right": "playerctl next"
   },
   "hyprland/window": {
     "format": "{class} {title}",

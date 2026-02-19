@@ -123,15 +123,40 @@ window#waybar.empty #window {
 }
 
 #mpris {
-  padding: 0;
+  padding: 0 10px 0 6px;
   margin: 0;
 }
 
 #mpris.playing,
 #mpris.paused {
-  padding: 2px 8px;
+  padding: 2px 10px 2px 6px;
   margin: 0;
   min-width: 12px;
+}
+
+#mpris.prev,
+#mpris.toggle,
+#mpris.next {
+  margin: 0;
+  padding: 2px 4px;
+  min-width: 12px;
+}
+
+#mpris.prev {
+  padding-left: 8px;
+}
+
+#mpris.next {
+  padding-right: 6px;
+}
+
+#image {
+  margin: 0;
+  padding: 2px 0 2px 6px;
+}
+
+#image.empty {
+  padding: 0;
 }
 
 #bluetooth {
