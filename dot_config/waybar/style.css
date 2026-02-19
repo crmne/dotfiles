@@ -228,6 +228,25 @@ tooltip {
   border: 1px solid alpha(@foreground, 0.2);
 }
 
+menu {
+  background-color: @island;
+  color: @foreground;
+  border-radius: 6px;
+  border: 1px solid alpha(@foreground, 0.2);
+  padding: 4px;
+}
+
+menuitem {
+  color: @foreground;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+menuitem:hover {
+  background-color: alpha(@foreground, 0.15);
+  color: @foreground;
+}
+
 #custom-update {
   font-size: 10px;
 }
