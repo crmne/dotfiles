@@ -35,7 +35,7 @@
       "mirror_of": "",
       "bitdepth": 8,
       "vrr": 1,
-      "color_management": "dcip3",
+      "color_management": "",
       "sdr_brightness": 1.0,
       "sdr_saturation": 1.0,
       "reserved_top": 0,
@@ -112,7 +112,7 @@
       "mirror_of": "",
       "bitdepth": 8,
       "vrr": 1,
-      "color_management": "adobe",
+      "color_management": "",
       "sdr_brightness": 1.0,
       "sdr_saturation": 1.0,
       "reserved_top": 0,
@@ -125,7 +125,7 @@
   "workspace_rules": [
     {
       "workspace": "1",
-      "monitor": "eDP-1",
+      "monitor": "DP-2",
       "default": true,
       "persistent": true,
       "rounding": -1,
@@ -138,7 +138,7 @@
     },
     {
       "workspace": "2",
-      "monitor": "eDP-1",
+      "monitor": "DP-2",
       "default": false,
       "persistent": false,
       "rounding": -1,
@@ -151,7 +151,7 @@
     },
     {
       "workspace": "3",
-      "monitor": "eDP-1",
+      "monitor": "DP-2",
       "default": false,
       "persistent": false,
       "rounding": -1,
@@ -164,7 +164,7 @@
     },
     {
       "workspace": "4",
-      "monitor": "DP-2",
+      "monitor": "eDP-1",
       "default": true,
       "persistent": true,
       "rounding": -1,
@@ -177,7 +177,7 @@
     },
     {
       "workspace": "5",
-      "monitor": "DP-2",
+      "monitor": "eDP-1",
       "default": false,
       "persistent": false,
       "rounding": -1,
@@ -190,7 +190,7 @@
     },
     {
       "workspace": "6",
-      "monitor": "DP-2",
+      "monitor": "eDP-1",
       "default": false,
       "persistent": false,
       "rounding": -1,
