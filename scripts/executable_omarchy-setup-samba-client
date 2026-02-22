@@ -1,0 +1,213 @@
+#!/bin/bash
+
+set -euo pipefail
+
+CREDENTIALS_FILE="/etc/samba/credentials"
+FSTAB_FILE="/etc/fstab"
+BEGIN_MARKER="# >>> omarchy samba shares >>>"
+END_MARKER="# <<< omarchy samba shares <<<"
+
+DEFAULT_UID="$(id -u)"
+DEFAULT_GID="$(id -g)"
+
+SHARES=(
+  "//nuc.local/Documents|/mnt/nuc/documents"
+  "//nuc.local/Games|/mnt/nuc/games"
+  "//nuc.local/Music|/mnt/nuc/music"
+  "//nuc.local/Music\\040Production|/mnt/nuc/music-production"
+  "//nuc.local/Photos|/mnt/nuc/photos"
+  "//nuc.local/Video\\040Editing|/mnt/nuc/video-editing"
+  "//nuc.local/Videos|/mnt/nuc/videos"
+  "//nuc.local/files|/mnt/nuc/files"
+)
+
+require_cmd() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+install_deps() {
+  if require_cmd omarchy-pkg-add; then
+    omarchy-pkg-add cifs-utils
+    return
+  fi
+
+  if require_cmd pacman; then
+    sudo pacman -S --noconfirm --needed cifs-utils
+    return
+  fi
+
+  echo "❌ Couldn't find omarchy-pkg-add or pacman. Install cifs-utils manually and rerun."
+  exit 1
+}
+
+prompt_user() {
+  local default_user="$1"
+
+  if require_cmd gum; then
+    gum input --value "$default_user" --header "Samba username"
+  else
+    read -r -p "Samba username [$default_user]: " input_user
+    echo "${input_user:-$default_user}"
+  fi
+}
+
+prompt_password() {
+  if require_cmd gum; then
+    gum input --password --header "Samba password"
+  else
+    read -r -s -p "Samba password: " input_pass
+    echo
+    echo "$input_pass"
+  fi
+}
+
+confirm_or_exit() {
+  local username="$1"
+
+  if require_cmd gum; then
+    gum style \
+      --border normal \
+      --padding "1 2" \
+      --margin "1" \
+      --align left \
+      --bold \
+      "Samba Client Setup" \
+      "" \
+      "Shares:    ${#SHARES[@]}" \
+      "User:      $username" \
+      "UID/GID:   $DEFAULT_UID/$DEFAULT_GID" \
+      "Cred file: $CREDENTIALS_FILE" \
+      "Fstab:     $FSTAB_FILE"
+
+    echo
+    gum confirm "Proceed with Samba client setup?" || exit 1
+  fi
+}
+
+write_credentials() {
+  local username="$1"
+  local password="$2"
+  local tmp
+
+  tmp=$(mktemp)
+  chmod 600 "$tmp"
+
+  cat >"$tmp" <<EOF_CRED
+username=$username
+password=$password
+EOF_CRED
+
+  sudo install -D -m 600 "$tmp" "$CREDENTIALS_FILE"
+  rm -f "$tmp"
+}
+
+create_mount_dirs() {
+  local entry mountpoint
+
+  for entry in "${SHARES[@]}"; do
+    mountpoint="${entry#*|}"
+    sudo mkdir -p "$mountpoint"
+  done
+}
+
+render_fstab_block() {
+  local entry share mountpoint
+
+  echo "$BEGIN_MARKER"
+  for entry in "${SHARES[@]}"; do
+    share="${entry%%|*}"
+    mountpoint="${entry#*|}"
+    echo "$share $mountpoint cifs credentials=$CREDENTIALS_FILE,uid=$DEFAULT_UID,gid=$DEFAULT_GID,file_mode=0755,dir_mode=0755,nofail,x-systemd.automount 0 0"
+  done
+  echo "$END_MARKER"
+}
+
+update_fstab() {
+  local tmp_block tmp_out backup
+
+  tmp_block=$(mktemp)
+  tmp_out=$(mktemp)
+  backup="${FSTAB_FILE}.bak.$(date +%Y%m%d-%H%M%S)"
+
+  render_fstab_block > "$tmp_block"
+  sudo cp "$FSTAB_FILE" "$backup"
+
+  if grep -Fq "$BEGIN_MARKER" "$FSTAB_FILE"; then
+    awk -v begin="$BEGIN_MARKER" -v end="$END_MARKER" -v block_file="$tmp_block" '
+      BEGIN {
+        while ((getline line < block_file) > 0) {
+          block = block line "\\n"
+        }
+      }
+      $0 == begin {
+        printf "%s", block
+        in_block = 1
+        next
+      }
+      $0 == end {
+        in_block = 0
+        next
+      }
+      !in_block {
+        print
+      }
+    ' "$FSTAB_FILE" > "$tmp_out"
+  else
+    cat "$FSTAB_FILE" > "$tmp_out"
+    echo >> "$tmp_out"
+    cat "$tmp_block" >> "$tmp_out"
+  fi
+
+  sudo install -m 644 "$tmp_out" "$FSTAB_FILE"
+  rm -f "$tmp_block" "$tmp_out"
+
+  echo "Backup created: $backup"
+}
+
+validate_mounts() {
+  if sudo mount -a -t cifs >/dev/null 2>&1; then
+    echo "✅ Samba mounts validated with: mount -a -t cifs"
+  else
+    echo "⚠️ mount -a -t cifs reported an error."
+    echo "   This can happen if the server is offline or credentials are incorrect."
+    echo "   Your fstab and credentials are still configured."
+  fi
+}
+
+main() {
+  trap 'echo; echo "Setup cancelled by user"; exit 1' INT
+
+  install_deps
+  sudo -v
+
+  local default_user username password
+  default_user="$USER"
+
+  username="$(prompt_user "$default_user")"
+  if [ -z "$username" ]; then
+    echo "❌ Username is required."
+    exit 1
+  fi
+
+  password="$(prompt_password)"
+  if [ -z "$password" ]; then
+    echo "❌ Password is required."
+    exit 1
+  fi
+
+  confirm_or_exit "$username"
+
+  write_credentials "$username" "$password"
+  create_mount_dirs
+  update_fstab
+  validate_mounts
+
+  echo
+  echo "✅ Samba client setup complete."
+  echo "   Credentials: $CREDENTIALS_FILE"
+  echo "   Shares added in /etc/fstab between:"
+  echo "   $BEGIN_MARKER"
+  echo "   $END_MARKER"
+}
+
+main "$@"
