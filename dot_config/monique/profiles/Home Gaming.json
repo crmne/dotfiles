@@ -1,5 +1,5 @@
 {
-  "name": "Desktop Home",
+  "name": "Home Gaming",
   "monitors": [
     {
       "name": "DP-1",
@@ -115,8 +115,8 @@
         "640x480@59.94Hz",
         "640x480@59.93Hz"
       ],
-      "x": 3820,
-      "y": 2679,
+      "x": 6707,
+      "y": 415,
       "position_mode": "explicit",
       "scale": 1.0,
       "scale_mode": "explicit",
@@ -132,60 +132,12 @@
       "reserved_left": 0,
       "reserved_right": 0,
       "enabled": true
-    },
-    {
-      "name": "DP-2",
-      "description": "LG Electronics 16MR70 311NZSJ039494",
-      "make": "LG Electronics",
-      "model": "16MR70",
-      "serial": "311NZSJ039494",
-      "width": 2560,
-      "height": 1600,
-      "refresh_rate": 59.97,
-      "resolution_mode": "explicit",
-      "available_modes": [
-        "2560x1600@59.97Hz",
-        "2560x1600@59.97Hz",
-        "2560x1440@59.95Hz",
-        "1920x1200@59.88Hz",
-        "1920x1080@59.94Hz",
-        "1920x1080@50.00Hz",
-        "1680x1050@59.95Hz",
-        "1600x1000@59.87Hz",
-        "1280x800@59.81Hz",
-        "1280x720@59.94Hz",
-        "1280x720@50.00Hz",
-        "1152x720@59.97Hz",
-        "1024x768@60.00Hz",
-        "800x600@60.32Hz",
-        "720x576@50.00Hz",
-        "720x480@59.94Hz",
-        "640x480@59.94Hz",
-        "640x480@59.93Hz"
-      ],
-      "x": 6707,
-      "y": 1679,
-      "position_mode": "explicit",
-      "scale": 1.6,
-      "scale_mode": "explicit",
-      "transform": 0,
-      "mirror_of": "",
-      "bitdepth": 8,
-      "vrr": 0,
-      "color_management": "",
-      "sdr_brightness": 1.0,
-      "sdr_saturation": 1.0,
-      "reserved_top": 0,
-      "reserved_bottom": 0,
-      "reserved_left": 0,
-      "reserved_right": 0,
-      "enabled": true
     }
   ],
   "workspace_rules": [
     {
       "workspace": "1",
-      "monitor": "DP-1",
+      "monitor": "desc:Microstep MPG321UR-QD",
       "default": true,
       "persistent": true,
       "rounding": -1,
@@ -198,7 +150,7 @@
     },
     {
       "workspace": "2",
-      "monitor": "DP-1",
+      "monitor": "desc:Microstep MPG321UR-QD",
       "default": false,
       "persistent": false,
       "rounding": -1,
@@ -211,7 +163,7 @@
     },
     {
       "workspace": "3",
-      "monitor": "DP-1",
+      "monitor": "desc:Microstep MPG321UR-QD",
       "default": false,
       "persistent": false,
       "rounding": -1,
@@ -224,7 +176,7 @@
     },
     {
       "workspace": "4",
-      "monitor": "DP-2",
+      "monitor": "desc:LG Electronics 16MR70 311NZSJ039494",
       "default": true,
       "persistent": true,
       "rounding": -1,
@@ -237,7 +189,7 @@
     },
     {
       "workspace": "5",
-      "monitor": "DP-2",
+      "monitor": "desc:LG Electronics 16MR70 311NZSJ039494",
       "default": false,
       "persistent": false,
       "rounding": -1,
@@ -250,7 +202,7 @@
     },
     {
       "workspace": "6",
-      "monitor": "DP-2",
+      "monitor": "desc:LG Electronics 16MR70 311NZSJ039494",
       "default": false,
       "persistent": false,
       "rounding": -1,
