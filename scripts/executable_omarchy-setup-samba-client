@@ -2,7 +2,8 @@
 
 set -euo pipefail
 
-CREDENTIALS_FILE="/etc/samba/credentials"
+NUC_CREDENTIALS_FILE="/etc/samba/credentials-nuc"
+HA_CREDENTIALS_FILE="/etc/samba/credentials-home-assistant"
 FSTAB_FILE="/etc/fstab"
 BEGIN_MARKER="# >>> omarchy samba shares >>>"
 END_MARKER="# <<< omarchy samba shares <<<"
@@ -11,14 +12,15 @@ DEFAULT_UID="$(id -u)"
 DEFAULT_GID="$(id -g)"
 
 SHARES=(
-  "//nuc.local/Documents|/mnt/nuc/documents"
-  "//nuc.local/Games|/mnt/nuc/games"
-  "//nuc.local/Music|/mnt/nuc/music"
-  "//nuc.local/Music\\040Production|/mnt/nuc/music-production"
-  "//nuc.local/Photos|/mnt/nuc/photos"
-  "//nuc.local/Video\\040Editing|/mnt/nuc/video-editing"
-  "//nuc.local/Videos|/mnt/nuc/videos"
-  "//nuc.local/files|/mnt/nuc/files"
+  "//nuc.local/Documents|/mnt/nuc/documents|$NUC_CREDENTIALS_FILE"
+  "//nuc.local/Games|/mnt/nuc/games|$NUC_CREDENTIALS_FILE"
+  "//nuc.local/Music|/mnt/nuc/music|$NUC_CREDENTIALS_FILE"
+  "//nuc.local/Music\\040Production|/mnt/nuc/music-production|$NUC_CREDENTIALS_FILE"
+  "//nuc.local/Photos|/mnt/nuc/photos|$NUC_CREDENTIALS_FILE"
+  "//nuc.local/Video\\040Editing|/mnt/nuc/video-editing|$NUC_CREDENTIALS_FILE"
+  "//nuc.local/Videos|/mnt/nuc/videos|$NUC_CREDENTIALS_FILE"
+  "//nuc.local/files|/mnt/nuc/files|$NUC_CREDENTIALS_FILE"
+  "//homeassistant.local/config|/mnt/home-assistant/config|$HA_CREDENTIALS_FILE"
 )
 
 require_cmd() {
@@ -42,27 +44,31 @@ install_deps() {
 
 prompt_user() {
   local default_user="$1"
+  local header="$2"
 
   if require_cmd gum; then
-    gum input --value "$default_user" --header "Samba username"
+    gum input --value "$default_user" --header "$header"
   else
-    read -r -p "Samba username [$default_user]: " input_user
+    read -r -p "$header [$default_user]: " input_user
     echo "${input_user:-$default_user}"
   fi
 }
 
 prompt_password() {
+  local header="$1"
+
   if require_cmd gum; then
-    gum input --password --header "Samba password"
+    gum input --password --header "$header"
   else
-    read -r -s -p "Samba password: " input_pass
+    read -r -s -p "$header: " input_pass
     echo
     echo "$input_pass"
   fi
 }
 
 confirm_or_exit() {
-  local username="$1"
+  local nuc_username="$1"
+  local ha_username="$2"
 
   if require_cmd gum; then
     gum style \
@@ -74,9 +80,11 @@ confirm_or_exit() {
       "Samba Client Setup" \
       "" \
       "Shares:    ${#SHARES[@]}" \
-      "User:      $username" \
+      "NUC user:  $nuc_username" \
+      "HA user:   $ha_username" \
       "UID/GID:   $DEFAULT_UID/$DEFAULT_GID" \
-      "Cred file: $CREDENTIALS_FILE" \
+      "NUC cred:  $NUC_CREDENTIALS_FILE" \
+      "HA cred:   $HA_CREDENTIALS_FILE" \
       "Fstab:     $FSTAB_FILE"
 
     echo
@@ -85,8 +93,9 @@ confirm_or_exit() {
 }
 
 write_credentials() {
-  local username="$1"
-  local password="$2"
+  local credentials_file="$1"
+  local username="$2"
+  local password="$3"
   local tmp
 
   tmp=$(mktemp)
@@ -97,27 +106,26 @@ username=$username
 password=$password
 EOF_CRED
 
-  sudo install -D -m 600 "$tmp" "$CREDENTIALS_FILE"
+  sudo install -D -m 600 "$tmp" "$credentials_file"
   rm -f "$tmp"
 }
 
 create_mount_dirs() {
-  local entry mountpoint
+  local entry share mountpoint credentials_file
 
   for entry in "${SHARES[@]}"; do
-    mountpoint="${entry#*|}"
+    IFS='|' read -r share mountpoint credentials_file <<<"$entry"
     sudo mkdir -p "$mountpoint"
   done
 }
 
 render_fstab_block() {
-  local entry share mountpoint
+  local entry share mountpoint credentials_file
 
   echo "$BEGIN_MARKER"
   for entry in "${SHARES[@]}"; do
-    share="${entry%%|*}"
-    mountpoint="${entry#*|}"
-    echo "$share $mountpoint cifs credentials=$CREDENTIALS_FILE,uid=$DEFAULT_UID,gid=$DEFAULT_GID,file_mode=0755,dir_mode=0755,nofail,x-systemd.automount 0 0"
+    IFS='|' read -r share mountpoint credentials_file <<<"$entry"
+    echo "$share $mountpoint cifs credentials=$credentials_file,uid=$DEFAULT_UID,gid=$DEFAULT_GID,file_mode=0755,dir_mode=0755,nofail,x-systemd.automount 0 0"
   done
   echo "$END_MARKER"
 }
@@ -136,11 +144,13 @@ update_fstab() {
     awk -v begin="$BEGIN_MARKER" -v end="$END_MARKER" -v block_file="$tmp_block" '
       BEGIN {
         while ((getline line < block_file) > 0) {
-          block = block line "\\n"
+          block[++block_count] = line
         }
       }
       $0 == begin {
-        printf "%s", block
+        for (i = 1; i <= block_count; i++) {
+          print block[i]
+        }
         in_block = 1
         next
       }
@@ -180,31 +190,45 @@ main() {
   install_deps
   sudo -v
 
-  local default_user username password
+  local default_user nuc_username nuc_password ha_username ha_password
   default_user="$USER"
 
-  username="$(prompt_user "$default_user")"
-  if [ -z "$username" ]; then
-    echo "❌ Username is required."
+  nuc_username="$(prompt_user "$default_user" "NUC Samba username")"
+  if [ -z "$nuc_username" ]; then
+    echo "❌ NUC username is required."
     exit 1
   fi
 
-  password="$(prompt_password)"
-  if [ -z "$password" ]; then
-    echo "❌ Password is required."
+  nuc_password="$(prompt_password "NUC Samba password")"
+  if [ -z "$nuc_password" ]; then
+    echo "❌ NUC password is required."
     exit 1
   fi
 
-  confirm_or_exit "$username"
+  ha_username="$(prompt_user "$default_user" "Home Assistant Samba username")"
+  if [ -z "$ha_username" ]; then
+    echo "❌ Home Assistant username is required."
+    exit 1
+  fi
 
-  write_credentials "$username" "$password"
+  ha_password="$(prompt_password "Home Assistant Samba password")"
+  if [ -z "$ha_password" ]; then
+    echo "❌ Home Assistant password is required."
+    exit 1
+  fi
+
+  confirm_or_exit "$nuc_username" "$ha_username"
+
+  write_credentials "$NUC_CREDENTIALS_FILE" "$nuc_username" "$nuc_password"
+  write_credentials "$HA_CREDENTIALS_FILE" "$ha_username" "$ha_password"
   create_mount_dirs
   update_fstab
   validate_mounts
 
   echo
   echo "✅ Samba client setup complete."
-  echo "   Credentials: $CREDENTIALS_FILE"
+  echo "   NUC credentials: $NUC_CREDENTIALS_FILE"
+  echo "   Home Assistant credentials: $HA_CREDENTIALS_FILE"
   echo "   Shares added in /etc/fstab between:"
   echo "   $BEGIN_MARKER"
   echo "   $END_MARKER"
