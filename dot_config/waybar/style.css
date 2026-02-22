@@ -21,23 +21,25 @@ window#waybar > box {
 .modules-left,
 .modules-center,
 .modules-right {
+  padding-top: 2px;
+  padding-bottom: 2px;
   border-bottom-style: solid;
-  border-width: 1px;
-  border-color: alpha(@foreground, 0.2);
+  border-width: 0px;
+  border-color: alpha(@foreground, 0.5);
 }
 
 .modules-left {
   padding-right: 10px;
   background: @island;
-  border-bottom-right-radius: 10px;
+  border-bottom-right-radius: 12px;
   border-right-style: solid;
 }
 
 .modules-center {
-  padding: 0 10px;
+  padding: 0 8px;
   background: @island;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
   border-left-style: solid;
   border-right-style: solid;
 }
@@ -46,7 +48,7 @@ window#waybar > box {
   padding-left: 10px;
   padding-right: 0;
   background: @island;
-  border-bottom-left-radius: 10px;
+  border-bottom-left-radius: 12px;
   border-left-style: solid;
 }
 
