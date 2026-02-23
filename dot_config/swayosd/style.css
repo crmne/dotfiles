@@ -3,13 +3,14 @@
 window {
   opacity: 0.97;
   border: 2px solid @border-color;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+  margin: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 
   background-color: @background-color;
 }
 
 label {
-  font-family: 'Inter';
+  font-family: 'JetBrainsMono Nerd Font';
   font-size: 11pt;
 
   color: @label;

@@ -75,7 +75,7 @@
       "serial": "0x01010101",
       "width": 3840,
       "height": 2160,
-      "refresh_rate": 119.88,
+      "refresh_rate": 60.0,
       "resolution_mode": "explicit",
       "available_modes": [
         "3840x2160@60.00Hz",
@@ -121,7 +121,7 @@
       "scale": 1.0,
       "scale_mode": "explicit",
       "transform": 0,
-      "mirror_of": "DP-1",
+      "mirror_of": "DP-2",
       "bitdepth": 8,
       "vrr": 1,
       "color_management": "",
