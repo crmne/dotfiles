@@ -178,6 +178,7 @@ window#waybar.empty #window {
 }
 
 #disk {
+  padding-right: 6px;
   font-size: 10px;
   letter-spacing: 0.3px;
 }
@@ -195,7 +196,7 @@ window#waybar.empty #window {
 }
 
 #cpu {
-  padding-right: 6px;
+  padding-right: 15px;
   font-size: 10px;
   letter-spacing: 0.3px;
 }
