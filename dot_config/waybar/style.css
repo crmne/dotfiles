@@ -98,6 +98,13 @@ window#waybar.empty #window.title {
   min-width: 0;
 }
 
+#window.icon.empty,
+#window.title.empty {
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
 #clock.date,
 #clock.time,
 #custom-update,
@@ -134,13 +141,13 @@ window#waybar.empty #window.title {
 
 #mpris {
   padding: 0 10px 0 6px;
-  margin: 0;
+  margin: 0 4px 0 0;
 }
 
 #mpris.playing,
 #mpris.paused {
   padding: 2px 10px 2px 6px;
-  margin: 0;
+  margin: 0 4px 0 0;
   min-width: 12px;
 }
 

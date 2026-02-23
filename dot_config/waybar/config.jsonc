@@ -267,7 +267,7 @@
   "hyprland/window#icon": {
     "format": "{class}",
     "format-empty": "",
-    "min-length": 2,
+    "min-length": 0,
     "max-length": 2,
     "rewrite": {
       "^[Aa]lacritty.*$": "",
