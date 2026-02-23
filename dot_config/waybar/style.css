@@ -202,6 +202,12 @@ window#waybar.empty #window.title {
   letter-spacing: 0.3px;
 }
 
+#cpu,
+#disk {
+  padding-top: 0;
+  padding-bottom: 1px;
+}
+
 #cpu.warning {
   color: #e0b04a;
 }
