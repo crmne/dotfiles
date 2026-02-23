@@ -1,0 +1,267 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DEBUG_LOG="${HOME}/.cache/cider-open-or-focus.log"
+FAST_RETRIES=6
+NORMAL_RETRIES=15
+START_RETRIES=30
+
+debug() {
+  if [[ "${CIDER_FOCUS_DEBUG:-0}" == "1" ]]; then
+    mkdir -p "$(dirname "${DEBUG_LOG}")"
+    printf '[%s] %s\n' "$(date +'%F %T')" "$*" >> "${DEBUG_LOG}"
+  fi
+}
+
+find_cider_window() {
+  local pid_pattern
+  pid_pattern="$(
+    pgrep -f '(/usr/lib/cider/Cider|(^|/| )cider($| ))' 2>/dev/null \
+      | paste -sd'|' - \
+      || true
+  )"
+
+  hyprctl clients -j \
+    | jq -r --arg pid_pattern "${pid_pattern}" '
+      .[]
+      | select(
+          (.class | test("\\bcider\\b"; "i"))
+          or (.initialClass | test("\\bcider\\b"; "i"))
+          or (.title | test("\\bcider\\b"; "i"))
+          or (.initialTitle | test("\\bcider\\b"; "i"))
+          or (
+            ($pid_pattern | length) > 0
+            and ((.pid | tostring) | test("^(" + $pid_pattern + ")$"))
+          )
+        )
+      | .address
+    ' \
+    | head -n1
+}
+
+focus_cider_window() {
+  local address
+  address="$(find_cider_window)"
+  if [[ -z "${address}" ]]; then
+    debug "focus_cider_window: no address found"
+    return 1
+  fi
+
+  if hyprctl dispatch focuswindow "address:${address}" >/dev/null 2>&1; then
+    debug "focus_cider_window: focused ${address}"
+    return 0
+  fi
+
+  debug "focus_cider_window: failed to focus ${address}"
+  return 1
+}
+
+wait_and_focus() {
+  local retries="${1:-${NORMAL_RETRIES}}"
+  for ((i = 0; i < retries; i++)); do
+    sleep 0.1
+    if focus_cider_window; then
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+launch_bg() {
+  setsid "$@" >/dev/null 2>&1 < /dev/null &
+}
+
+cider_running() {
+  pgrep -f '(/usr/lib/cider/Cider|(^|/| )cider($| ))' >/dev/null 2>&1
+}
+
+activate_cider_mpris_raise() {
+  ensure_dbus_env
+
+  if command -v gdbus >/dev/null 2>&1; then
+    gdbus call --session \
+      --dest org.mpris.MediaPlayer2.cider \
+      --object-path /org/mpris/MediaPlayer2 \
+      --method org.mpris.MediaPlayer2.Raise >/dev/null 2>&1 && {
+      debug "activate_cider_mpris_raise: gdbus Raise ok"
+      return 0
+    }
+  fi
+
+  if command -v dbus-send >/dev/null 2>&1; then
+    dbus-send --session \
+      --dest=org.mpris.MediaPlayer2.cider \
+      /org/mpris/MediaPlayer2 \
+      org.mpris.MediaPlayer2.Raise >/dev/null 2>&1 && {
+      debug "activate_cider_mpris_raise: dbus-send Raise ok"
+      return 0
+    }
+  fi
+
+  debug "activate_cider_mpris_raise: failed"
+  return 1
+}
+
+ensure_dbus_env() {
+  if [[ -z "${DBUS_SESSION_BUS_ADDRESS:-}" ]]; then
+    export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
+    debug "ensure_dbus_env: set DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS}"
+  fi
+}
+
+dbus_has_status_notifier() {
+  ensure_dbus_env
+  gdbus call --session \
+    --dest org.kde.StatusNotifierWatcher \
+    --object-path /StatusNotifierWatcher \
+    --method org.freedesktop.DBus.Properties.Get \
+    org.kde.StatusNotifierWatcher RegisteredStatusNotifierItems \
+    >/dev/null 2>&1
+}
+
+activate_cider_tray_item() {
+  local items service path id title cider_owner service_pid cider_pids
+
+  if ! command -v gdbus >/dev/null 2>&1; then
+    return 1
+  fi
+
+  if ! dbus_has_status_notifier; then
+    debug "activate_cider_tray_item: no StatusNotifierWatcher"
+    return 1
+  fi
+
+  items="$(
+    gdbus call --session \
+      --dest org.kde.StatusNotifierWatcher \
+      --object-path /StatusNotifierWatcher \
+      --method org.freedesktop.DBus.Properties.Get \
+      org.kde.StatusNotifierWatcher RegisteredStatusNotifierItems 2>/dev/null \
+      | grep -oE "'[^']+'" \
+      | tr -d "'"
+  )"
+
+  if [[ -z "${items}" ]]; then
+    debug "activate_cider_tray_item: no tray items"
+    return 1
+  fi
+
+  cider_owner="$(
+    gdbus call --session \
+      --dest org.freedesktop.DBus \
+      --object-path /org/freedesktop/DBus \
+      --method org.freedesktop.DBus.GetNameOwner org.mpris.MediaPlayer2.cider 2>/dev/null \
+      | grep -oE ":[0-9]+\\.[0-9]+" \
+      | head -n1 \
+      || true
+  )"
+  debug "activate_cider_tray_item: cider_owner=${cider_owner}"
+  cider_pids="$(
+    pgrep -f '(/usr/lib/cider/Cider|(^|/| )cider($| ))' 2>/dev/null \
+      | paste -sd'|' - \
+      || true
+  )"
+  debug "activate_cider_tray_item: cider_pids=${cider_pids}"
+
+  while IFS= read -r item; do
+    [[ -z "${item}" ]] && continue
+
+    if [[ "${item}" == */* ]]; then
+      service="${item%%/*}"
+      path="/${item#*/}"
+    else
+      service="${item}"
+      path="/StatusNotifierItem"
+    fi
+
+    id="$(
+      gdbus call --session \
+        --dest "${service}" \
+        --object-path "${path}" \
+        --method org.freedesktop.DBus.Properties.Get \
+        org.kde.StatusNotifierItem Id 2>/dev/null \
+        | tr '[:upper:]' '[:lower:]'
+    )"
+    title="$(
+      gdbus call --session \
+        --dest "${service}" \
+        --object-path "${path}" \
+        --method org.freedesktop.DBus.Properties.Get \
+        org.kde.StatusNotifierItem Title 2>/dev/null \
+        | tr '[:upper:]' '[:lower:]'
+    )"
+    service_pid="$(
+      gdbus call --session \
+        --dest org.freedesktop.DBus \
+        --object-path /org/freedesktop/DBus \
+        --method org.freedesktop.DBus.GetConnectionUnixProcessID "${service}" 2>/dev/null \
+        | sed -nE "s/^\\(uint32 ([0-9]+),\\)$/\\1/p" \
+        || true
+    )"
+
+    debug "activate_cider_tray_item: candidate service=${service} pid=${service_pid} path=${path} id=${id} title=${title}"
+
+    if [[ -n "${cider_owner}" && "${service}" == "${cider_owner}" ]] \
+      || [[ -n "${service_pid}" && -n "${cider_pids}" && "${service_pid}" =~ ^(${cider_pids})$ ]] \
+      || [[ "${service,,}" =~ cider ]] \
+      || [[ "${id}" =~ cider ]] \
+      || [[ "${title}" =~ cider ]]; then
+      debug "activate_cider_tray_item: matched service=${service} path=${path}"
+      gdbus call --session \
+        --dest "${service}" \
+        --object-path "${path}" \
+        --method org.kde.StatusNotifierItem.Activate 0 0 >/dev/null 2>&1 \
+        || gdbus call --session \
+          --dest "${service}" \
+          --object-path "${path}" \
+          --method org.freedesktop.StatusNotifierItem.Activate 0 0 >/dev/null 2>&1 \
+        || true
+      debug "activate_cider_tray_item: activate attempted"
+      return 0
+    fi
+  done <<< "${items}"
+
+  debug "activate_cider_tray_item: no cider tray item match"
+  return 1
+}
+
+# 1) Fast path: existing mapped window.
+if focus_cider_window; then
+  exit 0
+fi
+
+# 2) If running in tray/background, trigger show using protocol/deep-link paths.
+if cider_running; then
+  debug "main: cider running"
+  if activate_cider_mpris_raise; then
+    if wait_and_focus "${FAST_RETRIES}"; then
+      exit 0
+    fi
+  fi
+
+  if activate_cider_tray_item; then
+    if wait_and_focus "${FAST_RETRIES}"; then
+      exit 0
+    fi
+  fi
+
+  launch_bg xdg-open "cider://"
+  debug "main: launched xdg-open cider://"
+  if wait_and_focus "${NORMAL_RETRIES}"; then
+    exit 0
+  fi
+
+  launch_bg cider
+  debug "main: launched cider"
+  if wait_and_focus "${NORMAL_RETRIES}"; then
+    exit 0
+  fi
+fi
+
+# 3) Not running (or wake failed): start Cider and wait for first window.
+debug "main: starting uwsm-app -- cider"
+launch_bg uwsm-app -- cider
+wait_and_focus "${START_RETRIES}" && exit 0
+
+exit 1

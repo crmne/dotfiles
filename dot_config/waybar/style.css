@@ -48,7 +48,7 @@ window#waybar > box {
 
 .modules-right {
   padding-left: 10px;
-  padding-right: 0;
+  padding-right: 10px;
   background: @island;
   border-bottom-left-radius: 12px;
   border-left-style: solid;
@@ -78,14 +78,21 @@ window#waybar > box {
   color: @background;
 }
 
-#window {
+#window.icon {
   padding: 0;
-  padding-right: 6px;
   margin-left: 10px;
+  min-width: 2em;
   opacity: 0.9;
 }
 
-window#waybar.empty #window {
+#window.title {
+  padding: 0 6px 0 0;
+  margin: 0;
+  opacity: 0.9;
+}
+
+window#waybar.empty #window.icon,
+window#waybar.empty #window.title {
   padding: 0;
   margin: 0;
   min-width: 0;
@@ -114,10 +121,9 @@ window#waybar.empty #window {
   padding: 1px 10px 1px 8px;
 }
 
-#group-tray-expander,
 #bluetooth,
+#network,
 #pulseaudio,
-#network.speed,
 #disk,
 #cpu,
 #battery {
@@ -163,40 +169,28 @@ window#waybar.empty #window {
   padding: 0;
 }
 
-#bluetooth {
-  padding: 1px 5px;
-}
-
 #mpris.paused {
   color: alpha(@foreground, 0.5);
 }
 
-#network {
-  padding: 1px 6px;
-  margin: 0;
-  min-width: 12px;
-}
-
 #disk {
-  padding-right: 6px;
   font-size: 10px;
   letter-spacing: 0.3px;
 }
 
 
-#custom-expand-icon,
-#tray {
-  padding: 0 6px;
-  padding-right: 8px;
+#custom-expand-icon {
+  padding: 2px 10px 2px 8px;
+  margin: 0;
   min-width: 12px;
 }
 
-#group-tray-expander {
-  padding-left: 6px;
+#tray {
+  padding: 2px 16px 2px 2px;
+  margin: 0;
 }
 
 #cpu {
-  padding-right: 15px;
   font-size: 10px;
   letter-spacing: 0.3px;
 }
@@ -207,11 +201,6 @@ window#waybar.empty #window {
 
 #cpu.critical {
   color: #e26a6a;
-}
-
-#battery {
-  padding-left: 6px;
-  padding-right: 10px;
 }
 
 #cpu,
@@ -231,6 +220,12 @@ tooltip {
   color: @foreground;
   border-radius: 6px;
   border: 1px solid alpha(@foreground, 0.2);
+}
+
+tooltip * {
+  font-weight: 500;
+  text-shadow: none;
+  -gtk-icon-shadow: none;
 }
 
 menu {
