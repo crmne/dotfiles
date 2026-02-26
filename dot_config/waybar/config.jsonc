@@ -240,7 +240,8 @@
       "paused": "󰏤"
     },
     "title-len": 32,
-    "max-length": 64
+    "max-length": 64,
+    "on-click": "cider-open-or-focus"
   },
   "mpris#prev": {
     "format": "󰒮",
@@ -275,7 +276,7 @@
     "size": 16,
     "interval": 2,
     "tooltip": false,
-    "on-click": "playerctl play-pause",
+    "on-click": "cider-open-or-focus",
     "on-click-middle": "playerctl previous",
     "on-click-right": "playerctl next"
   },
