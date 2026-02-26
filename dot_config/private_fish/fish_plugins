@@ -1,4 +1,5 @@
 jorgebucaran/fisher
 patrickf1/fzf.fish
-crmne/omafish
 halostatue/fish-direnv@v1
+crmne/omafish
+crmne/good-git-abbr.fish

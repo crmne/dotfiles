@@ -109,7 +109,9 @@ window#waybar.empty #window.title {
 #clock.time,
 #custom-update,
 #custom-voxtype,
-#custom-screenrecording-indicator {
+#custom-screenrecording-indicator,
+#custom-idle-indicator,
+#custom-notification-silencing-indicator {
   padding: 1px 4px;
   margin: 0;
 }
@@ -122,10 +124,6 @@ window#waybar.empty #window.title {
 
 #clock.time {
   padding: 1px 8px 1px 6px;
-}
-
-#custom-screenrecording-indicator {
-  padding: 1px 10px 1px 8px;
 }
 
 #bluetooth,
@@ -222,6 +220,8 @@ window#waybar.empty #window.title {
 #idle_inhibitor,
 #custom-omarchy,
 #custom-screenrecording-indicator,
+#custom-idle-indicator,
+#custom-notification-silencing-indicator,
 #custom-update,
 #custom-voxtype {
   min-width: 12px;
@@ -268,14 +268,15 @@ menuitem:hover {
   opacity: 0;
 }
 
-#custom-screenrecording-indicator {
-  font-size: 10px;
-}
-
 #custom-screenrecording-indicator.active {
   color: #a55555;
 }
 
 #custom-voxtype.recording {
+  color: #a55555;
+}
+
+#custom-idle-indicator.active,
+#custom-notification-silencing-indicator.active {
   color: #a55555;
 }

@@ -1,6 +1,17 @@
 if status is-interactive
-    mise activate fish | source
-    zoxide init fish | source
-    starship init fish | source
-    direnv hook fish | source
+    if command -q mise
+        mise activate fish | source
+    end
+
+    if command -q starship
+        starship init fish | source
+    end
+
+    if command -q zoxide
+        zoxide init fish | source
+    end
+
+    if command -q try
+        try init ~/Work/tries | source
+    end
 end

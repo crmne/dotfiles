@@ -38,3 +38,6 @@ replacements = { "hyperwhisper" = "hyprwhspr" }
 
 [status]
 icon_theme = "omarchy"
+
+[parakeet]
+model = "parakeet-tdt-0.6b-v3-int8"
