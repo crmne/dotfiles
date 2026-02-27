@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Returns true if any battery is currently discharging.
+
+for bat in /sys/class/power_supply/BAT*; do
+  [[ -r $bat/type ]] &&
+  [[ -r $bat/status ]] &&
+  [[ $(cat $bat/type) == "Battery" ]] &&
+  [[ $(cat $bat/status) == "Discharging" ]] &&
+  exit 0
+done
+
+exit 1

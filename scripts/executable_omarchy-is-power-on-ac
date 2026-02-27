@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Returns true if the system is currently on external power.
+# Systems without batteries are treated as always on AC.
+
+for bat in /sys/class/power_supply/BAT*; do
+  [[ -r $bat/type ]] || continue
+  [[ -r $bat/status ]] || continue
+  [[ $(cat $bat/type) == "Battery" ]] || continue
+  [[ $(cat $bat/status) == "Discharging" ]] && exit 1
+done
+
+exit 0
