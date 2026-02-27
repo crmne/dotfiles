@@ -1,0 +1,405 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+export PATH="$HOME/.local/share/omarchy/bin:$PATH"
+
+WALLPAPER_DIR="$HOME/Wallpapers"
+UNSPLASH_TOPIC_API_BASE="https://unsplash.com/napi/topics/wallpapers/photos"
+UNSPLASH_PER_PAGE=30
+UNSPLASH_PAGE_MAX=50
+UNSPLASH_PAGE_SAMPLES=5
+UNSPLASH_CANDIDATES=10
+USER_AGENT="Mozilla/5.0 (X11; Linux x86_64) omarchy-random-unsplash-wallpaper/1.0"
+ELEPHANT_MENU_DIR="$HOME/.config/elephant/menus"
+CACHE_DIR="$HOME/.cache/omarchy-random-unsplash-wallpaper"
+MODE=""
+STATUS_NOTIFY_ID=88941
+
+usage() {
+  cat <<'USAGE'
+Usage: omarchy-random-unsplash-wallpaper [--mode <existing|download>]
+
+Modes:
+  --mode existing      Select one wallpaper from ~/Wallpapers (with previews)
+  --mode download      Pick one from random Unsplash wallpapers (with previews)
+
+Shorthands:
+  -e, --existing       Same as --mode existing
+  -d, --download       Same as --mode download
+USAGE
+}
+
+status_notify() {
+  local title="$1"
+  local body="${2:-}"
+  if command -v notify-send >/dev/null 2>&1; then
+    notify-send -r "$STATUS_NOTIFY_ID" "$title" "$body" -t 1800
+  fi
+}
+
+menu() {
+  local prompt="$1"
+  local options="$2"
+
+  echo -e "$options" | omarchy-launch-walker --dmenu --width 800 --minheight 1 --maxheight 420 -p "$prompt…" 2>/dev/null
+}
+
+slugify() {
+  echo "$1" \
+    | tr '[:upper:]' '[:lower:]' \
+    | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//' \
+    | cut -c1-48
+}
+
+sanitize_filename() {
+  local s="$1"
+  s="$(clean_text "$s")"
+  s="${s//\//-}"
+  s="${s//:/ -}"
+  s="$(echo "$s" | sed -E 's/[<>\"\\|?*]+//g; s/ +/ /g; s/^ +//; s/ +$//')"
+  s="${s#.}"
+  s="${s%\.}"
+  if [[ -z "$s" ]]; then
+    s="Wallpaper"
+  fi
+  echo "$s" | cut -c1-140
+}
+
+unique_output_path() {
+  local dir="$1"
+  local base="$2"
+  local ext="$3"
+  local candidate="$dir/$base.$ext"
+  local n=2
+
+  while [[ -e "$candidate" ]]; do
+    candidate="$dir/$base ($n).$ext"
+    n=$((n + 1))
+  done
+
+  echo "$candidate"
+}
+
+clean_text() {
+  local text="$1"
+  text="${text//$'\n'/ }"
+  text="${text//$'\r'/ }"
+  text="${text//$'\t'/ }"
+  echo "$text" | sed -E 's/ +/ /g; s/^ +//; s/ +$//'
+}
+
+lua_escape() {
+  local s="$1"
+  s="${s//\\/\\\\}"
+  s="${s//\"/\\\"}"
+  echo "$s"
+}
+
+apply_wallpaper() {
+  local image="$1"
+  local current_background_link="$HOME/.config/omarchy/current/background"
+
+  mkdir -p "$WALLPAPER_DIR"
+
+  if command -v omarchy-theme-bg-set >/dev/null 2>&1; then
+    omarchy-theme-bg-set "$image"
+    return 0
+  fi
+
+  ln -nsf "$image" "$current_background_link"
+  pkill -x swaybg >/dev/null 2>&1 || true
+  if command -v uwsm-app >/dev/null 2>&1; then
+    setsid uwsm-app -- swaybg -i "$current_background_link" -m fill >/dev/null 2>&1 &
+  else
+    setsid swaybg -i "$current_background_link" -m fill >/dev/null 2>&1 &
+  fi
+}
+
+apply_existing_path() {
+  local image="$1"
+
+  if [[ ! -f "$image" ]]; then
+    notify-send "Wallpaper missing" "$image" -u critical -t 3000
+    exit 1
+  fi
+
+  apply_wallpaper "$image"
+  notify-send "Wallpaper updated" "$(basename "$image")" -t 2200
+}
+
+apply_unsplash_id() {
+  local id="$1"
+  local title="$2"
+  local author="$3"
+  local nice_name=""
+  local safe_name=""
+  local output_file=""
+  local full_url=""
+
+  mkdir -p "$WALLPAPER_DIR"
+  nice_name="$title"
+  if [[ -n "$author" && "$author" != "Unknown" ]]; then
+    nice_name="$nice_name - $author"
+  fi
+  safe_name="$(sanitize_filename "$nice_name")"
+  output_file="$(unique_output_path "$WALLPAPER_DIR" "$safe_name" "jpg")"
+  full_url="https://unsplash.com/photos/${id}/download?force=true&w=3840&h=2160&fit=crop&crop=entropy"
+
+  if ! curl -fL -A "$USER_AGENT" "$full_url" -o "$output_file"; then
+    notify-send "Download failed" "Unsplash returned an error for selected image." -u critical -t 3500
+    exit 1
+  fi
+
+  apply_wallpaper "$output_file"
+  notify-send "New wallpaper downloaded" "${title} — ${author}" -t 2600
+}
+
+build_existing_provider() {
+  local provider_file="$ELEPHANT_MENU_DIR/omarchy_random_unsplash_existing.lua"
+  local -a files=()
+
+  mkdir -p "$ELEPHANT_MENU_DIR"
+  mapfile -d '' -t files < <(
+    find -L "$WALLPAPER_DIR" -maxdepth 1 -type f \
+      \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.gif' -o -iname '*.bmp' -o -iname '*.webp' \) \
+      -print0 2>/dev/null | sort -z
+  )
+
+  if (( ${#files[@]} == 0 )); then
+    notify-send "No wallpapers found" "Put files in ~/Wallpapers first." -t 2500
+    return 1
+  fi
+
+  cat > "$provider_file" <<'LUA'
+Name = "omarchyRandomUnsplashExisting"
+NamePretty = "Downloaded Wallpapers"
+Cache = false
+HideFromProviderlist = true
+SearchName = true
+
+local function ShellEscape(s)
+  return "'" .. s:gsub("'", "'\\''") .. "'"
+end
+
+function GetEntries()
+  local entries = {}
+LUA
+
+  local file base text escaped_file escaped_text
+  for file in "${files[@]}"; do
+    base="$(basename "$file")"
+    text="$(clean_text "$base")"
+    escaped_file="$(lua_escape "$file")"
+    escaped_text="$(lua_escape "$text")"
+
+    cat >> "$provider_file" <<LUA
+  table.insert(entries, {
+    Text = "$escaped_text",
+    Value = "$escaped_file",
+    Actions = {
+      activate = "omarchy-random-unsplash-wallpaper --apply-existing " .. ShellEscape("$escaped_file"),
+    },
+    Preview = "$escaped_file",
+    PreviewType = "file",
+  })
+LUA
+  done
+
+  cat >> "$provider_file" <<'LUA'
+  return entries
+end
+LUA
+
+  return 0
+}
+
+unsplash_candidates_json() {
+  local -a pages=()
+  local page=""
+
+  mapfile -t pages < <(shuf -i "1-${UNSPLASH_PAGE_MAX}" -n "${UNSPLASH_PAGE_SAMPLES}")
+
+  for page in "${pages[@]}"; do
+    curl -fsSL -A "$USER_AGENT" \
+      "${UNSPLASH_TOPIC_API_BASE}?per_page=${UNSPLASH_PER_PAGE}&page=${page}&orientation=landscape" \
+      | jq -rc '.[] | {
+          id: .id,
+          title: (.description // .alt_description // "Untitled wallpaper"),
+          author: (.user.name // "Unknown"),
+          preview: (.urls.small // .urls.regular // "")
+        }'
+  done | awk '!seen[$0]++'
+}
+
+build_unsplash_provider() {
+  local provider_file="$ELEPHANT_MENU_DIR/omarchy_random_unsplash_download.lua"
+  local preview_dir="$CACHE_DIR/previews"
+  local -a candidates=()
+  local -a ids=()
+  local -a titles=()
+  local -a authors=()
+  local -a preview_urls=()
+  local -a preview_files=()
+  local -a pids=()
+  local i=""
+  local candidate=""
+  local id=""
+  local title=""
+  local author=""
+  local preview_url=""
+  local preview_file=""
+  local escaped_preview_file=""
+  local escaped_title=""
+  local escaped_id=""
+  local escaped_author=""
+
+  mkdir -p "$ELEPHANT_MENU_DIR" "$preview_dir"
+
+  status_notify "Unsplash wallpapers" "Fetching random candidates..."
+  mapfile -t candidates < <(unsplash_candidates_json | shuf -n "${UNSPLASH_CANDIDATES}")
+  if (( ${#candidates[@]} == 0 )); then
+    notify-send "Unsplash fetch failed" "Could not fetch candidate wallpapers." -u critical -t 3000
+    return 1
+  fi
+
+  cat > "$provider_file" <<'LUA'
+Name = "omarchyRandomUnsplashDownload"
+NamePretty = "Unsplash Wallpapers"
+Cache = false
+HideFromProviderlist = true
+SearchName = true
+
+local function ShellEscape(s)
+  return "'" .. s:gsub("'", "'\\''") .. "'"
+end
+
+function GetEntries()
+  local entries = {}
+LUA
+
+  for candidate in "${candidates[@]}"; do
+    id="$(echo "$candidate" | jq -r '.id')"
+    title="$(clean_text "$(echo "$candidate" | jq -r '.title')")"
+    author="$(clean_text "$(echo "$candidate" | jq -r '.author')")"
+    preview_url="$(echo "$candidate" | jq -r '.preview')"
+
+    [[ -z "$id" || "$id" == "null" ]] && continue
+
+    ids+=("$id")
+    titles+=("$title")
+    authors+=("$author")
+    preview_urls+=("$preview_url")
+    preview_files+=("$preview_dir/${id}.jpg")
+  done
+
+  # Fetch previews in parallel so Walker opens with thumbnails ready.
+  status_notify "Unsplash wallpapers" "Downloading previews..."
+  for i in "${!ids[@]}"; do
+    if [[ -n "${preview_urls[$i]}" && "${preview_urls[$i]}" != "null" ]]; then
+      curl -fsSL -A "$USER_AGENT" "${preview_urls[$i]}" -o "${preview_files[$i]}" >/dev/null 2>&1 &
+      pids+=("$!")
+    fi
+  done
+
+  for pid in "${pids[@]}"; do
+    wait "$pid" || true
+  done
+
+  for i in "${!ids[@]}"; do
+    escaped_preview_file="$(lua_escape "${preview_files[$i]}")"
+    escaped_title="$(lua_escape "${titles[$i]}")"
+    escaped_id="$(lua_escape "${ids[$i]}")"
+    escaped_author="$(lua_escape "${authors[$i]}")"
+
+    cat >> "$provider_file" <<LUA
+  table.insert(entries, {
+    Text = "$escaped_title — $escaped_author",
+    Value = "$escaped_id",
+    Actions = {
+      activate = "omarchy-random-unsplash-wallpaper --apply-unsplash " .. ShellEscape("$escaped_id") .. " " .. ShellEscape("$escaped_title") .. " " .. ShellEscape("$escaped_author"),
+    },
+    Preview = "$escaped_preview_file",
+    PreviewType = "file",
+  })
+LUA
+  done
+
+  cat >> "$provider_file" <<'LUA'
+  return entries
+end
+LUA
+
+  return 0
+}
+
+show_existing_selector() {
+  if ! build_existing_provider; then
+    return 1
+  fi
+  pkill -x elephant >/dev/null 2>&1 || true
+  omarchy-launch-walker -m menus:omarchyRandomUnsplashExisting --width 900 --minheight 420
+}
+
+show_unsplash_selector() {
+  if ! build_unsplash_provider; then
+    return 1
+  fi
+  pkill -x elephant >/dev/null 2>&1 || true
+  omarchy-launch-walker -m menus:omarchyRandomUnsplashDownload --width 900 --minheight 420
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --mode)
+      [[ $# -lt 2 ]] && { echo "Missing value for --mode"; usage; exit 1; }
+      MODE="$2"
+      shift 2
+      ;;
+    --existing|-e)
+      MODE="existing"
+      shift
+      ;;
+    --download|-d)
+      MODE="download"
+      shift
+      ;;
+    --apply-existing)
+      [[ $# -lt 2 ]] && { echo "Missing path for --apply-existing"; exit 1; }
+      apply_existing_path "$2"
+      exit 0
+      ;;
+    --apply-unsplash)
+      [[ $# -lt 4 ]] && { echo "Usage: --apply-unsplash <id> <title> <author>"; exit 1; }
+      apply_unsplash_id "$2" "$3" "$4"
+      exit 0
+      ;;
+    --help|-h)
+      usage
+      exit 0
+      ;;
+    *)
+      echo "Unknown option: $1"
+      usage
+      exit 1
+      ;;
+  esac
+done
+
+if [[ -z "$MODE" ]]; then
+  case "$(menu "Wallpaper Workflow" "󰉔  Pick from downloaded wallpapers\n󰇚  Get a new random wallpaper from Unsplash")" in
+    *"Pick from downloaded"*) MODE="existing" ;;
+    *"Get a new random"*) MODE="download" ;;
+    *) exit 0 ;;
+  esac
+fi
+
+case "$MODE" in
+  existing) show_existing_selector ;;
+  download) show_unsplash_selector ;;
+  *)
+    echo "Invalid mode: $MODE"
+    usage
+    exit 1
+    ;;
+esac
