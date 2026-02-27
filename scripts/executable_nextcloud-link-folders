@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 
 set -l nextcloud_dir "$HOME/Nextcloud"
-set -l link_names Documents Obsidian Pictures Videos
+set -l link_names Documents Obsidian Pictures Videos Wallpapers
 
 for name in $link_names
     ln -sfn "$nextcloud_dir/$name" "$HOME/$name"
