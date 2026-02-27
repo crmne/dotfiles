@@ -13,6 +13,7 @@
   "modules-center": [
     "clock#date",
     "clock#time",
+    "custom/caffeinate",
     "custom/update",
     "custom/voxtype",
     "custom/screenrecording-indicator",
@@ -72,6 +73,13 @@
     "tooltip-format": "Omarchy update available",
     "signal": 7,
     "interval": 21600
+  },
+  "custom/caffeinate": {
+    "exec": "/home/carmine/scripts/omarchy-caffeinate waybar",
+    "on-click": "/home/carmine/scripts/omarchy-caffeinate toggle",
+    "signal": 11,
+    "interval": 10,
+    "return-type": "json"
   },
   "idle_inhibitor": {
       "format": "{icon}",

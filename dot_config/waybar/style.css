@@ -111,9 +111,14 @@ window#waybar.empty #window.title {
 #custom-voxtype,
 #custom-screenrecording-indicator,
 #custom-idle-indicator,
-#custom-notification-silencing-indicator {
+#custom-notification-silencing-indicator,
+#custom-caffeinate {
   padding: 1px 4px;
   margin: 0;
+}
+
+#custom-caffeinate {
+  margin-right: 6px;
 }
 
 #clock.date {
@@ -223,7 +228,8 @@ window#waybar.empty #window.title {
 #custom-idle-indicator,
 #custom-notification-silencing-indicator,
 #custom-update,
-#custom-voxtype {
+#custom-voxtype,
+#custom-caffeinate {
   min-width: 12px;
 }
 

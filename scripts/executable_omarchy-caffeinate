@@ -1,0 +1,128 @@
+#!/bin/bash
+set -u
+
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/omarchy/toggles"
+PID_FILE="$STATE_DIR/caffeinate.pid"
+WHY_TEXT="Prevent sleep while caffeinate is active"
+WHO_TEXT="omarchy-caffeinate"
+WAYBAR_SIGNAL=11
+
+mkdir -p "$STATE_DIR"
+
+is_active() {
+  [[ -f "$PID_FILE" ]] || return 1
+  local pid
+  pid="$(cat "$PID_FILE" 2>/dev/null)" || return 1
+  [[ "$pid" =~ ^[0-9]+$ ]] || return 1
+  kill -0 "$pid" 2>/dev/null || return 1
+  local cmdline
+  cmdline="$(tr '\0' ' ' < "/proc/$pid/cmdline" 2>/dev/null || true)"
+  [[ "$cmdline" == *"$WHO_TEXT"* && "$cmdline" == *"$WHY_TEXT"* ]]
+}
+
+cleanup_state() {
+  rm -f "$PID_FILE"
+}
+
+start_caffeinate() {
+  local minutes="${1:-}"
+  local sleep_arg="infinity"
+
+  if [[ -n "$minutes" ]]; then
+    if ! [[ "$minutes" =~ ^[0-9]+$ ]] || [[ "$minutes" -le 0 ]]; then
+      echo "Usage: caffeinate [on|off|toggle|status|waybar|<minutes>]" >&2
+      return 2
+    fi
+    sleep_arg=$((minutes * 60))
+  fi
+
+  if is_active; then
+    echo "Caffeinate already enabled"
+    return 0
+  fi
+
+  systemd-inhibit \
+    --what=sleep:idle:handle-lid-switch \
+    --who="$WHO_TEXT" \
+    --why="$WHY_TEXT" \
+    sleep "$sleep_arg" >/dev/null 2>&1 &
+
+  local pid
+  pid="$!"
+  echo "$pid" > "$PID_FILE"
+  sleep 0.1
+  if ! kill -0 "$pid" 2>/dev/null; then
+    cleanup_state
+    echo "Failed to enable caffeinate (systemd-inhibit exited immediately)" >&2
+    return 1
+  fi
+
+  pkill -RTMIN+"$WAYBAR_SIGNAL" waybar 2>/dev/null || true
+
+  if [[ -n "$minutes" ]]; then
+    notify-send "    Caffeinate enabled for ${minutes} minutes"
+    echo "Caffeinate enabled for ${minutes} minutes"
+  else
+    notify-send "    Caffeinate enabled"
+    echo "Caffeinate enabled"
+  fi
+}
+
+stop_caffeinate() {
+  if ! is_active; then
+    cleanup_state
+    echo "Caffeinate already disabled"
+    return 0
+  fi
+
+  local pid
+  pid="$(cat "$PID_FILE")"
+  kill "$pid" 2>/dev/null || true
+  cleanup_state
+  pkill -RTMIN+"$WAYBAR_SIGNAL" waybar 2>/dev/null || true
+  notify-send "    Caffeinate disabled"
+  echo "Caffeinate disabled"
+}
+
+print_status() {
+  if is_active; then
+    echo "active"
+  else
+    cleanup_state
+    echo "inactive"
+  fi
+}
+
+print_waybar() {
+  if is_active; then
+    echo '{"text":"","tooltip":"Caffeinate enabled (click to disable)","class":"active"}'
+  else
+    cleanup_state
+    echo '{"text":""}'
+  fi
+}
+
+case "${1:-on}" in
+  off)
+    stop_caffeinate
+    ;;
+  on)
+    start_caffeinate
+    ;;
+  toggle)
+    if is_active; then
+      stop_caffeinate
+    else
+      start_caffeinate
+    fi
+    ;;
+  status)
+    print_status
+    ;;
+  waybar)
+    print_waybar
+    ;;
+  *)
+    start_caffeinate "$1"
+    ;;
+esac
