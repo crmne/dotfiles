@@ -1,0 +1,712 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+export PATH="$HOME/.local/share/omarchy/bin:$PATH"
+
+WALLPAPER_DIR="$HOME/Wallpapers"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+UNSPLASH_SEARCH_API_BASE="https://unsplash.com/napi/search/photos"
+UNSPLASH_PER_PAGE=30
+UNSPLASH_PAGE_MAX=40
+UNSPLASH_PAGE_SAMPLES=4
+WALLHAVEN_API_BASE="https://wallhaven.cc/api/v1/search"
+WALLHAVEN_PAGE_MAX=30
+WALLHAVEN_PAGE_SAMPLES=4
+PEXELS_API_BASE="https://api.pexels.com/v1/search"
+PEXELS_PER_PAGE=40
+PEXELS_PAGE_MAX=20
+PEXELS_PAGE_SAMPLES=3
+CANDIDATE_COUNT=14
+CANDIDATES_PER_SOURCE=10
+USER_AGENT="Mozilla/5.0 (X11; Linux x86_64) omarchy-random-wallpaper/1.0"
+ELEPHANT_MENU_DIR="$HOME/.config/elephant/menus"
+CACHE_DIR="$HOME/.cache/omarchy-random-wallpaper"
+SCRIPT_NAME="$(basename "$0")"
+MODE=""
+DOWNLOAD_SOURCE="mixed"
+STATUS_NOTIFY_ID=88941
+BLOCKED_TERMS_REGEX='(^|[^a-z])(anime|manga|waifu|hentai|ecchi|loli|vocaloid|otaku|kawaii|kemonomimi|doujin|chibi|cosplay|senpai|yandere|tsundere)([^a-z]|$)'
+UNSPLASH_QUERIES=(
+  "wallpaper"
+  "4k"
+  "nature"
+  "city"
+  "architecture"
+  "interior"
+  "street"
+  "space"
+  "ocean"
+  "mountains"
+  "forest"
+  "desert"
+  "macro"
+  "abstract"
+  "gradient"
+  "texture"
+  "technology"
+  "cyberpunk"
+  "retro"
+  "automotive"
+  "night"
+  "sunset"
+  "minimal"
+  "geometric"
+)
+WALLHAVEN_QUERIES=(
+  "wallpaper"
+  "4k"
+  "nature"
+  "city"
+  "architecture"
+  "space"
+  "mountains"
+  "ocean"
+  "forest"
+  "abstract"
+  "texture"
+  "gradient"
+  "cyberpunk"
+  "cars"
+  "night"
+  "sunset"
+  "minimal"
+  "geometric"
+)
+PEXELS_QUERIES=(
+  "wallpaper"
+  "4k"
+  "nature"
+  "city"
+  "architecture"
+  "interior"
+  "street"
+  "space"
+  "ocean"
+  "mountains"
+  "forest"
+  "desert"
+  "macro"
+  "abstract"
+  "texture"
+  "technology"
+  "night"
+  "sunset"
+  "minimal"
+  "geometric"
+)
+
+[[ -f "$SCRIPT_DIR/apikeys" ]] && source "$SCRIPT_DIR/apikeys"
+
+usage() {
+  cat <<'USAGE'
+Usage: omarchy-random-wallpaper [--mode <existing|download>] [--source <mixed|unsplash|wallhaven|pexels>]
+
+Modes:
+  --mode existing      Select one wallpaper from ~/Wallpapers (with previews)
+  --mode download      Pick one from online wallpapers (with previews)
+
+Download source:
+  --source mixed       Interleave Unsplash + Wallhaven (+Pexels if API key exists)
+  --source unsplash    Unsplash only
+  --source wallhaven   Wallhaven only (SFW, general category only)
+  --source pexels      Pexels only (requires PEXELS_API_KEY)
+
+Shorthands:
+  -e, --existing       Same as --mode existing
+  -d, --download       Same as --mode download
+USAGE
+}
+
+status_notify() {
+  local title="$1"
+  local body="${2:-}"
+  if command -v notify-send >/dev/null 2>&1; then
+    notify-send -r "$STATUS_NOTIFY_ID" "$title" "$body" -t 1800
+  fi
+}
+
+menu() {
+  local prompt="$1"
+  local options="$2"
+  echo -e "$options" | omarchy-launch-walker --dmenu --width 800 --minheight 1 --maxheight 420 -p "$prompt…" 2>/dev/null
+}
+
+clean_text() {
+  local text="$1"
+  text="${text//$'\n'/ }"
+  text="${text//$'\r'/ }"
+  text="${text//$'\t'/ }"
+  echo "$text" | sed -E 's/ +/ /g; s/^ +//; s/ +$//'
+}
+
+sanitize_filename() {
+  local s="$1"
+  s="$(clean_text "$s")"
+  s="${s//\//-}"
+  s="${s//:/ -}"
+  s="$(echo "$s" | sed -E 's/[<>"\\|?*]+//g; s/ +/ /g; s/^ +//; s/ +$//')"
+  s="${s#.}"
+  s="${s%\.}"
+  if [[ -z "$s" ]]; then
+    s="Wallpaper"
+  fi
+  echo "$s" | cut -c1-140
+}
+
+unique_output_path() {
+  local dir="$1"
+  local base="$2"
+  local ext="$3"
+  local candidate="$dir/$base.$ext"
+  local n=2
+
+  while [[ -e "$candidate" ]]; do
+    candidate="$dir/$base ($n).$ext"
+    n=$((n + 1))
+  done
+
+  echo "$candidate"
+}
+
+lua_escape() {
+  local s="$1"
+  s="${s//\\/\\\\}"
+  s="${s//\"/\\\"}"
+  echo "$s"
+}
+
+random_from_array() {
+  local -n arr=$1
+  echo "${arr[$((RANDOM % ${#arr[@]}))]}"
+}
+
+contains_blocked_terms() {
+  local text="$1"
+  local lowered=""
+  lowered="$(echo "$text" | tr '[:upper:]' '[:lower:]')"
+  [[ "$lowered" =~ $BLOCKED_TERMS_REGEX ]]
+}
+
+file_ext_from_url() {
+  local url="$1"
+  local clean=""
+  local ext=""
+
+  clean="${url%%\?*}"
+  ext="${clean##*.}"
+  ext="$(echo "$ext" | tr '[:upper:]' '[:lower:]')"
+  case "$ext" in
+    jpg|jpeg|png|webp|bmp|gif) echo "$ext" ;;
+    *) echo "jpg" ;;
+  esac
+}
+
+apply_wallpaper() {
+  local image="$1"
+  local current_background_link="$HOME/.config/omarchy/current/background"
+
+  mkdir -p "$WALLPAPER_DIR"
+
+  if command -v omarchy-theme-bg-set >/dev/null 2>&1; then
+    omarchy-theme-bg-set "$image"
+    return 0
+  fi
+
+  ln -nsf "$image" "$current_background_link"
+  pkill -x swaybg >/dev/null 2>&1 || true
+  if command -v uwsm-app >/dev/null 2>&1; then
+    setsid uwsm-app -- swaybg -i "$current_background_link" -m fill >/dev/null 2>&1 &
+  else
+    setsid swaybg -i "$current_background_link" -m fill >/dev/null 2>&1 &
+  fi
+}
+
+apply_existing_path() {
+  local image="$1"
+
+  if [[ ! -f "$image" ]]; then
+    notify-send "Wallpaper missing" "$image" -u critical -t 3000
+    exit 1
+  fi
+
+  apply_wallpaper "$image"
+  notify-send "Wallpaper updated" "$(basename "$image")" -t 2200
+}
+
+apply_download_url() {
+  local source="$1"
+  local url="$2"
+  local title="$3"
+  local author="$4"
+  local nice_name=""
+  local safe_name=""
+  local output_file=""
+  local ext=""
+  local curl_err_file=""
+  local http_code=""
+  local curl_status=0
+
+  mkdir -p "$WALLPAPER_DIR"
+  nice_name="$title"
+  if [[ -n "$author" && "$author" != "Unknown" ]]; then
+    nice_name="$nice_name - $author"
+  fi
+
+  safe_name="$(sanitize_filename "$nice_name")"
+  ext="$(file_ext_from_url "$url")"
+  output_file="$(unique_output_path "$WALLPAPER_DIR" "$safe_name" "$ext")"
+  curl_err_file="$(mktemp)"
+
+  http_code="$(curl -sS -L -A "$USER_AGENT" -w "%{http_code}" -o "$output_file" "$url" 2>"$curl_err_file")" || curl_status=$?
+
+  if (( curl_status != 0 )) || [[ ! "$http_code" =~ ^2[0-9][0-9]$ ]]; then
+    local err_msg=""
+    err_msg="$(tail -n 1 "$curl_err_file" 2>/dev/null || true)"
+    [[ -z "$err_msg" ]] && err_msg="curl status ${curl_status}, HTTP ${http_code}"
+    notify-send "Download failed" "${source}: ${err_msg} (HTTP ${http_code})" -u critical -t 5000
+    echo "Error: download failed for ${source} URL: ${url}" >&2
+    echo "Error: curl status=${curl_status}, HTTP=${http_code}, detail=${err_msg}" >&2
+    rm -f "$curl_err_file" "$output_file"
+    exit 1
+  fi
+  rm -f "$curl_err_file"
+
+  apply_wallpaper "$output_file"
+  notify-send "New wallpaper downloaded" "${title} - ${author} (${source})" -t 2600
+}
+
+build_existing_provider() {
+  local provider_file="$ELEPHANT_MENU_DIR/omarchy_random_unsplash_existing.lua"
+  local -a files=()
+
+  mkdir -p "$ELEPHANT_MENU_DIR"
+  mapfile -d '' -t files < <(
+    find -L "$WALLPAPER_DIR" -maxdepth 1 -type f \
+      \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.gif' -o -iname '*.bmp' -o -iname '*.webp' \) \
+      -print0 2>/dev/null | sort -z
+  )
+
+  if (( ${#files[@]} == 0 )); then
+    notify-send "No wallpapers found" "Put files in ~/Wallpapers first." -t 2500
+    return 1
+  fi
+
+  cat > "$provider_file" <<'LUA'
+Name = "omarchyRandomUnsplashExisting"
+NamePretty = "Downloaded Wallpapers"
+Cache = false
+HideFromProviderlist = true
+SearchName = true
+
+local function ShellEscape(s)
+  return "'" .. s:gsub("'", "'\\''") .. "'"
+end
+
+function GetEntries()
+  local entries = {}
+LUA
+
+  local file base text escaped_file escaped_text
+  for file in "${files[@]}"; do
+    base="$(basename "$file")"
+    text="$(clean_text "$base")"
+    escaped_file="$(lua_escape "$file")"
+    escaped_text="$(lua_escape "$text")"
+
+    cat >> "$provider_file" <<LUA
+  table.insert(entries, {
+    Text = "$escaped_text",
+    Value = "$escaped_file",
+    Actions = {
+      activate = "'"$SCRIPT_NAME"' --apply-existing " .. ShellEscape("$escaped_file"),
+    },
+    Preview = "$escaped_file",
+    PreviewType = "file",
+  })
+LUA
+  done
+
+  cat >> "$provider_file" <<'LUA'
+  return entries
+end
+LUA
+
+  return 0
+}
+
+unsplash_candidates_json() {
+  local -a pages=()
+  local page=""
+  local query=""
+
+  mapfile -t pages < <(shuf -i "1-${UNSPLASH_PAGE_MAX}" -n "${UNSPLASH_PAGE_SAMPLES}")
+
+  for page in "${pages[@]}"; do
+    query="$(random_from_array UNSPLASH_QUERIES)"
+    curl -fsSL -A "$USER_AGENT" \
+      "${UNSPLASH_SEARCH_API_BASE}?query=$(printf '%s' "$query" | sed 's/ /%20/g')&per_page=${UNSPLASH_PER_PAGE}&page=${page}&orientation=landscape" \
+      | jq -rc --arg q "$query" '.results[]? | {
+          source: "unsplash",
+          id: .id,
+          title: (.description // .alt_description // "Unsplash wallpaper"),
+          author: (.user.name // "Unknown"),
+          preview: (.urls.small // .urls.regular // ""),
+          download: (.urls.full // .urls.raw // .urls.regular // ""),
+          tags: ((.tags // []) | map(.title) | join(" ")),
+          query: $q
+        }'
+  done | awk '!seen[$0]++'
+}
+
+wallhaven_candidates_json() {
+  local -a pages=()
+  local page=""
+  local query=""
+  local seed=""
+  local api_key_part=""
+
+  mapfile -t pages < <(shuf -i "1-${WALLHAVEN_PAGE_MAX}" -n "${WALLHAVEN_PAGE_SAMPLES}")
+  seed="$(tr -dc 'a-zA-Z0-9' </dev/urandom | head -c8)"
+
+  if [[ -n "${WALLHAVEN_API_KEY:-}" ]]; then
+    api_key_part="apikey=${WALLHAVEN_API_KEY}&"
+  fi
+
+  for page in "${pages[@]}"; do
+    query="$(random_from_array WALLHAVEN_QUERIES)"
+    curl -fsSL -A "$USER_AGENT" \
+      "${WALLHAVEN_API_BASE}?${api_key_part}sorting=random&order=desc&categories=101&purity=100&atleast=1920x1080&ratios=16x9,16x10&page=${page}&seed=${seed}&q=$(printf '%s' "$query" | sed 's/ /%20/g')" \
+      | jq -rc --arg q "$query" '.data[]? | {
+          source: "wallhaven",
+          id: .id,
+          title: (.short_url // ("Wallhaven " + .id)),
+          author: (.uploader.username // "Unknown"),
+          preview: (.thumbs.small // .thumbs.large // ""),
+          download: .path,
+          tags: ((.tags // []) | map(.name) | join(" ")),
+          query: $q
+        }'
+  done | awk '!seen[$0]++'
+}
+
+pexels_candidates_json() {
+  local -a pages=()
+  local page=""
+  local query=""
+
+  if [[ -z "${PEXELS_API_KEY:-}" ]]; then
+    return 0
+  fi
+
+  mapfile -t pages < <(shuf -i "1-${PEXELS_PAGE_MAX}" -n "${PEXELS_PAGE_SAMPLES}")
+
+  for page in "${pages[@]}"; do
+    query="$(random_from_array PEXELS_QUERIES)"
+    curl -fsSL -A "$USER_AGENT" \
+      -H "Authorization: ${PEXELS_API_KEY}" \
+      "${PEXELS_API_BASE}?query=$(printf '%s' "$query" | sed 's/ /%20/g')&orientation=landscape&per_page=${PEXELS_PER_PAGE}&page=${page}" \
+      | jq -rc --arg q "$query" '.photos[]? | {
+          source: "pexels",
+          id: (.id|tostring),
+          title: ("Pexels " + (.id|tostring)),
+          author: (.photographer // "Unknown"),
+          preview: (.src.medium // .src.large // ""),
+          download: (.src.original // .src.large2x // .src.large // ""),
+          tags: "",
+          query: $q
+        }'
+  done | awk '!seen[$0]++'
+}
+
+provider_candidates_json() {
+  case "$DOWNLOAD_SOURCE" in
+    mixed)
+      unsplash_candidates_json || true
+      wallhaven_candidates_json || true
+      pexels_candidates_json || true
+      ;;
+    unsplash) unsplash_candidates_json || true ;;
+    wallhaven) wallhaven_candidates_json || true ;;
+    pexels) pexels_candidates_json || true ;;
+    *)
+      echo "Invalid source: $DOWNLOAD_SOURCE" >&2
+      return 1
+      ;;
+  esac
+}
+
+download_candidates_json() {
+  local -a raw=()
+  local candidate=""
+  local title=""
+  local author=""
+  local tags=""
+  local query=""
+
+  mapfile -t raw < <(provider_candidates_json)
+
+  for candidate in "${raw[@]}"; do
+    title="$(echo "$candidate" | jq -r '.title // ""')"
+    author="$(echo "$candidate" | jq -r '.author // ""')"
+    tags="$(echo "$candidate" | jq -r '.tags // ""')"
+    query="$(echo "$candidate" | jq -r '.query // ""')"
+
+    if contains_blocked_terms "$title $author $tags $query"; then
+      continue
+    fi
+
+    echo "$candidate"
+  done | awk '!seen[$0]++'
+}
+
+select_candidates_json() {
+  if [[ "$DOWNLOAD_SOURCE" == "mixed" ]]; then
+    local -a raw=()
+    local -a unsplash_items=()
+    local -a wallhaven_items=()
+    local -a pexels_items=()
+    local -a ordered_sources=()
+    local candidate=""
+    local source=""
+    local i=0
+    local total_sources=0
+
+    mapfile -t raw < <(download_candidates_json)
+
+    for candidate in "${raw[@]}"; do
+      source="$(echo "$candidate" | jq -r '.source // ""')"
+      case "$source" in
+        unsplash)
+          if (( ${#unsplash_items[@]} < CANDIDATES_PER_SOURCE )); then
+            unsplash_items+=("$candidate")
+          fi
+          ;;
+        wallhaven)
+          if (( ${#wallhaven_items[@]} < CANDIDATES_PER_SOURCE )); then
+            wallhaven_items+=("$candidate")
+          fi
+          ;;
+        pexels)
+          if (( ${#pexels_items[@]} < CANDIDATES_PER_SOURCE )); then
+            pexels_items+=("$candidate")
+          fi
+          ;;
+      esac
+    done
+
+    if (( ${#unsplash_items[@]} > 0 )); then
+      ordered_sources+=("unsplash")
+    fi
+    if (( ${#wallhaven_items[@]} > 0 )); then
+      ordered_sources+=("wallhaven")
+    fi
+    if (( ${#pexels_items[@]} > 0 )); then
+      ordered_sources+=("pexels")
+    fi
+
+    total_sources=${#ordered_sources[@]}
+    if (( total_sources == 0 )); then
+      return 0
+    fi
+
+    for ((i = 0; i < CANDIDATES_PER_SOURCE; i++)); do
+      if (( i < ${#unsplash_items[@]} )); then
+        echo "${unsplash_items[$i]}"
+      fi
+      if (( i < ${#wallhaven_items[@]} )); then
+        echo "${wallhaven_items[$i]}"
+      fi
+      if (( i < ${#pexels_items[@]} )); then
+        echo "${pexels_items[$i]}"
+      fi
+    done
+  else
+    download_candidates_json | shuf -n "${CANDIDATE_COUNT}"
+  fi
+}
+
+build_unsplash_provider() {
+  local provider_file="$ELEPHANT_MENU_DIR/omarchy_random_unsplash_download.lua"
+  local preview_dir="$CACHE_DIR/previews"
+  local -a candidates=()
+  local -a ids=()
+  local -a titles=()
+  local -a authors=()
+  local -a preview_urls=()
+  local -a download_urls=()
+  local -a sources=()
+  local -a preview_files=()
+  local -a pids=()
+  local i=""
+  local candidate=""
+  local id=""
+  local title=""
+  local author=""
+  local preview_url=""
+  local preview_file=""
+  local escaped_preview_file=""
+  local escaped_title=""
+  local escaped_download=""
+  local escaped_source=""
+  local escaped_author=""
+  local display_order=""
+
+  mkdir -p "$ELEPHANT_MENU_DIR" "$preview_dir"
+
+  status_notify "Wallpapers" "Fetching ${DOWNLOAD_SOURCE} candidates..."
+  mapfile -t candidates < <(select_candidates_json)
+
+  if (( ${#candidates[@]} == 0 )); then
+    notify-send "Wallpaper fetch failed" "Could not fetch candidate wallpapers." -u critical -t 3000
+    return 1
+  fi
+
+  cat > "$provider_file" <<'LUA'
+Name = "omarchyRandomUnsplashDownload"
+NamePretty = "Online Wallpapers"
+Cache = false
+HideFromProviderlist = true
+SearchName = true
+
+local function ShellEscape(s)
+  return "'" .. s:gsub("'", "'\\''") .. "'"
+end
+
+function GetEntries()
+  local entries = {}
+LUA
+
+  for candidate in "${candidates[@]}"; do
+    id="$(echo "$candidate" | jq -r '.id')"
+    title="$(clean_text "$(echo "$candidate" | jq -r '.title')")"
+    author="$(clean_text "$(echo "$candidate" | jq -r '.author')")"
+    preview_url="$(echo "$candidate" | jq -r '.preview')"
+
+    [[ -z "$id" || "$id" == "null" ]] && continue
+
+    ids+=("$id")
+    titles+=("$title")
+    authors+=("$author")
+    preview_urls+=("$preview_url")
+    download_urls+=("$(echo "$candidate" | jq -r '.download')")
+    sources+=("$(echo "$candidate" | jq -r '.source')")
+    preview_files+=("$preview_dir/${id}.jpg")
+  done
+
+  status_notify "Wallpapers" "Downloading previews..."
+  for i in "${!ids[@]}"; do
+    if [[ -n "${preview_urls[$i]}" && "${preview_urls[$i]}" != "null" ]]; then
+      curl -fsSL -A "$USER_AGENT" "${preview_urls[$i]}" -o "${preview_files[$i]}" >/dev/null 2>&1 &
+      pids+=("$!")
+    fi
+  done
+
+  for i in "${pids[@]}"; do
+    wait "$i" || true
+  done
+
+  for i in "${!ids[@]}"; do
+    printf -v display_order "%02d" "$((i + 1))"
+    escaped_preview_file="$(lua_escape "${preview_files[$i]}")"
+    escaped_title="$(lua_escape "${titles[$i]}")"
+    escaped_download="$(lua_escape "${download_urls[$i]}")"
+    escaped_source="$(lua_escape "${sources[$i]}")"
+    escaped_author="$(lua_escape "${authors[$i]}")"
+
+    cat >> "$provider_file" <<LUA
+  table.insert(entries, {
+    Text = "$display_order [$escaped_source] $escaped_title - $escaped_author",
+    Value = "$escaped_download",
+    Actions = {
+      activate = "'"$SCRIPT_NAME"' --apply-download " .. ShellEscape("$escaped_source") .. " " .. ShellEscape("$escaped_download") .. " " .. ShellEscape("$escaped_title") .. " " .. ShellEscape("$escaped_author"),
+    },
+    Preview = "$escaped_preview_file",
+    PreviewType = "file",
+  })
+LUA
+  done
+
+  cat >> "$provider_file" <<'LUA'
+  return entries
+end
+LUA
+
+  return 0
+}
+
+show_existing_selector() {
+  if ! build_existing_provider; then
+    return 1
+  fi
+  pkill -x elephant >/dev/null 2>&1 || true
+  omarchy-launch-walker -m menus:omarchyRandomUnsplashExisting --width 900 --minheight 420
+}
+
+show_unsplash_selector() {
+  if ! build_unsplash_provider; then
+    return 1
+  fi
+  pkill -x elephant >/dev/null 2>&1 || true
+  omarchy-launch-walker -m menus:omarchyRandomUnsplashDownload --width 900 --minheight 420
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --mode)
+      [[ $# -lt 2 ]] && { echo "Missing value for --mode"; usage; exit 1; }
+      MODE="$2"
+      shift 2
+      ;;
+    --existing|-e)
+      MODE="existing"
+      shift
+      ;;
+    --download|-d)
+      MODE="download"
+      shift
+      ;;
+    --source)
+      [[ $# -lt 2 ]] && { echo "Missing value for --source"; usage; exit 1; }
+      DOWNLOAD_SOURCE="$2"
+      shift 2
+      ;;
+    --apply-existing)
+      [[ $# -lt 2 ]] && { echo "Missing path for --apply-existing"; exit 1; }
+      apply_existing_path "$2"
+      exit 0
+      ;;
+    --apply-download)
+      [[ $# -lt 5 ]] && { echo "Usage: --apply-download <source> <url> <title> <author>"; exit 1; }
+      apply_download_url "$2" "$3" "$4" "$5"
+      exit 0
+      ;;
+    --help|-h)
+      usage
+      exit 0
+      ;;
+    *)
+      echo "Unknown option: $1"
+      usage
+      exit 1
+      ;;
+  esac
+done
+
+if [[ -z "$MODE" ]]; then
+  case "$(menu "Wallpaper Workflow" "󰉔  Pick from downloaded wallpapers\n󰇚  Get a new random wallpaper (mixed sources, no anime)")" in
+    *"Pick from downloaded"*) MODE="existing" ;;
+    *"Get a new random"*) MODE="download" ;;
+    *) exit 0 ;;
+  esac
+fi
+
+case "$MODE" in
+  existing) show_existing_selector ;;
+  download) show_unsplash_selector ;;
+  *)
+    echo "Invalid mode: $MODE"
+    usage
+    exit 1
+    ;;
+esac
