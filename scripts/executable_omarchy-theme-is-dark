@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+colors_file="${OMARCHY_THEME_COLORS_FILE:-$HOME/.config/omarchy/current/theme/colors.toml}"
+
+if [[ ! -r "$colors_file" ]]; then
+  exit 2
+fi
+
+bg_hex="$(sed -nE 's/^background = "#?([0-9A-Fa-f]{6})".*/\1/p' "$colors_file" | head -n1)"
+if [[ -z "$bg_hex" ]]; then
+  exit 2
+fi
+
+r=$((16#${bg_hex:0:2}))
+g=$((16#${bg_hex:2:2}))
+b=$((16#${bg_hex:4:2}))
+
+# Perceived brightness in range 0-255.
+luma=$(((299 * r + 587 * g + 114 * b) / 1000))
+
+if (( luma < 128 )); then
+  exit 0
+fi
+
+exit 1

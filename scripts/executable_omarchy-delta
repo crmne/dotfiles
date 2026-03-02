@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+dark_theme="${OMARCHY_DELTA_THEME_DARK:-mellow-barbet}"
+light_theme="${OMARCHY_DELTA_THEME_LIGHT:-coracias-caudatus}"
+
+if omarchy-theme-is-dark; then
+  exec delta --dark --features "$dark_theme" "$@"
+fi
+
+status=$?
+if (( status == 1 )); then
+  exec delta --light --features "$light_theme" "$@"
+fi
+
+# Fallback when Omarchy metadata is unavailable.
+exec delta --detect-dark-light=auto "$@"

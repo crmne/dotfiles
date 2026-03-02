@@ -8,18 +8,28 @@
 [init]
 	defaultBranch = master
 [pull]
-	rebase = true 			 # Rebase (instead of merge) on pull
+	rebase = true            # Rebase (instead of merge) on pull
 [push]
 	autoSetupRemote = true   # Automatically set upstream branch on push
 [diff]
 	algorithm = histogram    # Clearer diffs on moved/edited lines
 	colorMoved = plain       # Highlight moved blocks in diffs
-	mnemonicPrefix = true    # More intuitive refs in diff output
+  mnemonicPrefix = true    # More intuitive refs in diff output
+  tool = vimdiff
+[merge]
+  tool = vimdiff
+	conflictStyle = zdiff3
+[mergetool]
+  prompt = true
+[mergetool "vimdiff"]
+  cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+[difftool]
+  prompt = false
 [commit]
 	verbose = true           # Include diff comment in commit message template
 	gpgsign = true
 [column]
-	ui = auto 			     # Output in columns when possible
+	ui = auto                # Output in columns when possible
 [branch]
 	sort = -committerdate    # Sort branches by most recent commit first
 [tag]
@@ -35,3 +45,11 @@
 	format = ssh
 [gpg "ssh"]
 	program = /opt/1Password/op-ssh-sign
+[core]
+	pager = omarchy-delta
+[interactive]
+	diffFilter = omarchy-delta --color-only
+[delta]
+	navigate = true
+[include]
+    path = ~/.config/delta/themes.gitconfig
