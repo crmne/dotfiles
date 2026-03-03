@@ -2,7 +2,7 @@
 set -euo pipefail
 
 dark_theme="${OMARCHY_DELTA_THEME_DARK:-mellow-barbet}"
-light_theme="${OMARCHY_DELTA_THEME_LIGHT:-coracias-caudatus}"
+light_theme="${OMARCHY_DELTA_THEME_LIGHT:-hoopoe}"
 
 if omarchy-theme-is-dark; then
   exec delta --dark --features "$dark_theme" "$@"

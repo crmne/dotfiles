@@ -15,4 +15,4 @@ SETUVAR _fisher_plugins:jorgebucaran/fisher\x1epatrickf1/fzf\x2efish\x1ecrmne/om
 SETUVAR _fisher_upgraded_to_4_4:\x1d
 SETUVAR _tide_left_items:\x1d
 SETUVAR _tide_right_items:\x1d
-SETUVAR fish_user_paths:/Users/carmine/scripts\x1e/Users/carmine/\x2elocal/bin\x1e/Users/carmine/\x2ecargo/bin\x1e/home/carmine/\x2elocal/bin\x1e/home/carmine/scripts\x1e/home/carmine/\x2elocal/share/mise/installs/node/latest/bin
+SETUVAR fish_user_paths:/home/carmine/\x2ecargo/bin\x1e/Users/carmine/scripts\x1e/Users/carmine/\x2elocal/bin\x1e/Users/carmine/\x2ecargo/bin\x1e/home/carmine/\x2elocal/bin\x1e/home/carmine/scripts\x1e/home/carmine/\x2elocal/share/mise/installs/node/latest/bin
