@@ -23,6 +23,9 @@ USER_AGENT="Mozilla/5.0 (X11; Linux x86_64) omarchy-random-wallpaper/1.0"
 ELEPHANT_MENU_DIR="$HOME/.config/elephant/menus"
 CACHE_DIR="$HOME/.cache/omarchy-random-wallpaper"
 SCRIPT_NAME="$(basename "$0")"
+EXISTING_PROVIDER_NAME="omarchyRandomWallpaperExisting"
+EXISTING_PROVIDER_FILE="omarchy_random_wallpaper_existing.lua"
+EXISTING_PROVIDER_SOURCE="$SCRIPT_DIR/omarchy-random-wallpaper-existing.lua"
 MODE=""
 DOWNLOAD_SOURCE="mixed"
 STATUS_NOTIFY_ID=88941
@@ -276,63 +279,27 @@ apply_download_url() {
   notify-send "New wallpaper downloaded" "${title} - ${author} (${source})" -t 2600
 }
 
-build_existing_provider() {
-  local provider_file="$ELEPHANT_MENU_DIR/omarchy_random_unsplash_existing.lua"
-  local -a files=()
+ensure_existing_provider_installed() {
+  local target="$ELEPHANT_MENU_DIR/$EXISTING_PROVIDER_FILE"
+  local legacy_target="$ELEPHANT_MENU_DIR/omarchy_random_unsplash_existing.lua"
 
-  mkdir -p "$ELEPHANT_MENU_DIR"
-  mapfile -d '' -t files < <(
-    find -L "$WALLPAPER_DIR" -maxdepth 1 -type f \
-      \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.gif' -o -iname '*.bmp' -o -iname '*.webp' \) \
-      -print0 2>/dev/null | sort -z
-  )
-
-  if (( ${#files[@]} == 0 )); then
-    notify-send "No wallpapers found" "Put files in ~/Wallpapers first." -t 2500
+  if [[ ! -f "$EXISTING_PROVIDER_SOURCE" ]]; then
+    notify-send "Wallpaper provider missing" "$EXISTING_PROVIDER_SOURCE" -u critical -t 3500
     return 1
   fi
 
-  cat > "$provider_file" <<'LUA'
-Name = "omarchyRandomUnsplashExisting"
-NamePretty = "Downloaded Wallpapers"
-Cache = false
-HideFromProviderlist = true
-SearchName = true
+  mkdir -p "$ELEPHANT_MENU_DIR"
+  ln -snf "$EXISTING_PROVIDER_SOURCE" "$target"
+  rm -f "$legacy_target"
+}
 
-local function ShellEscape(s)
-  return "'" .. s:gsub("'", "'\\''") .. "'"
-end
-
-function GetEntries()
-  local entries = {}
-LUA
-
-  local file base text escaped_file escaped_text
-  for file in "${files[@]}"; do
-    base="$(basename "$file")"
-    text="$(clean_text "$base")"
-    escaped_file="$(lua_escape "$file")"
-    escaped_text="$(lua_escape "$text")"
-
-    cat >> "$provider_file" <<LUA
-  table.insert(entries, {
-    Text = "$escaped_text",
-    Value = "$escaped_file",
-    Actions = {
-      activate = "'"$SCRIPT_NAME"' --apply-existing " .. ShellEscape("$escaped_file"),
-    },
-    Preview = "$escaped_file",
-    PreviewType = "file",
-  })
-LUA
-  done
-
-  cat >> "$provider_file" <<'LUA'
-  return entries
-end
-LUA
-
-  return 0
+ensure_existing_wallpapers_exist() {
+  if ! find -L "$WALLPAPER_DIR" -maxdepth 1 -type f \
+      \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.gif' -o -iname '*.bmp' -o -iname '*.webp' \) \
+      -print -quit 2>/dev/null | grep -q .; then
+    notify-send "No wallpapers found" "Put files in ~/Wallpapers first." -t 2500
+    return 1
+  fi
 }
 
 unsplash_candidates_json() {
@@ -619,7 +586,7 @@ LUA
     Text = "$display_order [$escaped_source] $escaped_title - $escaped_author",
     Value = "$escaped_download",
     Actions = {
-      activate = "'"$SCRIPT_NAME"' --apply-download " .. ShellEscape("$escaped_source") .. " " .. ShellEscape("$escaped_download") .. " " .. ShellEscape("$escaped_title") .. " " .. ShellEscape("$escaped_author"),
+      activate = ShellEscape("$SCRIPT_NAME") .. " --apply-download " .. ShellEscape("$escaped_source") .. " " .. ShellEscape("$escaped_download") .. " " .. ShellEscape("$escaped_title") .. " " .. ShellEscape("$escaped_author"),
     },
     Preview = "$escaped_preview_file",
     PreviewType = "file",
@@ -636,18 +603,19 @@ LUA
 }
 
 show_existing_selector() {
-  if ! build_existing_provider; then
+  if ! ensure_existing_provider_installed; then
     return 1
   fi
-  pkill -x elephant >/dev/null 2>&1 || true
-  omarchy-launch-walker -m menus:omarchyRandomUnsplashExisting --width 900 --minheight 420
+  if ! ensure_existing_wallpapers_exist; then
+    return 1
+  fi
+  omarchy-launch-walker -m "menus:${EXISTING_PROVIDER_NAME}" --width 900 --minheight 420
 }
 
 show_unsplash_selector() {
   if ! build_unsplash_provider; then
     return 1
   fi
-  pkill -x elephant >/dev/null 2>&1 || true
   omarchy-launch-walker -m menus:omarchyRandomUnsplashDownload --width 900 --minheight 420
 }
 
