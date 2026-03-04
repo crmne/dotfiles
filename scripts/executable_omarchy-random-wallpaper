@@ -293,9 +293,47 @@ ensure_existing_provider_installed() {
   rm -f "$legacy_target"
 }
 
+restart_walker_services() {
+  if command -v omarchy-restart-walker >/dev/null 2>&1; then
+    omarchy-restart-walker >/dev/null 2>&1 || true
+  else
+    pkill -x elephant >/dev/null 2>&1 || true
+    pkill -f "walker --gapplication-service" >/dev/null 2>&1 || true
+  fi
+}
+
+maybe_refresh_existing_provider_runtime() {
+  local target="$ELEPHANT_MENU_DIR/$EXISTING_PROVIDER_FILE"
+  local stamp_file="$CACHE_DIR/existing-provider.signature"
+  local source_sig=""
+  local old_sig=""
+  local elephant_count=0
+
+  mkdir -p "$CACHE_DIR"
+  source_sig="$(
+    {
+      readlink -f "$target" 2>/dev/null || true
+      stat -Lc '%n|%s|%Y' "$EXISTING_PROVIDER_SOURCE" 2>/dev/null || true
+      stat -Lc '%n|%s|%Y' "$target" 2>/dev/null || true
+    } | tr '\n' ';'
+  )"
+
+  if [[ -f "$stamp_file" ]]; then
+    old_sig="$(cat "$stamp_file" 2>/dev/null || true)"
+  fi
+
+  elephant_count="$(pgrep -xc elephant 2>/dev/null || echo 0)"
+
+  if [[ "$source_sig" != "$old_sig" ]] || (( elephant_count > 1 )); then
+    restart_walker_services
+    sleep 0.2
+    printf '%s\n' "$source_sig" >"$stamp_file"
+  fi
+}
+
 ensure_existing_wallpapers_exist() {
-  if ! find -L "$WALLPAPER_DIR" -maxdepth 1 -type f \
-      \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.gif' -o -iname '*.bmp' -o -iname '*.webp' \) \
+  if ! find -L "$WALLPAPER_DIR" -type f \
+      \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.gif' -o -iname '*.bmp' -o -iname '*.webp' -o -iname '*.avif' -o -iname '*.heic' -o -iname '*.heif' -o -iname '*.tif' -o -iname '*.tiff' -o -iname '*.jfif' \) \
       -print -quit 2>/dev/null | grep -q .; then
     notify-send "No wallpapers found" "Put files in ~/Wallpapers first." -t 2500
     return 1
@@ -609,6 +647,7 @@ show_existing_selector() {
   if ! ensure_existing_wallpapers_exist; then
     return 1
   fi
+  maybe_refresh_existing_provider_runtime
   omarchy-launch-walker -m "menus:${EXISTING_PROVIDER_NAME}" --width 900 --minheight 420
 }
 

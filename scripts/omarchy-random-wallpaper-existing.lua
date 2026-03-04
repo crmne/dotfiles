@@ -15,8 +15,8 @@ function GetEntries()
 
   local handle = io.popen(
     "find -L " .. ShellEscape(wallpaper_dir)
-      .. " -maxdepth 1 -type f \\(" ..
-      " -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.gif' -o -iname '*.bmp' -o -iname '*.webp' " ..
+      .. " -type f \\(" ..
+      " -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.gif' -o -iname '*.bmp' -o -iname '*.webp' -o -iname '*.avif' -o -iname '*.heic' -o -iname '*.heif' -o -iname '*.tif' -o -iname '*.tiff' -o -iname '*.jfif' " ..
       "\\) 2>/dev/null | sort"
   )
 
