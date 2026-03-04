@@ -2,15 +2,37 @@
 set -euo pipefail
 
 dark_theme="${OMARCHY_DELTA_THEME_DARK:-mellow-barbet}"
-light_theme="${OMARCHY_DELTA_THEME_LIGHT:-hoopoe}"
+dark_syntax_theme="${OMARCHY_DELTA_SYNTAX_THEME_DARK:-Monokai Extended}"
+light_theme="${OMARCHY_DELTA_THEME_LIGHT:-coracias-caudatus}"
+light_syntax_theme="${OMARCHY_DELTA_SYNTAX_THEME_LIGHT:-GitHub}"
+side_by_side="${OMARCHY_DELTA_SIDE_BY_SIDE:-1}"
+side_by_side_args=()
+
+case "${side_by_side,,}" in
+  1|true|yes|on)
+    side_by_side_args=(--side-by-side)
+    ;;
+  0|false|no|off)
+    side_by_side_args=()
+    ;;
+  *)
+    echo "Invalid OMARCHY_DELTA_SIDE_BY_SIDE value: $side_by_side (expected true/false or 1/0)" >&2
+    exit 2
+    ;;
+esac
 
 if omarchy-theme-is-dark; then
-  exec delta --dark --features "$dark_theme" "$@"
+  status=0
+else
+  status=$?
 fi
 
-status=$?
+if (( status == 0 )); then
+  exec delta --dark "${side_by_side_args[@]}" --features "$dark_theme" --syntax-theme "$dark_syntax_theme" "$@"
+fi
+
 if (( status == 1 )); then
-  exec delta --light --features "$light_theme" "$@"
+  exec delta --light "${side_by_side_args[@]}" --features "$light_theme" --syntax-theme "$light_syntax_theme" "$@"
 fi
 
 # Fallback when Omarchy metadata is unavailable.

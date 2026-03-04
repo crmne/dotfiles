@@ -1,7 +1,25 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-colors_file="${OMARCHY_THEME_COLORS_FILE:-$HOME/.config/omarchy/current/theme/colors.toml}"
+theme_dir="${OMARCHY_THEME_DIR:-$HOME/.config/omarchy/current/theme}"
+colors_file="${OMARCHY_THEME_COLORS_FILE:-$theme_dir/colors.toml}"
+vscode_file="${OMARCHY_THEME_VSCODE_FILE:-$theme_dir/vscode.json}"
+
+# Omarchy marks light themes explicitly.
+if [[ -f "$theme_dir/light.mode" ]]; then
+  exit 1
+fi
+if [[ -f "$theme_dir/dark.mode" ]]; then
+  exit 0
+fi
+
+# Most Omarchy themes include vscode.json with a "type" field.
+if [[ -r "$vscode_file" ]]; then
+  case "$(sed -nE 's/^[[:space:]]*"type"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/p' "$vscode_file" | head -n1 | tr '[:upper:]' '[:lower:]')" in
+    dark) exit 0 ;;
+    light) exit 1 ;;
+  esac
+fi
 
 if [[ ! -r "$colors_file" ]]; then
   exit 2
