@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SERVER="${HOUSE_SNAPCAST_SERVER:-tcp:nuc.local:4713}"
+REMOTE_SINK="${HOUSE_SNAPCAST_REMOTE_SINK:-snapcast_sink}"
+LOCAL_SINK="${HOUSE_SNAPCAST_LOCAL_SINK:-house}"
+DESCRIPTION="${HOUSE_SNAPCAST_DESCRIPTION:-House}"
+
+find_module_id() {
+  pactl list short modules | awk -v sink="sink_name=${LOCAL_SINK}" '($2=="module-tunnel-sink-new" || $2=="module-tunnel-sink") && index($0, sink) { print $1; exit }'
+}
+
+is_active() {
+  pactl list short sinks | awk '{print $2}' | grep -qx "$LOCAL_SINK"
+}
+
+start_sink() {
+  if is_active; then
+    echo "Sink '$LOCAL_SINK' already active"
+    return 0
+  fi
+
+  local load_ok=0
+
+  # Try newer tunnel module first, then fallback to classic one.
+  if pactl load-module module-tunnel-sink-new \
+      server="$SERVER" \
+      sink="$REMOTE_SINK" \
+      sink_name="$LOCAL_SINK" \
+      sink_properties="device.description=${DESCRIPTION}" >/dev/null 2>&1; then
+    load_ok=1
+  else
+    if pactl load-module module-tunnel-sink \
+      server="$SERVER" \
+      sink="$REMOTE_SINK" \
+      sink_name="$LOCAL_SINK" \
+      sink_properties="device.description=${DESCRIPTION}" >/dev/null; then
+      load_ok=1
+    fi
+  fi
+
+  if [[ "$load_ok" -ne 1 ]] || ! is_active; then
+    echo "Failed to enable sink '$LOCAL_SINK' -> $SERVER/$REMOTE_SINK" >&2
+    echo "Check NUC endpoint availability: nc -zv nuc.local 4713" >&2
+    return 1
+  fi
+
+  pactl set-default-sink "$LOCAL_SINK" || true
+  echo "Enabled sink '$LOCAL_SINK' -> $SERVER/$REMOTE_SINK"
+}
+
+stop_sink() {
+  local mod_id
+  mod_id="$(find_module_id || true)"
+
+  if [[ -z "$mod_id" ]]; then
+    echo "Sink '$LOCAL_SINK' not active"
+    return 0
+  fi
+
+  pactl unload-module "$mod_id"
+  echo "Disabled sink '$LOCAL_SINK'"
+}
+
+status_sink() {
+  if is_active; then
+    echo "active"
+    pactl list short sinks | awk -v sink="$LOCAL_SINK" '$2==sink { print $0 }'
+  else
+    echo "inactive"
+  fi
+}
+
+case "${1:-on}" in
+  on)
+    start_sink
+    ;;
+  off)
+    stop_sink
+    ;;
+  toggle)
+    if is_active; then
+      stop_sink
+    else
+      start_sink
+    fi
+    ;;
+  status)
+    status_sink
+    ;;
+  *)
+    echo "Usage: omarchy-setup-pipewire-output-house [on|off|toggle|status]" >&2
+    exit 2
+    ;;
+esac
