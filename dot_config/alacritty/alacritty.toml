@@ -4,9 +4,9 @@ general.import = [ "~/.config/omarchy/current/theme/alacritty.toml" ]
 TERM = "xterm-256color"
 
 [font]
-normal = { family = "JetBrainsMono Nerd Font", style = "Medium" }
-bold = { family = "JetBrainsMono Nerd Font" }
-italic = { family = "JetBrainsMono Nerd Font", style = "Medium Italic" }
+normal = { family = "IBM Plex Mono" }
+bold = { family = "IBM Plex Mono" }
+italic = { family = "IBM Plex Mono" }
 size = 10
 
 [window]

@@ -14,7 +14,7 @@ window#waybar > box {
 * {
   background-color: transparent;
   color: @foreground;
-  font-family: "Inter";
+  font-family: 'IBM Plex Mono';
   font-weight: 700;
   font-size: 12px;
 }

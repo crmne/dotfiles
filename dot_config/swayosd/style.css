@@ -10,7 +10,7 @@ window {
 }
 
 label {
-  font-family: 'JetBrainsMono Nerd Font';
+  font-family: 'IBM Plex Mono';
   font-size: 11pt;
 
   color: @label;

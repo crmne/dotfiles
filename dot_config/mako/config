@@ -1,3 +1,4 @@
 include=~/.config/omarchy/current/theme/mako.ini
 
+font=monospace 12
 border-radius=10
