@@ -54,7 +54,7 @@
       "enabled": true
     },
     {
-      "name": "DP-2",
+      "name": "DP-1",
       "description": "Microstep MPG321UR-QD",
       "make": "Microstep",
       "model": "MPG321UR-QD",
