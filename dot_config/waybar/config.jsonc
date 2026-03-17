@@ -25,7 +25,7 @@
     "mpris#toggle",
     "mpris#next",
     "image#album-art",
-    "custom/mpris",
+    "mpris",
     "group/tray-expander",
     "bluetooth",
     "network",
@@ -234,12 +234,22 @@
     "min-length": 2,
     "spacing": 12
   },
-  "custom/mpris": {
-    "exec": "/home/carmine/.config/waybar/scripts/mpris-text.sh",
-    "return-type": "json",
-    "interval": 2,
-    "on-click": "cider-open-or-focus",
-    "tooltip": true
+  "mpris": {
+    "format": "{artist} — {title}",
+    "align": 1,
+    "format-paused": "{artist} — {title}",
+    "format-stopped": "",
+    "tooltip-format": "{artist} — {title}",
+    "tooltip-format-paused": "{artist} — {title}",
+    "player-icons": {
+      "default": "󰐊"
+    },
+    "status-icons": {
+      "paused": "󰏤"
+    },
+    "title-len": 32,
+    "max-length": 64,
+    "on-click": "cider-open-or-focus"
   },
   "mpris#prev": {
     "format": "󰒮",
@@ -321,6 +331,7 @@
       "^li\\.oever\\.aether$": "󰎈",
       "^obsidian$": "󰈙",
       "^org\\.gnome\\.Calculator$": "󰃬",
+      "^org\\.gnome\\.Evince$": "",
       "^org\\.gnome\\.Nautilus$": "󰉋",
       "^org\\.inkscape\\.Inkscape$": "󰃣",
       "^org\\.omarchy\\.wiremix$": "󰕾",

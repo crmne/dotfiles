@@ -142,17 +142,14 @@ window#waybar.empty #window.title {
   min-width: 12px;
 }
 
-#mpris,
-#custom-mpris {
+#mpris {
   padding: 0 10px 0 6px;
   margin: 0 4px 0 0;
   min-width: 0;
 }
 
 #mpris.playing,
-#mpris.paused,
-#custom-mpris.playing,
-#custom-mpris.paused {
+#mpris.paused {
   padding: 2px 10px 2px 6px;
   margin: 0 4px 0 0;
   min-width: 12px;
@@ -183,13 +180,11 @@ window#waybar.empty #window.title {
   padding: 0;
 }
 
-#mpris.paused,
-#custom-mpris.paused {
+#mpris.paused {
   color: alpha(@foreground, 0.5);
 }
 
-#mpris.stopped,
-#custom-mpris.empty {
+#mpris.stopped {
   padding: 0;
   margin: 0;
   min-width: 0;
