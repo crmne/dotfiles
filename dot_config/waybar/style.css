@@ -1,6 +1,32 @@
 @import "../omarchy/current/theme/waybar.css";
 
-@define-color island alpha(@background, 0.80);
+/* =============================================
+   Tuning knobs — colors
+   ============================================= */
+
+@define-color island          alpha(@background, 0.80);
+@define-color text-muted      alpha(@foreground, 0.8);
+@define-color text-faded      alpha(@foreground, 0.5);
+@define-color highlight       alpha(@foreground, 0.25);
+@define-color border-subtle   alpha(@foreground, 0.2);
+@define-color warning         #e0b04a;
+@define-color critical        #e26a6a;
+@define-color recording       #cc4444;
+@define-color indicator       #a55555;
+
+/* =============================================
+   Tuning knobs — dimensions
+   (GTK CSS has no variables for sizes, so these
+   are grouped here for easy adjustment)
+
+   Island padding:       4px top, 10px sides, 6px bottom  (line 35)
+   Island radius:        12px                              (line 40)
+   Island shadow:        0 1px 4px, 0.5 opacity            (line 36)
+   Module spacing:       6px  — center modules, media, tray (lines 62, 84, 97)
+                         8px  — system icons                (lines 72, 78)
+   ============================================= */
+
+/* -- Foundations -- */
 
 window#waybar {
   background-color: transparent;
@@ -19,40 +45,22 @@ window#waybar > box {
   font-size: 12px;
 }
 
+/* -- Islands -- */
+
 .modules-left,
 .modules-center,
 .modules-right {
-  padding-top: 0px;
-  padding-bottom: 0px;
-  border-bottom-style: solid;
-  border-width: 0px;
-  border-color: alpha(@foreground, 0.5);
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.267);
+  background: @island;
+  padding: 4px 10px 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 0;
 }
 
-.modules-left {
-  padding-right: 10px;
-  background: @island;
-  border-bottom-right-radius: 12px;
-  border-right-style: solid;
-}
+.modules-left  { border-bottom-right-radius: 12px; }
+.modules-center { border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
+.modules-right  { border-bottom-left-radius: 12px; }
 
-.modules-center {
-  padding: 0 8px;
-  background: @island;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
-  border-left-style: solid;
-  border-right-style: solid;
-}
-
-.modules-right {
-  padding-left: 10px;
-  padding-right: 10px;
-  background: @island;
-  border-bottom-left-radius: 12px;
-  border-left-style: solid;
-}
+/* -- Workspaces -- */
 
 #workspaces button {
   all: initial;
@@ -62,35 +70,29 @@ window#waybar > box {
   border-radius: 6px;
 }
 
-#workspaces button.empty {
-  opacity: 0.5;
-}
-
-#workspaces {
-  padding: 4px;
-  padding-left: 10px;
-  padding-right: 0;
-}
+#workspaces button.empty { opacity: 0.5; }
 
 #workspaces button.active,
 #workspaces button.focused {
-  background-color: alpha(@foreground, 0.25);
+  background-color: @highlight;
   color: @background;
 }
 
+/* -- Window title -- */
+
 #window.icon {
-  padding: 0;
   margin-left: 10px;
   min-width: 2em;
   opacity: 0.9;
 }
 
 #window.title {
-  padding: 0 6px 0 0;
-  margin: 0;
+  padding: 0 4px;
   opacity: 0.9;
 }
 
+#window.icon.empty,
+#window.title.empty,
 window#waybar.empty #window.icon,
 window#waybar.empty #window.title {
   padding: 0;
@@ -98,12 +100,7 @@ window#waybar.empty #window.title {
   min-width: 0;
 }
 
-#window.icon.empty,
-#window.title.empty {
-  padding: 0;
-  margin: 0;
-  min-width: 0;
-}
+/* -- Center modules -- */
 
 #clock.date,
 #clock.time,
@@ -113,183 +110,101 @@ window#waybar.empty #window.title {
 #custom-idle-indicator,
 #custom-notification-silencing-indicator,
 #custom-caffeinate {
-  padding: 1px 4px;
-  margin: 0;
+  padding: 0 6px;
 }
 
-#custom-caffeinate {
-  margin-right: 6px;
-}
+#clock.date { color: @text-muted; }
+#custom-update { font-size: 10px; }
 
-#clock.date {
-  padding: 1px 6px 1px 10px;
-  margin-right: 2px;
-  color: alpha(@foreground, 0.8);
-}
-
-#clock.time {
-  padding: 1px 8px 1px 6px;
-}
+/* -- Right: system modules -- */
 
 #bluetooth,
 #network,
 #pulseaudio,
-#disk,
-#cpu,
 #battery {
-  padding: 2px 8px;
-  margin: 0;
+  padding: 0 8px;
   min-width: 12px;
 }
 
-#mpris {
-  padding: 0 10px 0 6px;
-  margin: 0 4px 0 0;
-  min-width: 0;
+#cpu,
+#disk {
+  padding: 1px 8px 0;
+  min-width: 12px;
+  font-size: 10px;
+  letter-spacing: 0.3px;
 }
+
+#cpu.warning  { color: @warning; }
+#cpu.critical { color: @critical; }
+
+/* -- Media controls -- */
+
+#mpris { min-width: 0; }
 
 #mpris.playing,
 #mpris.paused {
-  padding: 2px 10px 2px 6px;
-  margin: 0 4px 0 0;
+  padding: 0 6px;
+  margin-right: 4px;
   min-width: 12px;
 }
+
+#mpris.paused  { color: @text-faded; }
+#mpris.stopped { padding: 0; margin: 0; min-width: 0; }
 
 #mpris.prev,
 #mpris.toggle,
 #mpris.next {
-  margin: 0;
-  padding: 2px 4px;
+  padding: 0 4px;
   min-width: 12px;
 }
 
-#mpris.prev {
-  padding-left: 8px;
-}
+#image { padding-left: 6px; }
+#image.empty { padding: 0; }
 
-#mpris.next {
-  padding-right: 6px;
-}
-
-#image {
-  margin: 0;
-  padding: 2px 0 2px 6px;
-}
-
-#image.empty {
-  padding: 0;
-}
-
-#mpris.paused {
-  color: alpha(@foreground, 0.5);
-}
-
-#mpris.stopped {
-  padding: 0;
-  margin: 0;
-  min-width: 0;
-}
-
-#disk {
-  font-size: 10px;
-  letter-spacing: 0.3px;
-}
-
+/* -- Tray -- */
 
 #custom-expand-icon {
-  padding: 2px 10px 2px 8px;
-  margin: 0;
+  padding: 0 6px;
   min-width: 12px;
 }
 
 #tray {
-  padding: 2px 16px 2px 2px;
-  margin: 0;
+  padding: 0 6px 0 2px;
 }
 
-#cpu {
-  font-size: 10px;
-  letter-spacing: 0.3px;
-}
+/* -- Tooltips & menus -- */
 
-#cpu,
-#disk {
-  padding-top: 0;
-  padding-bottom: 1px;
-}
-
-#cpu.warning {
-  color: #e0b04a;
-}
-
-#cpu.critical {
-  color: #e26a6a;
-}
-
-#cpu,
-#battery,
-#pulseaudio,
-#idle_inhibitor,
-#custom-omarchy,
-#custom-screenrecording-indicator,
-#custom-idle-indicator,
-#custom-notification-silencing-indicator,
-#custom-update,
-#custom-voxtype,
-#custom-caffeinate {
-  min-width: 12px;
-}
-
-tooltip {
-  padding: 2px;
-  background-color: @island;
-  color: @foreground;
-  border-radius: 6px;
-  border: 1px solid alpha(@foreground, 0.2);
-}
-
-tooltip * {
-  font-weight: 500;
-  text-shadow: none;
-  -gtk-icon-shadow: none;
-}
-
+tooltip,
 menu {
   background-color: @island;
   color: @foreground;
   border-radius: 6px;
-  border: 1px solid alpha(@foreground, 0.2);
-  padding: 4px;
+  border: 1px solid @border-subtle;
 }
 
-menuitem {
-  color: @foreground;
-  border-radius: 4px;
-  padding: 4px 8px;
+tooltip { padding: 2px; }
+tooltip * { font-weight: 500; text-shadow: none; -gtk-icon-shadow: none; }
+
+menu { padding: 4px; }
+menuitem { color: @foreground; border-radius: 4px; padding: 4px 8px; }
+menuitem:hover { background-color: alpha(@foreground, 0.15); color: @foreground; }
+
+/* -- States -- */
+
+.hidden { opacity: 0; }
+
+@keyframes pulse-recording {
+  from { opacity: 1.0; }
+  to { opacity: 0.4; }
 }
 
-menuitem:hover {
-  background-color: alpha(@foreground, 0.15);
-  color: @foreground;
-}
-
-#custom-update {
-  font-size: 10px;
-}
-
-.hidden {
-  opacity: 0;
-}
-
+#custom-voxtype.recording,
 #custom-screenrecording-indicator.active {
-  color: #a55555;
-}
-
-#custom-voxtype.recording {
-  color: #a55555;
+  color: @recording;
+  animation: pulse-recording 2s ease-in-out infinite alternate;
 }
 
 #custom-idle-indicator.active,
 #custom-notification-silencing-indicator.active {
-  color: #a55555;
+  color: @indicator;
 }
