@@ -118,7 +118,12 @@ window#waybar.empty #window.title {
 
 /* -- Right: system modules -- */
 
-#bluetooth,
+#bluetooth {
+  padding: 0 8px;
+  margin-left: 6px;
+  min-width: 12px;
+}
+
 #network,
 #pulseaudio,
 #battery {
@@ -169,7 +174,10 @@ window#waybar.empty #window.title {
 }
 
 #tray {
-  padding: 0 6px 0 2px;
+  padding: 1px 0 0;
+  margin-left: 8px;
+  margin-right: 8px;
+  color: @foreground;
 }
 
 /* -- Tooltips & menus -- */

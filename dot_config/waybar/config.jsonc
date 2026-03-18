@@ -231,7 +231,7 @@
     "icon-size": 12,
     "align": 0,
     "min-length": 2,
-    "spacing": 12
+    "spacing": 16
   },
   "mpris": {
     "format": "{artist} — {title}",
@@ -246,8 +246,9 @@
     "status-icons": {
       "paused": "󰏤"
     },
-    "title-len": 32,
-    "max-length": 64,
+    "artist-len": 20,
+    "title-len": 24,
+    "max-length": 48,
     "on-click": "cider-open-or-focus"
   },
   "mpris#prev": {
