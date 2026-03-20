@@ -3,7 +3,7 @@ set -euo pipefail
 
 dark_theme="${OMARCHY_DELTA_THEME_DARK:-gruvmax-fang}"
 dark_syntax_theme="${OMARCHY_DELTA_SYNTAX_THEME_DARK:-Monokai Extended}"
-light_theme="${OMARCHY_DELTA_THEME_LIGHT:-coracias-caudatus}"
+light_theme="${OMARCHY_DELTA_THEME_LIGHT:-hoopoe}"
 light_syntax_theme="${OMARCHY_DELTA_SYNTAX_THEME_LIGHT:-GitHub}"
 side_by_side="${OMARCHY_DELTA_SIDE_BY_SIDE:-off}"
 side_by_side_args=()
