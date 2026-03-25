@@ -1,0 +1,51 @@
+{
+  "name": "Desktop Solo",
+  "created_at": "2026-03-25T17:45:54.125359235Z",
+  "updated_at": "2026-03-25T17:46:20.677308117Z",
+  "outputs": [
+    {
+      "key": "microstep|mpg321ur-qd",
+      "name": "DP-1",
+      "make": "Microstep",
+      "model": "MPG321UR-QD",
+      "enabled": true,
+      "mode": "3840x2160@143.99Hz",
+      "width": 3840,
+      "height": 2160,
+      "refresh": 143.99,
+      "x": 3820,
+      "y": 951,
+      "scale": 1.33,
+      "vrr": 1,
+      "transform": 0
+    }
+  ],
+  "workspaces": {
+    "enabled": true,
+    "strategy": "sequential",
+    "max_workspaces": 6,
+    "group_size": 6,
+    "monitor_order": [
+      "microstep|mpg321ur-qd"
+    ],
+    "rules": [
+      {
+        "workspace": "1",
+        "output_key": "microstep|mpg321ur-qd",
+        "output_name": "DP-1",
+        "default": true,
+        "persistent": true
+      },
+      {
+        "workspace": "2",
+        "output_key": "microstep|mpg321ur-qd",
+        "output_name": "DP-1"
+      },
+      {
+        "workspace": "3",
+        "output_key": "microstep|mpg321ur-qd",
+        "output_name": "DP-1"
+      }
+    ]
+  }
+}
