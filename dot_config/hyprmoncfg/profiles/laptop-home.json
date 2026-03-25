@@ -1,0 +1,84 @@
+{
+  "name": "Laptop Home",
+  "created_at": "2026-03-25T10:42:54.626860721Z",
+  "updated_at": "2026-03-25T14:33:20.421378912Z",
+  "outputs": [
+    {
+      "key": "microstep|mpg321ur-qd",
+      "name": "DP-1",
+      "make": "Microstep",
+      "model": "MPG321UR-QD",
+      "enabled": true,
+      "mode": "3840x2160@143.99Hz",
+      "width": 3840,
+      "height": 2160,
+      "refresh": 143.99,
+      "x": 0,
+      "y": 0,
+      "scale": 1.33,
+      "transform": 0
+    },
+    {
+      "key": "samsung display corp.|atna60cl10-0",
+      "name": "eDP-1",
+      "make": "Samsung Display Corp.",
+      "model": "ATNA60CL10-0 ",
+      "enabled": true,
+      "mode": "2880x1800@120.00Hz",
+      "width": 2880,
+      "height": 1800,
+      "refresh": 120,
+      "x": 2887,
+      "y": 600,
+      "scale": 1.67,
+      "vrr": 1,
+      "transform": 0
+    }
+  ],
+  "workspaces": {
+    "enabled": true,
+    "strategy": "manual",
+    "max_workspaces": 9,
+    "group_size": 3,
+    "monitor_order": [
+      "microstep|mpg321ur-qd",
+      "samsung display corp.|atna60cl10-0"
+    ],
+    "rules": [
+      {
+        "workspace": "1",
+        "output_key": "microstep|mpg321ur-qd",
+        "output_name": "DP-1",
+        "default": true,
+        "persistent": true
+      },
+      {
+        "workspace": "2",
+        "output_key": "microstep|mpg321ur-qd",
+        "output_name": "DP-1"
+      },
+      {
+        "workspace": "3",
+        "output_key": "microstep|mpg321ur-qd",
+        "output_name": "DP-1"
+      },
+      {
+        "workspace": "4",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1",
+        "default": true,
+        "persistent": true
+      },
+      {
+        "workspace": "5",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1"
+      },
+      {
+        "workspace": "6",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1"
+      }
+    ]
+  }
+}
