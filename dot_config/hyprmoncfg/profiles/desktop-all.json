@@ -1,7 +1,7 @@
 {
   "name": "Desktop All",
   "created_at": "2026-03-25T17:47:48.288343894Z",
-  "updated_at": "2026-03-25T17:48:18.778358762Z",
+  "updated_at": "2026-03-30T12:16:00.065352071Z",
   "outputs": [
     {
       "key": "lg electronics|16mr70|311nzsj039494",
@@ -17,7 +17,8 @@
       "x": 6707,
       "y": 1532,
       "scale": 1.6,
-      "transform": 0
+      "transform": 0,
+      "mirror_of": "none"
     },
     {
       "key": "lg electronics|lg tv sscr2|0x01010101",
@@ -26,14 +27,16 @@
       "model": "LG TV SSCR2",
       "serial": "0x01010101",
       "enabled": true,
-      "mode": "3840x2160@60.00Hz",
+      "mode": "3840x2160@119.88Hz",
       "width": 3840,
       "height": 2160,
-      "refresh": 60,
+      "refresh": 119.88,
       "x": 3820,
-      "y": -513,
+      "y": 927,
       "scale": 1.5,
-      "transform": 0
+      "vrr": 1,
+      "transform": 0,
+      "mirror_of": "microstep|mpg321ur-qd"
     },
     {
       "key": "microstep|mpg321ur-qd",
@@ -49,7 +52,8 @@
       "y": 927,
       "scale": 1.33,
       "vrr": 1,
-      "transform": 0
+      "transform": 0,
+      "mirror_of": "none"
     }
   ],
   "workspaces": {
@@ -59,8 +63,8 @@
     "group_size": 3,
     "monitor_order": [
       "microstep|mpg321ur-qd",
-      "lg electronics|16mr70|311nzsj039494",
-      "lg electronics|lg tv sscr2|0x01010101"
+      "lg electronics|lg tv sscr2|0x01010101",
+      "lg electronics|16mr70|311nzsj039494"
     ],
     "rules": [
       {
