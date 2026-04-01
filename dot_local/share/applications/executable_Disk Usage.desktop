@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Disk Usage
+Comment=Disk Usage
+Exec=xdg-terminal-exec --app-id=TUI.float -e dua i
+Terminal=false
+Type=Application
+Icon=/home/carmine/.local/share/applications/icons/Disk Usage.png
+StartupNotify=true
