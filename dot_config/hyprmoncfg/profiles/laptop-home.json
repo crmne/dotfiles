@@ -1,7 +1,7 @@
 {
   "name": "Laptop Home",
   "created_at": "2026-04-01T09:20:26.058547538Z",
-  "updated_at": "2026-04-01T09:20:26.058644765Z",
+  "updated_at": "2026-04-01T22:05:17.152632301Z",
   "outputs": [
     {
       "key": "microstep|mpg321ur-qd",
@@ -25,21 +25,21 @@
       "make": "Samsung Display Corp.",
       "model": "ATNA60CL10-0 ",
       "enabled": true,
-      "mode": "2880x1800@60.00Hz",
+      "mode": "2880x1800@120.00Hz",
       "width": 2880,
       "height": 1800,
-      "refresh": 60,
+      "refresh": 120,
       "x": 2887,
-      "y": 400,
-      "scale": 1.5,
+      "y": 524,
+      "scale": 1.67,
       "transform": 0
     }
   ],
   "workspaces": {
     "enabled": true,
-    "strategy": "interleave",
+    "strategy": "sequential",
     "max_workspaces": 6,
-    "group_size": 1,
+    "group_size": 3,
     "monitor_order": [
       "microstep|mpg321ur-qd",
       "samsung display corp.|atna60cl10-0"
@@ -64,18 +64,20 @@
       },
       {
         "workspace": "4",
-        "output_key": "microstep|mpg321ur-qd",
-        "output_name": "DP-1"
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1",
+        "default": true,
+        "persistent": true
       },
       {
         "workspace": "5",
-        "output_key": "microstep|mpg321ur-qd",
-        "output_name": "DP-1"
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1"
       },
       {
         "workspace": "6",
-        "output_key": "microstep|mpg321ur-qd",
-        "output_name": "DP-1"
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1"
       }
     ]
   }

@@ -1,7 +1,7 @@
 {
   "name": "Laptop",
   "created_at": "2026-03-25T14:56:28.597033559Z",
-  "updated_at": "2026-03-25T14:56:28.597162349Z",
+  "updated_at": "2026-04-01T17:51:47.633251704Z",
   "outputs": [
     {
       "key": "samsung display corp.|atna60cl10-0",
@@ -22,19 +22,34 @@
   ],
   "workspaces": {
     "enabled": true,
-    "strategy": "manual",
-    "max_workspaces": 9,
-    "group_size": 3,
+    "strategy": "interleave",
+    "max_workspaces": 6,
+    "group_size": 1,
     "monitor_order": [
       "samsung display corp.|atna60cl10-0"
     ],
     "rules": [
       {
-        "workspace": "4",
+        "workspace": "1",
         "output_key": "samsung display corp.|atna60cl10-0",
         "output_name": "eDP-1",
         "default": true,
         "persistent": true
+      },
+      {
+        "workspace": "2",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1"
+      },
+      {
+        "workspace": "3",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1"
+      },
+      {
+        "workspace": "4",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1"
       },
       {
         "workspace": "5",
