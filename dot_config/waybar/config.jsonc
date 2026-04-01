@@ -130,7 +130,7 @@
     "align": 0,
     "path": "/",
     "tooltip-format": "/ {used}/{total} ({percentage_used}%)",
-    "on-click": "omarchy-launch-floating-terminal-with-presentation ncdu -x $HOME"
+    "on-click": "omarchy-launch-floating-terminal-with-presentation dua i"
   },
   "battery": {
     "format": "{capacity}% {icon}",
