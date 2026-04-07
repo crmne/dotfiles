@@ -133,7 +133,7 @@
     "on-click": "omarchy-launch-floating-terminal-with-presentation dua i"
   },
   "battery": {
-    "format": "{capacity}% {icon}",
+    "format": "{icon}",
     "align": 0,
     "format-discharging": "{icon}",
     "format-charging": "{icon}",

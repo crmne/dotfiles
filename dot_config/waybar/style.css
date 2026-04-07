@@ -139,8 +139,8 @@ window#waybar.empty #window.title {
   letter-spacing: 0.3px;
 }
 
-#cpu.warning  { color: @warning; }
-#cpu.critical { color: @critical; }
+.warning  { color: @warning; }
+.critical { color: @critical; }
 
 /* -- Media controls -- */
 
