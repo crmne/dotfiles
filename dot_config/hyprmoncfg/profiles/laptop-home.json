@@ -1,11 +1,11 @@
 {
   "name": "Laptop Home",
   "created_at": "2026-04-01T09:20:26.058547538Z",
-  "updated_at": "2026-04-01T22:18:08.508313145Z",
+  "updated_at": "2026-04-10T09:34:20.195918551Z",
   "outputs": [
     {
       "key": "microstep|mpg321ur-qd",
-      "name": "DP-1",
+      "name": "DP-2",
       "make": "Microstep",
       "model": "MPG321UR-QD",
       "enabled": true,
@@ -38,8 +38,8 @@
   "workspaces": {
     "enabled": true,
     "strategy": "sequential",
-    "max_workspaces": 6,
-    "group_size": 3,
+    "max_workspaces": 8,
+    "group_size": 4,
     "monitor_order": [
       "microstep|mpg321ur-qd",
       "samsung display corp.|atna60cl10-0"
@@ -48,34 +48,44 @@
       {
         "workspace": "1",
         "output_key": "microstep|mpg321ur-qd",
-        "output_name": "DP-1",
+        "output_name": "DP-2",
         "default": true,
         "persistent": true
       },
       {
         "workspace": "2",
         "output_key": "microstep|mpg321ur-qd",
-        "output_name": "DP-1"
+        "output_name": "DP-2"
       },
       {
         "workspace": "3",
-        "output_key": "microstep|mpg321ur-qd",
-        "output_name": "DP-1"
-      },
-      {
-        "workspace": "4",
         "output_key": "samsung display corp.|atna60cl10-0",
         "output_name": "eDP-1",
         "default": true,
         "persistent": true
       },
       {
-        "workspace": "5",
+        "workspace": "4",
         "output_key": "samsung display corp.|atna60cl10-0",
         "output_name": "eDP-1"
       },
       {
+        "workspace": "5",
+        "output_key": "microstep|mpg321ur-qd",
+        "output_name": "DP-2"
+      },
+      {
         "workspace": "6",
+        "output_key": "microstep|mpg321ur-qd",
+        "output_name": "DP-2"
+      },
+      {
+        "workspace": "7",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1"
+      },
+      {
+        "workspace": "8",
         "output_key": "samsung display corp.|atna60cl10-0",
         "output_name": "eDP-1"
       }
