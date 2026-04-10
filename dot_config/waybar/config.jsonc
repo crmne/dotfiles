@@ -135,7 +135,7 @@
   "battery": {
     "format": "{icon}",
     "align": 0,
-    "format-discharging": "{icon}",
+    "format-discharging": "{capacity}% {icon}",
     "format-charging": "{icon}",
     "format-plugged": "",
     "format-icons": {

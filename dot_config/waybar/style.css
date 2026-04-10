@@ -126,17 +126,11 @@ window#waybar.empty #window.title {
 
 #network,
 #pulseaudio,
-#battery {
-  padding: 0 8px;
-  min-width: 12px;
-}
-
+#battery,
 #cpu,
 #disk {
   padding: 1px 8px 0;
   min-width: 12px;
-  font-size: 10px;
-  letter-spacing: 0.3px;
 }
 
 .warning  { color: @warning; }
