@@ -4,6 +4,9 @@ state_file = "auto"
 enabled = false
 
 [audio]
+
+# Pause MPRIS media players during recording
+pause_media = true
 device = "default"
 sample_rate = 16000
 max_duration_secs = 600
