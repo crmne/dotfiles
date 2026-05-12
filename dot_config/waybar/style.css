@@ -210,3 +210,14 @@ menuitem:hover { background-color: alpha(@foreground, 0.15); color: @foreground;
 #custom-notification-silencing-indicator.active {
   color: @indicator;
 }
+
+#custom-weather {
+  margin-left: 7.5px;
+  margin-right: 7.5px;
+}
+
+#custom-weather.unavailable {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
