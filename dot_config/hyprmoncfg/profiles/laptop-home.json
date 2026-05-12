@@ -1,10 +1,11 @@
 {
   "name": "Laptop Home",
   "created_at": "2026-04-01T09:20:26.058547538Z",
-  "updated_at": "2026-04-10T09:34:20.195918551Z",
+  "updated_at": "2026-04-21T09:21:57.276818751Z",
   "outputs": [
     {
       "key": "microstep|mpg321ur-qd",
+      "match_key": "microstep|mpg321ur-qd",
       "name": "DP-2",
       "make": "Microstep",
       "model": "MPG321UR-QD",
@@ -17,10 +18,13 @@
       "y": 0,
       "scale": 1.33,
       "vrr": 1,
-      "transform": 0
+      "transform": 0,
+      "sdr_min_luminance": 0,
+      "min_luminance": 0
     },
     {
       "key": "samsung display corp.|atna60cl10-0",
+      "match_key": "samsung display corp.|atna60cl10-0",
       "name": "eDP-1",
       "make": "Samsung Display Corp.",
       "model": "ATNA60CL10-0 ",
@@ -32,7 +36,9 @@
       "x": 2887,
       "y": 524,
       "scale": 1.67,
-      "transform": 0
+      "transform": 0,
+      "sdr_min_luminance": 0,
+      "min_luminance": 0
     }
   ],
   "workspaces": {
@@ -90,5 +96,6 @@
         "output_name": "eDP-1"
       }
     ]
-  }
+  },
+  "exec": ""
 }

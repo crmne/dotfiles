@@ -1,10 +1,11 @@
 {
   "name": "Laptop",
   "created_at": "2026-03-25T14:56:28.597033559Z",
-  "updated_at": "2026-04-01T17:51:47.633251704Z",
+  "updated_at": "2026-04-21T09:21:50.214716151Z",
   "outputs": [
     {
       "key": "samsung display corp.|atna60cl10-0",
+      "match_key": "samsung display corp.|atna60cl10-0",
       "name": "eDP-1",
       "make": "Samsung Display Corp.",
       "model": "ATNA60CL10-0 ",
@@ -17,7 +18,9 @@
       "y": 0,
       "scale": 1.5,
       "vrr": 1,
-      "transform": 0
+      "transform": 0,
+      "sdr_min_luminance": 0,
+      "min_luminance": 0
     }
   ],
   "workspaces": {
@@ -62,5 +65,6 @@
         "output_name": "eDP-1"
       }
     ]
-  }
+  },
+  "exec": ""
 }
