@@ -1,12 +1,12 @@
 {
   "name": "Laptop Home",
   "created_at": "2026-04-01T09:20:26.058547538Z",
-  "updated_at": "2026-04-21T09:21:57.276818751Z",
+  "updated_at": "2026-05-26T09:41:25.198895845Z",
   "outputs": [
     {
       "key": "microstep|mpg321ur-qd",
       "match_key": "microstep|mpg321ur-qd",
-      "name": "DP-2",
+      "name": "DP-1",
       "make": "Microstep",
       "model": "MPG321UR-QD",
       "enabled": true,
@@ -19,7 +19,10 @@
       "scale": 1.33,
       "vrr": 1,
       "transform": 0,
-      "sdr_min_luminance": 0,
+      "sdr_brightness": 1,
+      "sdr_saturation": 1,
+      "sdr_min_luminance": 0.2,
+      "sdr_max_luminance": 80,
       "min_luminance": 0
     },
     {
@@ -34,10 +37,13 @@
       "height": 1800,
       "refresh": 120,
       "x": 2887,
-      "y": 524,
+      "y": 546,
       "scale": 1.67,
       "transform": 0,
-      "sdr_min_luminance": 0,
+      "sdr_brightness": 1,
+      "sdr_saturation": 1,
+      "sdr_min_luminance": 0.2,
+      "sdr_max_luminance": 80,
       "min_luminance": 0
     }
   ],
@@ -54,36 +60,36 @@
       {
         "workspace": "1",
         "output_key": "microstep|mpg321ur-qd",
-        "output_name": "DP-2",
+        "output_name": "DP-1",
         "default": true,
         "persistent": true
       },
       {
         "workspace": "2",
         "output_key": "microstep|mpg321ur-qd",
-        "output_name": "DP-2"
+        "output_name": "DP-1"
       },
       {
         "workspace": "3",
+        "output_key": "microstep|mpg321ur-qd",
+        "output_name": "DP-1"
+      },
+      {
+        "workspace": "4",
+        "output_key": "microstep|mpg321ur-qd",
+        "output_name": "DP-1"
+      },
+      {
+        "workspace": "5",
         "output_key": "samsung display corp.|atna60cl10-0",
         "output_name": "eDP-1",
         "default": true,
         "persistent": true
       },
       {
-        "workspace": "4",
+        "workspace": "6",
         "output_key": "samsung display corp.|atna60cl10-0",
         "output_name": "eDP-1"
-      },
-      {
-        "workspace": "5",
-        "output_key": "microstep|mpg321ur-qd",
-        "output_name": "DP-2"
-      },
-      {
-        "workspace": "6",
-        "output_key": "microstep|mpg321ur-qd",
-        "output_name": "DP-2"
       },
       {
         "workspace": "7",
