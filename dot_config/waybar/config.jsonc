@@ -12,6 +12,7 @@
   "modules-center": [
     "clock#date",
     "clock#time",
+    "custom/weather",
     "custom/caffeinate",
     "custom/update",
     "custom/voxtype",
