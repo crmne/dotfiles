@@ -3,8 +3,8 @@ config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
 
 # Font
 font-family = "IBM Plex Mono"
-font-style = Regular
-font-size = 10
+font-style = Text
+font-size = 9
 
 # Window
 window-theme = ghostty
@@ -30,8 +30,8 @@ keybind = super+control+shift+alt+arrow_up=resize_split:up,100
 keybind = super+control+shift+alt+arrow_left=resize_split:left,100
 keybind = super+control+shift+alt+arrow_right=resize_split:right,100
 
-# Speedup mouse scrolling
-mouse-scroll-multiplier = 2
+# Slowdown mouse scrolling
+mouse-scroll-multiplier = 0.95
 
 # Fix general slowness on hyprland (https://github.com/ghostty-org/ghostty/discussions/3224)
 async-backend = epoll
