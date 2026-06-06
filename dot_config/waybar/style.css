@@ -40,8 +40,7 @@ window#waybar > box {
 * {
   background-color: transparent;
   color: @foreground;
-  font-family: 'IBM Plex Mono';
-  font-weight: 700;
+  font-family: 'IBM Plex Mono Text';
   font-size: 12px;
 }
 
@@ -52,7 +51,7 @@ window#waybar > box {
 .modules-right {
   background: @island;
   padding: 4px 10px 6px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   border-radius: 0;
 }
 
