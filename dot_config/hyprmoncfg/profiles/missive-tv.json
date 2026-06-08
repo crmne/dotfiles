@@ -1,0 +1,101 @@
+{
+  "name": "Missive TV",
+  "created_at": "2026-05-05T21:32:30.406383093Z",
+  "updated_at": "2026-06-08T12:05:49.835645436Z",
+  "outputs": [
+    {
+      "key": "lg electronics|lg tv|0x01010101",
+      "match_key": "lg electronics|lg tv|0x01010101",
+      "name": "HDMI-A-1",
+      "make": "LG Electronics",
+      "model": "LG TV",
+      "serial": "0x01010101",
+      "enabled": true,
+      "mode": "3840x2160@60.00Hz",
+      "width": 3840,
+      "height": 2160,
+      "refresh": 60,
+      "x": 1920,
+      "y": -1000,
+      "scale": 1,
+      "transform": 0,
+      "bitdepth": 8,
+      "cm": "srgb",
+      "sdr_brightness": 1,
+      "sdr_saturation": 1,
+      "sdr_min_luminance": 0.2,
+      "sdr_max_luminance": 80,
+      "min_luminance": 0
+    },
+    {
+      "key": "samsung display corp.|atna60cl10-0",
+      "match_key": "samsung display corp.|atna60cl10-0",
+      "name": "eDP-1",
+      "description": "Samsung Display Corp. ATNA60CL10-0",
+      "make": "Samsung Display Corp.",
+      "model": "ATNA60CL10-0 ",
+      "enabled": true,
+      "mode": "2880x1800@120.00Hz",
+      "width": 2880,
+      "height": 1800,
+      "refresh": 120,
+      "x": 0,
+      "y": 0,
+      "scale": 1.5,
+      "vrr": 1,
+      "transform": 0,
+      "sdr_brightness": 1,
+      "sdr_saturation": 1,
+      "sdr_min_luminance": 0.2,
+      "sdr_max_luminance": 80,
+      "min_luminance": 0
+    }
+  ],
+  "workspaces": {
+    "enabled": true,
+    "strategy": "sequential",
+    "max_workspaces": 6,
+    "group_size": 3,
+    "monitor_order": [
+      "samsung display corp.|atna60cl10-0",
+      "lg electronics|lg tv|0x01010101"
+    ],
+    "rules": [
+      {
+        "workspace": "1",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1",
+        "default": true,
+        "persistent": true
+      },
+      {
+        "workspace": "2",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1"
+      },
+      {
+        "workspace": "3",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1"
+      },
+      {
+        "workspace": "4",
+        "output_key": "lg electronics|lg tv|0x01010101",
+        "output_name": "HDMI-A-1",
+        "default": true,
+        "persistent": true
+      },
+      {
+        "workspace": "5",
+        "output_key": "lg electronics|lg tv|0x01010101",
+        "output_name": "HDMI-A-1"
+      },
+      {
+        "workspace": "6",
+        "output_key": "lg electronics|lg tv|0x01010101",
+        "output_name": "HDMI-A-1"
+      }
+    ]
+  },
+  "exec": ""
+}

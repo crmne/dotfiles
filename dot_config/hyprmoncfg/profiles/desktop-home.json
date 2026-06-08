@@ -1,10 +1,11 @@
 {
   "name": "Desktop Home",
   "created_at": "2026-03-25T17:40:12.236228758Z",
-  "updated_at": "2026-03-25T17:40:12.236333334Z",
+  "updated_at": "2026-06-08T12:05:04.508978306Z",
   "outputs": [
     {
       "key": "lg electronics|16mr70|311nzsj039494",
+      "match_key": "lg electronics|16mr70|311nzsj039494",
       "name": "DP-2",
       "make": "LG Electronics",
       "model": "16MR70",
@@ -17,11 +18,15 @@
       "x": 6707,
       "y": 1679,
       "scale": 1.6,
-      "transform": 0
+      "transform": 0,
+      "sdr_min_luminance": 0,
+      "min_luminance": 0
     },
     {
       "key": "microstep|mpg321ur-qd",
+      "match_key": "microstep|mpg321ur-qd",
       "name": "DP-1",
+      "description": "Microstep MPG321UR-QD",
       "make": "Microstep",
       "model": "MPG321UR-QD",
       "enabled": true,
@@ -33,7 +38,9 @@
       "y": 951,
       "scale": 1.33,
       "vrr": 1,
-      "transform": 0
+      "transform": 0,
+      "sdr_min_luminance": 0,
+      "min_luminance": 0
     }
   ],
   "workspaces": {
@@ -81,5 +88,6 @@
         "output_name": "DP-2"
       }
     ]
-  }
+  },
+  "exec": ""
 }

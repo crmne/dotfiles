@@ -1,12 +1,13 @@
 {
   "name": "Laptop",
   "created_at": "2026-03-25T14:56:28.597033559Z",
-  "updated_at": "2026-04-21T09:21:50.214716151Z",
+  "updated_at": "2026-06-08T12:05:27.83960445Z",
   "outputs": [
     {
       "key": "samsung display corp.|atna60cl10-0",
       "match_key": "samsung display corp.|atna60cl10-0",
       "name": "eDP-1",
+      "description": "Samsung Display Corp. ATNA60CL10-0",
       "make": "Samsung Display Corp.",
       "model": "ATNA60CL10-0 ",
       "enabled": true,

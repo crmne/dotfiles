@@ -1,10 +1,11 @@
 {
   "name": "Desktop Gaming",
   "created_at": "2026-03-25T17:49:04.207544169Z",
-  "updated_at": "2026-03-25T17:49:04.207694639Z",
+  "updated_at": "2026-06-08T12:04:53.224233141Z",
   "outputs": [
     {
       "key": "lg electronics|lg tv sscr2|0x01010101",
+      "match_key": "lg electronics|lg tv sscr2|0x01010101",
       "name": "HDMI-A-1",
       "make": "LG Electronics",
       "model": "LG TV SSCR2",
@@ -17,11 +18,15 @@
       "x": 3820,
       "y": -513,
       "scale": 1.5,
-      "transform": 0
+      "transform": 0,
+      "sdr_min_luminance": 0,
+      "min_luminance": 0
     },
     {
       "key": "microstep|mpg321ur-qd",
+      "match_key": "microstep|mpg321ur-qd",
       "name": "DP-1",
+      "description": "Microstep MPG321UR-QD",
       "make": "Microstep",
       "model": "MPG321UR-QD",
       "enabled": true,
@@ -33,7 +38,9 @@
       "y": 927,
       "scale": 1.33,
       "vrr": 1,
-      "transform": 0
+      "transform": 0,
+      "sdr_min_luminance": 0,
+      "min_luminance": 0
     }
   ],
   "workspaces": {
@@ -64,5 +71,6 @@
         "output_name": "DP-1"
       }
     ]
-  }
+  },
+  "exec": ""
 }

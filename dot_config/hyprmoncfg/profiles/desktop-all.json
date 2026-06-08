@@ -1,10 +1,11 @@
 {
   "name": "Desktop All",
   "created_at": "2026-03-25T17:47:48.288343894Z",
-  "updated_at": "2026-03-30T12:16:00.065352071Z",
+  "updated_at": "2026-06-08T12:04:34.818614088Z",
   "outputs": [
     {
       "key": "lg electronics|16mr70|311nzsj039494",
+      "match_key": "lg electronics|16mr70|311nzsj039494",
       "name": "DP-2",
       "make": "LG Electronics",
       "model": "16MR70",
@@ -18,10 +19,12 @@
       "y": 1532,
       "scale": 1.6,
       "transform": 0,
-      "mirror_of": "none"
+      "sdr_min_luminance": 0,
+      "min_luminance": 0
     },
     {
       "key": "lg electronics|lg tv sscr2|0x01010101",
+      "match_key": "lg electronics|lg tv sscr2|0x01010101",
       "name": "HDMI-A-1",
       "make": "LG Electronics",
       "model": "LG TV SSCR2",
@@ -36,11 +39,15 @@
       "scale": 1.5,
       "vrr": 1,
       "transform": 0,
-      "mirror_of": "microstep|mpg321ur-qd"
+      "mirror_of": "microstep|mpg321ur-qd",
+      "sdr_min_luminance": 0,
+      "min_luminance": 0
     },
     {
       "key": "microstep|mpg321ur-qd",
+      "match_key": "microstep|mpg321ur-qd",
       "name": "DP-1",
+      "description": "Microstep MPG321UR-QD",
       "make": "Microstep",
       "model": "MPG321UR-QD",
       "enabled": true,
@@ -53,7 +60,8 @@
       "scale": 1.33,
       "vrr": 1,
       "transform": 0,
-      "mirror_of": "none"
+      "sdr_min_luminance": 0,
+      "min_luminance": 0
     }
   ],
   "workspaces": {
@@ -63,7 +71,6 @@
     "group_size": 3,
     "monitor_order": [
       "microstep|mpg321ur-qd",
-      "lg electronics|lg tv sscr2|0x01010101",
       "lg electronics|16mr70|311nzsj039494"
     ],
     "rules": [
@@ -102,5 +109,6 @@
         "output_name": "DP-2"
       }
     ]
-  }
+  },
+  "exec": ""
 }
