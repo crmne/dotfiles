@@ -1,6 +1,9 @@
 [tools]
+claude = "latest"
+codex = "latest"
 go = "latest"
 node = "latest"
+opencode = "latest"
 ruby = "latest"
 
 [settings]
