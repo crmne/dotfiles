@@ -4,7 +4,7 @@ hl.monitor({
   output = "desc:Microstep MPG321UR-QD",
   mode = "3840x2160@143.99",
   position = "0x0",
-  scale = 1.33,
+  scale = 1.33333,
   vrr = 1,
   sdr_min_luminance = 0.2,
   sdr_max_luminance = 80,
@@ -14,7 +14,7 @@ hl.monitor({
   output = "desc:Samsung Display Corp. ATNA60CL10-0",
   mode = "2880x1800@120.00",
   position = "2887x546",
-  scale = 1.67,
+  scale = 1.66667,
   sdr_min_luminance = 0.2,
   sdr_max_luminance = 80,
 })
