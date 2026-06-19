@@ -258,7 +258,7 @@
     "artist-len": 20,
     "title-len": 24,
     "max-length": 48,
-    "on-click": "cider-open-or-focus"
+    "on-click": "omarchy-launch-or-focus spotify"
   },
   "mpris#prev": {
     "format": "󰒮",
@@ -293,7 +293,7 @@
     "size": 16,
     "interval": 2,
     "tooltip": false,
-    "on-click": "cider-open-or-focus",
+    "on-click": "omarchy-launch-or-focus spotify",
     "on-click-middle": "playerctl previous",
     "on-click-right": "playerctl next"
   },
