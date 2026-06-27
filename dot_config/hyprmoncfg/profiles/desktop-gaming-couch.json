@@ -1,0 +1,84 @@
+{
+  "name": "Desktop Gaming Couch",
+  "created_at": "2026-04-29T20:21:03.692794886Z",
+  "updated_at": "2026-04-29T20:21:03.692904195Z",
+  "outputs": [
+    {
+      "key": "lg electronics|lg tv sscr2|0x01010101",
+      "match_key": "lg electronics|lg tv sscr2|0x01010101",
+      "name": "HDMI-A-1",
+      "make": "LG Electronics",
+      "model": "LG TV SSCR2",
+      "serial": "0x01010101",
+      "enabled": true,
+      "mode": "3840x2160@119.88Hz",
+      "width": 3840,
+      "height": 2160,
+      "refresh": 119.88,
+      "x": 0,
+      "y": 0,
+      "scale": 1.6,
+      "vrr": 1,
+      "transform": 0,
+      "sdr_brightness": 1,
+      "sdr_saturation": 1,
+      "sdr_min_luminance": 0.2,
+      "sdr_max_luminance": 80,
+      "min_luminance": 0
+    }
+  ],
+  "workspaces": {
+    "enabled": true,
+    "strategy": "interleave",
+    "max_workspaces": 8,
+    "group_size": 1,
+    "monitor_order": [
+      "lg electronics|lg tv sscr2|0x01010101"
+    ],
+    "rules": [
+      {
+        "workspace": "1",
+        "output_key": "desc:Microstep MPG321UR-QD",
+        "output_name": "desc:Microstep MPG321UR-QD",
+        "default": true,
+        "persistent": true
+      },
+      {
+        "workspace": "2",
+        "output_key": "desc:Microstep MPG321UR-QD",
+        "output_name": "desc:Microstep MPG321UR-QD"
+      },
+      {
+        "workspace": "3",
+        "output_key": "desc:Microstep MPG321UR-QD",
+        "output_name": "desc:Microstep MPG321UR-QD"
+      },
+      {
+        "workspace": "4",
+        "output_key": "desc:Microstep MPG321UR-QD",
+        "output_name": "desc:Microstep MPG321UR-QD"
+      },
+      {
+        "workspace": "5",
+        "output_key": "desc:Microstep MPG321UR-QD",
+        "output_name": "desc:Microstep MPG321UR-QD"
+      },
+      {
+        "workspace": "6",
+        "output_key": "desc:Microstep MPG321UR-QD",
+        "output_name": "desc:Microstep MPG321UR-QD"
+      },
+      {
+        "workspace": "7",
+        "output_key": "desc:Microstep MPG321UR-QD",
+        "output_name": "desc:Microstep MPG321UR-QD"
+      },
+      {
+        "workspace": "8",
+        "output_key": "desc:Microstep MPG321UR-QD",
+        "output_name": "desc:Microstep MPG321UR-QD"
+      }
+    ]
+  },
+  "exec": ""
+}

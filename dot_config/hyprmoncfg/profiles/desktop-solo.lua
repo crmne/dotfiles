@@ -4,8 +4,10 @@ hl.monitor({
   output = "desc:Microstep MPG321UR-QD",
   mode = "3840x2160@143.99",
   position = "3820x951",
-  scale = 1.33,
+  scale = 1.33333,
   vrr = 1,
+  sdr_min_luminance = 0.2,
+  sdr_max_luminance = 80,
 })
 
 hl.workspace_rule({ workspace = "1", monitor = "desc:Microstep MPG321UR-QD", default = true, persistent = true })

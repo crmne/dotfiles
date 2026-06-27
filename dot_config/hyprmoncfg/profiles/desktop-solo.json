@@ -1,7 +1,7 @@
 {
   "name": "Desktop Solo",
   "created_at": "2026-03-25T17:45:54.125359235Z",
-  "updated_at": "2026-06-08T12:05:13.816229258Z",
+  "updated_at": "2026-06-27T13:58:46.721082413Z",
   "outputs": [
     {
       "key": "microstep|mpg321ur-qd",
@@ -17,18 +17,21 @@
       "refresh": 143.99,
       "x": 3820,
       "y": 951,
-      "scale": 1.33,
+      "scale": 1.33333,
       "vrr": 1,
       "transform": 0,
-      "sdr_min_luminance": 0,
+      "sdr_brightness": 1,
+      "sdr_saturation": 1,
+      "sdr_min_luminance": 0.2,
+      "sdr_max_luminance": 80,
       "min_luminance": 0
     }
   ],
   "workspaces": {
     "enabled": true,
-    "strategy": "sequential",
+    "strategy": "interleave",
     "max_workspaces": 6,
-    "group_size": 6,
+    "group_size": 1,
     "monitor_order": [
       "microstep|mpg321ur-qd"
     ],
@@ -47,6 +50,21 @@
       },
       {
         "workspace": "3",
+        "output_key": "microstep|mpg321ur-qd",
+        "output_name": "DP-1"
+      },
+      {
+        "workspace": "4",
+        "output_key": "microstep|mpg321ur-qd",
+        "output_name": "DP-1"
+      },
+      {
+        "workspace": "5",
+        "output_key": "microstep|mpg321ur-qd",
+        "output_name": "DP-1"
+      },
+      {
+        "workspace": "6",
         "output_key": "microstep|mpg321ur-qd",
         "output_name": "DP-1"
       }
