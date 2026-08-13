@@ -24,3 +24,9 @@ Apply them with
 chezmoi apply
 ```
 
+On Omarchy machines, applying the dotfiles also installs or updates the
+published [`crmne.mpris`](https://github.com/crmne/omarchy-mpris) and
+[`crmne.active-window`](https://github.com/crmne/omarchy-active-window)
+plugins from GitHub. Omarchy manages their checkouts under
+`~/.config/omarchy/plugins/`; the plugin source repositories are not copied or
+symlinked from a machine-local development directory.

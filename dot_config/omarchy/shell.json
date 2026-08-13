@@ -7,7 +7,7 @@
           "id": "omarchy.indicators"
         },
         {
-          "format": "dddd HH:mm",
+          "format": "ddd d MMM HH:mm",
           "formatAlt": "d MMMM 'W'ww yyyy",
           "id": "omarchy.clock",
           "verticalFormat": "HH\n—\nmm"
@@ -17,12 +17,6 @@
         },
         {
           "id": "omarchy.weather"
-        },
-        {
-          "id": "omarchy.microphone"
-        },
-        {
-          "id": "omarchy.media"
         },
         {
           "id": "omarchy.system-update"
@@ -36,10 +30,17 @@
           "id": "omarchy.workspaces"
         },
         {
-          "id": "omarchy.active-window"
+          "id": "crmne.active-window",
+          "iconSaturation": 100,
+          "iconSize": 16,
+          "maxWidth": 280,
+          "showTitle": true
         }
       ],
       "right": [
+        {
+          "id": "crmne.mpris"
+        },
         {
           "id": "omarchy.tray"
         },
