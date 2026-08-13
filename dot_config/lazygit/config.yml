@@ -1,4 +1,4 @@
 git:
-  pagers:
+  diffRenderers:
     - colorArg: always
-      pager: omarchy-delta --paging=never --line-numbers
+      command: omarchy-delta --paging=never --line-numbers

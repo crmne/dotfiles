@@ -1,6 +1,8 @@
 [tools]
 claude = "latest"
 codex = "latest"
+gh = "latest"
+"github:openai/codex" = "latest"
 go = "latest"
 node = "latest"
 opencode = "latest"
