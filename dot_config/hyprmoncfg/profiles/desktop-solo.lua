@@ -3,7 +3,7 @@
 hl.monitor({
   output = "desc:Microstep MPG321UR-QD",
   mode = "3840x2160@143.99",
-  position = "3820x951",
+  position = "3820x927",
   scale = 1.33333,
   vrr = 1,
   sdr_min_luminance = 0.2,
@@ -13,6 +13,3 @@ hl.monitor({
 hl.workspace_rule({ workspace = "1", monitor = "desc:Microstep MPG321UR-QD", default = true, persistent = true })
 hl.workspace_rule({ workspace = "2", monitor = "desc:Microstep MPG321UR-QD" })
 hl.workspace_rule({ workspace = "3", monitor = "desc:Microstep MPG321UR-QD" })
-hl.workspace_rule({ workspace = "4", monitor = "desc:Microstep MPG321UR-QD" })
-hl.workspace_rule({ workspace = "5", monitor = "desc:Microstep MPG321UR-QD" })
-hl.workspace_rule({ workspace = "6", monitor = "desc:Microstep MPG321UR-QD" })
