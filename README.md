@@ -24,9 +24,19 @@ Apply them with
 chezmoi apply
 ```
 
-On Omarchy machines, applying the dotfiles also installs or updates the
-published [`crmne.mpris`](https://github.com/crmne/omarchy-mpris) and
-[`crmne.active-window`](https://github.com/crmne/omarchy-active-window)
-plugins from GitHub. Omarchy manages their checkouts under
-`~/.config/omarchy/plugins/`; the plugin source repositories are not copied or
-symlinked from a machine-local development directory.
+On Omarchy machines, applying the dotfiles also installs or updates these
+plugins from GitHub:
+
+- `crmne.active-window`
+- `crmne.hyprmoncfg`
+- `crmne.lyrics`
+- `crmne.mpris`
+- `crmne.ultimate-guitar`
+- `io.github.ilyazar.keyboard-layout`
+- `quickshell.spotify`
+- `stappmus.activity-monitor`
+- `stappmus.lyrics`
+
+Omarchy manages their checkouts under `~/.config/omarchy/plugins/`; the plugin
+source repositories are not stored in this repository. `shell.json` controls
+which plugins are enabled and where their widgets appear.

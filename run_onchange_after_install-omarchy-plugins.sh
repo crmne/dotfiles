@@ -51,3 +51,31 @@ install_or_update_plugin \
 install_or_update_plugin \
   "crmne.active-window" \
   "https://github.com/crmne/omarchy-active-window.git"
+
+install_or_update_plugin \
+  "crmne.hyprmoncfg" \
+  "https://github.com/crmne/omarchy-hyprmoncfg.git"
+
+install_or_update_plugin \
+  "crmne.lyrics" \
+  "https://github.com/crmne/omarchy-lyrics.git"
+
+install_or_update_plugin \
+  "crmne.ultimate-guitar" \
+  "https://github.com/crmne/omarchy-ultimate-guitar.git"
+
+install_or_update_plugin \
+  "io.github.ilyazar.keyboard-layout" \
+  "https://github.com/ilyaZar/omarchy-keyboard-layout.git"
+
+install_or_update_plugin \
+  "quickshell.spotify" \
+  "https://github.com/stappmus/Omarchy-Spotify.git"
+
+install_or_update_plugin \
+  "stappmus.activity-monitor" \
+  "https://github.com/stappmus/omarchy-activity-monitor.git"
+
+install_or_update_plugin \
+  "stappmus.lyrics" \
+  "https://github.com/stappmus/Omasing.git"
