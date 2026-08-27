@@ -65,9 +65,5 @@ install_or_update_plugin \
   "https://github.com/crmne/omarchy-ultimate-guitar.git"
 
 install_or_update_plugin \
-  "quickshell.spotify" \
-  "https://github.com/stappmus/Omarchy-Spotify.git"
-
-install_or_update_plugin \
   "stappmus.activity-monitor" \
   "https://github.com/stappmus/omarchy-activity-monitor.git"

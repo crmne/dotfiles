@@ -45,20 +45,6 @@
           "id": "crmne.mpris"
         },
         {
-          "id": "quickshell.spotify",
-          "deviceName": "Omarchy Spotify",
-          "idleShutdownMinutes": 15,
-          "showMiniPlayer": "On",
-          "shortcutPlayer": "Full player",
-          "showTrackTitle": "Off",
-          "showArtistName": "Off",
-          "scrollBarText": "Off",
-          "scrollSpeed": "1",
-          "audioQuality": "320 kbps",
-          "searchHistory": "[]",
-          "sessionState": "{\"tab\":\"setup\",\"searchText\":\"\",\"searchType\":\"track\",\"libraryType\":\"tracks\",\"homeType\":\"recent\",\"libraryFilter\":\"\",\"librarySort\":\"default\",\"playlistFilter\":\"\",\"playlistSort\":\"default\",\"detailFilter\":\"\",\"detailSort\":\"default\",\"homeFilter\":\"\",\"discoverFilter\":\"\",\"queueFilter\":\"\",\"artistSearchText\":\"\",\"scrollPositions\":{\"home:recent\":0,\"search:track\":0},\"detailItem\":null,\"selectedPlaylistId\":\"\",\"lastRadioPlaylist\":null}"
-        },
-        {
           "id": "stappmus.activity-monitor"
         },
         {

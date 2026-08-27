@@ -28,10 +28,6 @@ o.bind("SUPER + SHIFT + CTRL + A", "Claude", {
 	focus = true,
 })
 
--- Replace Music with Omarchy Spotify
-hl.unbind("SUPER + SHIFT + M")
-o.bind("SUPER + SHIFT + M", "Omarchy Spotify", "omarchy shell -q quickshell.spotify.player togglePlayer")
-
 -- External keyboard keys (QMK KC_F20 and KC_WWW_SEARCH).
 o.bind_toggle("XF86DoNotDisturb", "Toggle silencing notifications", "notification-silencing")
 o.bind("XF86Search", "Share", "omarchy menu toggle share")

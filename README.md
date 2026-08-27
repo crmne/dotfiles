@@ -32,7 +32,6 @@ plugins from GitHub:
 - `crmne.lyrics`
 - `crmne.mpris`
 - `crmne.ultimate-guitar`
-- `quickshell.spotify`
 - `stappmus.activity-monitor`
 
 Omarchy manages their checkouts under `~/.config/omarchy/plugins/`; the plugin
