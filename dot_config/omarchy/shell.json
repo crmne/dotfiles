@@ -45,10 +45,13 @@
           "id": "crmne.mpris"
         },
         {
-          "id": "stappmus.activity-monitor"
+          "id": "crmne.ultimate-guitar"
         },
         {
-          "id": "crmne.hyprmoncfg"
+          "id": "crmne.lyrics"
+        },
+        {
+          "id": "stappmus.activity-monitor"
         },
         {
           "id": "omarchy.agents"
@@ -63,15 +66,15 @@
           "id": "omarchy.audio"
         },
         {
-          "id": "omarchy.power"
+          "id": "crmne.hyprmoncfg"
         },
         {
-          "id": "crmne.hyprmoncfg"
+          "id": "omarchy.power"
         }
       ]
     },
     "position": "top",
-    "transparent": false
+    "transparent": true
   },
   "idle": {
     "lock": 300,
