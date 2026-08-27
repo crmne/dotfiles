@@ -28,6 +28,13 @@ o.bind("SUPER + SHIFT + CTRL + A", "Claude", {
 	focus = true,
 })
 
+-- Replace Omarchy's Spotify launcher with Fastpotify.
+hl.unbind("SUPER + SHIFT + M")
+o.bind("SUPER + SHIFT + M", "Fastpotify", {
+	launch = "fastpotify",
+	focus = "fastpotify",
+})
+
 -- External keyboard keys (QMK KC_F20 and KC_WWW_SEARCH).
 o.bind_toggle("XF86DoNotDisturb", "Toggle silencing notifications", "notification-silencing")
 o.bind("XF86Search", "Share", "omarchy menu toggle share")
