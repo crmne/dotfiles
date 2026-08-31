@@ -1,7 +1,10 @@
 state_file = "auto"
+engine = "whisper"
 
 [hotkey]
 enabled = false
+key = "HOME"
+mode = "push_to_talk"
 
 [audio]
 
@@ -10,18 +13,24 @@ pause_media = true
 device = "default"
 sample_rate = 16000
 max_duration_secs = 600
+duck_media = false
+duck_media_volume_percent = 70
 
 [audio.feedback]
 enabled = true
 # Sound theme: "default", "subtle", "mechanical", or path to custom theme directory
 theme = "default"
-volume = 0.7
+volume = 0.699999988079071
 
 [whisper]
 model = "small.en"
 language = "en"
 translate = false
-on_demand_loading = true # saves your GPU until it's needed
+on_demand_loading = true
+gpu_isolation = true
+flash_attention = true
+eager_processing = false
+mode = "local"
 
 [output]
 mode = "clipboard"
@@ -30,17 +39,54 @@ fallback_to_clipboard = true
 # Delay between typed characters in milliseconds
 # 0 = fastest possible, increase if characters are dropped
 type_delay_ms = 2
+auto_submit = false
+shift_enter_newlines = false
+pre_type_delay_ms = 0
 
 [output.notification]
 on_recording_start = false
 on_recording_stop = false
 on_transcription = true
+show_engine_icon = false
 
 [text]
 replacements = { "hyperwhisper" = "hyprwhspr" }
+spoken_punctuation = false
+smart_auto_submit = false
 
 [status]
 icon_theme = "omarchy"
 
 [parakeet]
 model = "parakeet-tdt-0.6b-v3-int8"
+streaming = false
+on_demand_loading = false
+
+[vad]
+enabled = false
+backend = "auto"
+threshold = 0.5
+
+[meeting]
+enabled = false
+
+[meeting.diarization]
+enabled = false
+
+[meeting.audio]
+source = "mic"
+
+[osd]
+enabled = true
+frontend = "gtk4"
+style = "default"
+layout = "compact"
+position = "bottom-center"
+width_px = 400
+height_px = 48
+margin_px = 24
+top_margin = 0.85
+opacity = 0.95
+waveform_window_secs = 3.0
+peak_decay_db_per_sec = 6.0
+waveform_gain = 10.0
