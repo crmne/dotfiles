@@ -1,5 +1,7 @@
 -- Personal bindings loaded after Omarchy's defaults.
 
+-- Reserve this shortcut for Todoist, clearing any inherited binding first.
+hl.unbind("SUPER + SHIFT + T")
 o.bind("SUPER + SHIFT + T", "Todoist", {
 	webapp = "https://app.todoist.com/app",
 	focus = true,

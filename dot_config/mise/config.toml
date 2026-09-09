@@ -1,11 +1,14 @@
 [tools]
 claude = "latest"
 codex = "latest"
+copilot = "latest"
 gh = "latest"
 "github:openai/codex" = "latest"
 go = "latest"
 node = "latest"
+"npm:playwright" = "latest"
 opencode = "latest"
+pnpm = "latest"
 ruby = "latest"
 
 [settings]
@@ -13,3 +16,6 @@ idiomatic_version_file_enable_tools = ["ruby"]
 
 [settings.ruby]
 compile = false
+
+[settings.upgrade]
+auto_prune = false

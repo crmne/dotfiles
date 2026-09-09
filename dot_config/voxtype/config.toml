@@ -26,8 +26,8 @@ volume = 0.699999988079071
 model = "small.en"
 language = "en"
 translate = false
-on_demand_loading = true
-gpu_isolation = true
+on_demand_loading = false
+gpu_isolation = false
 flash_attention = true
 eager_processing = false
 mode = "local"
@@ -47,7 +47,7 @@ pre_type_delay_ms = 0
 on_recording_start = false
 on_recording_stop = false
 on_transcription = true
-show_engine_icon = false
+show_engine_icon = true
 
 [text]
 replacements = { "hyperwhisper" = "hyprwhspr" }
@@ -78,7 +78,7 @@ source = "mic"
 
 [osd]
 enabled = true
-frontend = "gtk4"
+frontend = "native"
 style = "default"
 layout = "compact"
 position = "bottom-center"
