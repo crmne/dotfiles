@@ -1,0 +1,18 @@
+Host chalk nsac63f.glddns.com
+  HostName nsac63f.glddns.com
+  User carmine
+  Port 2222
+  IdentityFile ~/.ssh/nuc-1password.pub
+  IdentitiesOnly yes
+
+Host carmines-mac-mini.local Carmines-Mac-Mini.local
+  User carmine
+  IdentityFile ~/.ssh/nuc-1password.pub
+  IdentitiesOnly yes
+
+Host *
+{{ if eq .chezmoi.os "darwin" }}
+  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+{{ else }}
+  IdentityAgent ~/.1password/agent.sock
+{{ end }}
