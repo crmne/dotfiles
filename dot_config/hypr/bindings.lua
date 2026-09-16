@@ -30,15 +30,15 @@ o.bind("SUPER + SHIFT + CTRL + A", "Claude", {
 	focus = true,
 })
 
--- Replace Omarchy's Spotify launcher with Fastpotify. A plain launch is
+-- Replace Omarchy's Spotify launcher with Spotifast. A plain launch is
 -- enough: a second copy asks the running one to show its window and exits.
 hl.unbind("SUPER + SHIFT + M")
-o.bind("SUPER + SHIFT + M", "Fastpotify", { launch = "fastpotify" })
+o.bind("SUPER + SHIFT + M", "Spotifast", { launch = "spotifast" })
 
--- Replace Omarchy's WhatsApp launcher with Fastsapp. A plain launch is
+-- Replace Omarchy's WhatsApp launcher with ZapFast. A plain launch is
 -- enough: a second copy asks the running one to show its window and exits.
 hl.unbind("SUPER + SHIFT + G")
-o.bind("SUPER + SHIFT + G", "Fastsapp", { launch = "fastsapp" })
+o.bind("SUPER + SHIFT + G", "ZapFast", { launch = "zapfast" })
 
 hl.unbind("SUPER + SHIFT + ALT + G")
 o.bind("SUPER + SHIFT + ALT + G", "Signal", { omarchy = "signal" })
