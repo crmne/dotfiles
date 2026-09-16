@@ -1,0 +1,10 @@
+{
+  "omarchyPlugins": {
+    "crmne.active-window": "https://github.com/crmne/omarchy-active-window.git",
+    "crmne.hyprmoncfg": "https://github.com/crmne/omarchy-hyprmoncfg.git",
+    "crmne.mpris": "https://github.com/crmne/omarchy-mpris.git",
+    "crmne.omastats": "https://github.com/crmne/omastats.git",
+    "crmne.todoist": "https://github.com/crmne/omatasks.git",
+    "io.github.fabean.hey-agenda": "https://github.com/fabean/omarchy-hey-agenda.git"
+  }
+}

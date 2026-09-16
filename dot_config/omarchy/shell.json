@@ -7,13 +7,11 @@
           "id": "omarchy.indicators"
         },
         {
-          "format": "ddd d MMM HH:mm",
-          "formatAlt": "d MMMM 'W'ww yyyy",
-          "id": "omarchy.clock",
-          "verticalFormat": "HH\n—\nmm"
+          "id": "omarchy.keyboard-layout"
         },
         {
-          "id": "omarchy.keyboard-layout"
+          "id": "io.github.fabean.hey-agenda",
+          "format": "ddd d MMM HH:mm"
         },
         {
           "id": "omarchy.weather"
@@ -42,13 +40,10 @@
           "id": "omarchy.tray"
         },
         {
+          "id": "crmne.todoist"
+        },
+        {
           "id": "crmne.mpris"
-        },
-        {
-          "id": "crmne.ultimate-guitar"
-        },
-        {
-          "id": "crmne.lyrics"
         },
         {
           "id": "crmne.omastats",

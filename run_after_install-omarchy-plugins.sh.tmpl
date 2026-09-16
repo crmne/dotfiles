@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -euo pipefail
+
+if ! command -v omarchy >/dev/null 2>&1; then
+  echo "Skipping Omarchy plugins: Omarchy is not installed on this machine."
+  exit 0
+fi
+
+# Match the directory used by Omarchy's plugin commands.
+plugins_dir="$HOME/.config/omarchy/plugins"
+
+ensure_plugin() {
+  local id="$1"
+  local url="$2"
+  local target="$plugins_dir/$id"
+
+  if [[ ! $id =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ || $id == *..* ]]; then
+    echo "Invalid Omarchy plugin id: $id" >&2
+    return 1
+  fi
+
+  if [[ -e "$target" || -L "$target" ]]; then
+    if ! jq -e --arg id "$id" '.id == $id' "$target/manifest.json" >/dev/null; then
+      echo "Cannot use existing plugin $id: missing or mismatched manifest in $target." >&2
+      return 1
+    fi
+    # Includes local development copies and symlinked checkouts.
+    echo "Omarchy plugin already installed: $id"
+    return
+  fi
+
+  # The applied shell.json enables the plugin in its saved position. --enable
+  # would let Omarchy insert a new entry with default placement/settings.
+  omarchy plugin add "$url" --yes
+  if ! jq -e --arg id "$id" '.id == $id' "$target/manifest.json" >/dev/null; then
+    echo "Repository $url did not install the expected plugin $id." >&2
+    return 1
+  fi
+}
+
+# Generated from the list captured by the add/re-add hook. Check on every apply
+# so missing plugins are restored even when the list itself has not changed.
+{{ range $id, $url := .omarchyPlugins -}}
+ensure_plugin {{ $id | shellQuote }} {{ $url | shellQuote }}
+{{ end -}}

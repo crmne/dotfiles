@@ -1,0 +1,7 @@
+# Capture plugin sources after shell.json has been added to the source state.
+{{ range list "add" "re-add" -}}
+[hooks.{{ . }}.post]
+command = "sh"
+args = ["-c", 'command -v omarchy >/dev/null 2>&1 || exit 0; exec python3 "$CHEZMOI_SOURCE_DIR/tools/capture-omarchy-plugins.py"']
+
+{{ end -}}
