@@ -15,12 +15,13 @@ sample_rate = 16000
 max_duration_secs = 600
 duck_media = false
 duck_media_volume_percent = 70
+duck_media_fade_ms = 150
 
 [audio.feedback]
 enabled = true
 # Sound theme: "default", "subtle", "mechanical", or path to custom theme directory
 theme = "default"
-volume = 0.699999988079071
+volume = 1.0
 
 [whisper]
 model = "small.en"
@@ -78,7 +79,7 @@ source = "mic"
 
 [osd]
 enabled = true
-frontend = "native"
+frontend = "gtk4"
 style = "default"
 layout = "compact"
 position = "bottom-center"

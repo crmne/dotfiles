@@ -1,15 +1,21 @@
+wrappers = { cargo = { command = "mbx", env = { MBX_CARGO_SHIM_MODE = "1" } } }
 [tools]
 claude = "latest"
 codex = "latest"
 copilot = "latest"
 gh = "latest"
+"github:basecamp/hey-cli" = "latest"
 "github:openai/codex" = "latest"
 go = "latest"
+mr-boxington = "latest"
 node = "latest"
+"npm:@xai-official/grok" = "latest"
 "npm:playwright" = "latest"
 opencode = "latest"
+pipx = "latest"
 pnpm = "latest"
 ruby = "latest"
+rust = { version = "latest", mr_boxington = true }
 
 [settings]
 idiomatic_version_file_enable_tools = ["ruby"]

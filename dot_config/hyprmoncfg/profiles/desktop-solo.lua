@@ -13,3 +13,6 @@ hl.monitor({
 hl.workspace_rule({ workspace = "1", monitor = "desc:Microstep MPG321UR-QD", default = true, persistent = true })
 hl.workspace_rule({ workspace = "2", monitor = "desc:Microstep MPG321UR-QD" })
 hl.workspace_rule({ workspace = "3", monitor = "desc:Microstep MPG321UR-QD" })
+hl.workspace_rule({ workspace = "4", monitor = "desc:Microstep MPG321UR-QD" })
+hl.workspace_rule({ workspace = "5", monitor = "desc:Microstep MPG321UR-QD" })
+hl.workspace_rule({ workspace = "6", monitor = "desc:Microstep MPG321UR-QD" })
