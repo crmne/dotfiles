@@ -1,6 +1,6 @@
 {
   "bar": {
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "crmne.omacal",
     "layout": {
       "center": [
         {
@@ -10,11 +10,11 @@
           "id": "omarchy.keyboard-layout"
         },
         {
-          "id": "io.github.fabean.hey-agenda",
-          "format": "ddd d MMM HH:mm"
+          "id": "omarchy.weather"
         },
         {
-          "id": "omarchy.weather"
+          "id": "crmne.omacal",
+          "format": "ddd d MMM HH:mm"
         },
         {
           "id": "omarchy.system-update"
@@ -52,14 +52,14 @@
           "barGpus": "0000:01:00.0",
           "barSensors": "cpu,gpu",
           "batteryStyle": "",
-          "cpuStyle": "",
+          "cpuStyle": "graph",
           "disksSource": "nvme0n1",
           "disksStyle": "graph",
-          "gpuStyle": "both",
+          "gpuStyle": "graph",
           "graphWidth": 36,
           "historySeconds": 240,
           "memoryStyle": "ring",
-          "modules": "cpu,memory,network,disks",
+          "modules": "cpu,memory,network,disks,gpu",
           "networkStyle": "both",
           "publicIp": true,
           "refreshSeconds": 1,
@@ -72,6 +72,7 @@
           "showDevices": true,
           "showFans": true,
           "showGpu": true,
+          "showGpuMemory": false,
           "showHistory": true,
           "showInterfaces": true,
           "showLoad": true,

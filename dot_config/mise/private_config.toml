@@ -1,5 +1,6 @@
 wrappers = { cargo = { command = "mbx", env = { MBX_CARGO_SHIM_MODE = "1" } } }
 [tools]
+bun = "1.4.2"
 claude = "latest"
 codex = "latest"
 copilot = "latest"

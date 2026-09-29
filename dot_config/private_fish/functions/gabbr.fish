@@ -1,4 +1,4 @@
-function gabbr --description "Show good-git-abbr abbreviations"
+function gabbr --description "Show omafish git abbreviations"
     printf "\033[1mabbr\t\tcommand\033[0m\n"
     set -l tab (printf '\t')
     set -l rows
