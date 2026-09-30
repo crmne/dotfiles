@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# Uploads an image or video as a GitHub attachment and prints its
+# https://github.com/user-attachments/assets/<id> URL: the only kind of link
+# GitHub's markdown plays as an inline video (or shows as a hosted image) in
+# release notes, issues and pull requests. Put a video's URL on a line of its
+# own; an image prints as markdown.
+#
+#   gh-attachment <file> [--repo owner/repo]
+#
+# Uses the undocumented uploads.github.com/user-attachments/assets endpoint
+# with the token `gh` already holds (push access to the repo required). It
+# can change without notice: if it fails, drag the file into the release
+# editor on github.com instead.
+set -euo pipefail
+
+usage() { echo "usage: gh-attachment <file> [--repo owner/repo]" >&2; exit 2; }
+
+file=""
+repo=""
+while (( $# )); do
+  case $1 in
+    --repo) repo=${2:-}; [[ -n $repo ]] || usage; shift 2 ;;
+    -h|--help) usage ;;
+    *) [[ -z $file ]] || usage; file=$1; shift ;;
+  esac
+done
+[[ -n $file && -f $file ]] || usage
+[[ -n $repo ]] || repo=$(gh repo view --json nameWithOwner --jq .nameWithOwner)
+
+name=$(basename -- "$file")
+case ${name,,} in
+  *.mp4) type=video/mp4 ;;
+  *.mov) type=video/quicktime ;;
+  *.webm) type=video/webm ;;
+  *.png) type=image/png ;;
+  *.jpg|*.jpeg) type=image/jpeg ;;
+  *.gif) type=image/gif ;;
+  *.webp) type=image/webp ;;
+  *.svg) type=image/svg+xml ;;
+  *) echo "gh-attachment: unsupported file type: $name" >&2; exit 2 ;;
+esac
+
+repo_id=$(gh api "repos/$repo" --jq .id)
+encoded_name=$(jq -rn --arg v "$name" '$v|@uri')
+encoded_type=$(jq -rn --arg v "$type" '$v|@uri')
+
+# The token goes through a curl config on stdin, never on the command line.
+response=$(printf 'header = "Authorization: Bearer %s"\n' "$(gh auth token)" |
+  curl -sS --fail-with-body -K - -X POST \
+    -H "Accept: application/json" -H "Content-Type: $type" \
+    --data-binary "@$file" \
+    "https://uploads.github.com/user-attachments/assets?name=$encoded_name&content_type=$encoded_type&repository_id=$repo_id")
+
+url=$(jq -r '.url // empty' <<<"$response")
+if [[ -z $url ]]; then
+  echo "gh-attachment: upload failed: $response" >&2
+  exit 1
+fi
+
+case $type in
+  image/*) printf '![%s](%s)\n' "${name%.*}" "$url" ;;
+  *) printf '%s\n' "$url" ;;
+esac
