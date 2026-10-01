@@ -1,4 +1,4 @@
-function __good_git_default_branch --description "Resolve repo default branch"
+function __omafish_git_default_branch --description "Resolve repo default branch"
     set -l configured (command git config --get init.defaultBranch 2>/dev/null)
     if test -n "$configured"
         if command git show-ref --verify --quiet "refs/heads/$configured"
