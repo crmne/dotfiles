@@ -24,6 +24,19 @@ Apply them with
 chezmoi apply
 ```
 
+On Linux, `~/.config/user-dirs.dirs` routes desktop files, downloads, documents,
+music, pictures, and videos to their standard folders under home. Omarchy uses
+Pictures for screenshots and Videos for screen recordings. Documents, Pictures,
+and Videos continue to use existing Nextcloud symlinks.
+
+`run_before_create-user-dirs.sh.tmpl` creates missing folders on each apply,
+before writing the mappings. `~/.config/user-dirs.conf` disables automatic
+directory updates so login cannot reset a missing folder or temporarily
+unavailable sync target to home. Change the saved mappings in
+`dot_config/private_user-dirs.dirs` and run `chezmoi apply` to use another location.
+Existing files are not moved. These settings are skipped on other operating
+systems.
+
 On Omarchy machines, `~/.config/omarchy/shell.json` controls plugin enablement,
 widget positions, and widget settings. After changing the bar or plugins, run:
 

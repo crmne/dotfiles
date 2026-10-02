@@ -1,3 +1,8 @@
 README.md
 tools
 tests
+
+{{ if ne .chezmoi.os "linux" }}
+.config/user-dirs.dirs
+.config/user-dirs.conf
+{{ end }}
