@@ -59,3 +59,23 @@ are not stored here; sign in to plugins on each machine as needed.
 The automation is in `tools/capture-omarchy-plugins.py` and
 `run_after_install-omarchy-plugins.sh.tmpl`. This is a chezmoi command hook and
 apply script; it does not depend on Git checkout hooks.
+
+## Fonts
+
+Inter is the interface font (`system-ui`, `sans-serif`, `-apple-system`,
+`BlinkMacSystemFont`) and Noto Serif the serif font, ahead of Omarchy's
+Liberation defaults. A font an app or page names explicitly still comes first.
+
+- `~/.config/fontconfig/fonts.conf` holds only the monospace font, because
+  `omarchy font set` rewrites that file with nothing else.
+- `~/.config/fontconfig/conf.d/60-interface.conf` sets `system-ui` and the
+  browser aliases, out of `omarchy font set`'s reach.
+- `system/etc/fonts/conf.d/49-carmine-fonts.conf` sets `sans-serif` and
+  `serif`. Omarchy replaces those names before any user configuration is read,
+  so this file has to load before `50-omarchy.conf`. chezmoi only manages
+  `$HOME`, so `run_onchange_after_install-fontconfig-system.sh.tmpl` installs it
+  with `sudo` when it changes, on Omarchy machines only.
+
+Check the result with `fc-match 'system\-ui'` (escape the `-`: in an
+`fc-match` pattern it starts a point size). `tests/test_fontconfig.py` checks
+every family against the installed fonts.

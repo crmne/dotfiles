@@ -1,0 +1,23 @@
+#!/bin/bash
+# Installs the system font defaults in system/etc/ (chezmoi only manages $HOME).
+# Runs again whenever the file changes:
+# 49-carmine-fonts.conf {{ include "system/etc/fonts/conf.d/49-carmine-fonts.conf" | sha256sum }}
+
+set -euo pipefail
+
+source="{{ .chezmoi.sourceDir }}/system/etc/fonts/conf.d/49-carmine-fonts.conf"
+target="/etc/fonts/conf.d/49-carmine-fonts.conf"
+
+# It only matters where Omarchy replaces the generic families first.
+if [[ ! -e /etc/fonts/conf.d/50-omarchy.conf ]]; then
+  echo "Skipping system font defaults: Omarchy's fontconfig is not installed."
+  exit 0
+fi
+
+if cmp -s "$source" "$target"; then
+  echo "System font defaults already installed: $target"
+  exit 0
+fi
+
+echo "Installing system font defaults to $target (needs sudo)."
+sudo install -m 644 "$source" "$target"
