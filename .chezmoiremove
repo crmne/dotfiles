@@ -1,0 +1,9 @@
+# Files from older omafish and good-git-abbr. Both now come from omafish via
+# Fisher, and a leftover functions/cd.fish replaces omafish's cd.
+.config/fish/conf.d/good-git-abbr.fish
+.config/fish/functions/__good_git_*.fish
+.config/fish/functions/cd.fish
+.config/fish/functions/g.fish
+.config/fish/functions/gcad.fish
+.config/fish/functions/gcam.fish
+.config/fish/functions/gcm.fish
