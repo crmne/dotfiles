@@ -14,7 +14,8 @@
         },
         {
           "id": "crmne.omacal",
-          "format": "ddd d MMM HH:mm"
+          "format": "ddd d MMM HH:mm",
+          "lastCalendarId": 383707
         },
         {
           "id": "omarchy.system-update"
@@ -40,20 +41,19 @@
           "id": "omarchy.tray"
         },
         {
-          "id": "crmne.mpris",
-          "showControls": false
+          "id": "crmne.moza"
         },
         {
           "id": "crmne.todoist"
         },
         {
           "id": "crmne.omastats",
-          "barDisks": "nvme0n1:used",
+          "barDisks": "nvme1n1:used",
           "barGpus": "0000:01:00.0",
           "barSensors": "cpu,gpu",
           "batteryStyle": "",
           "cpuStyle": "graph",
-          "disksSource": "nvme0n1",
+          "disksSource": "all",
           "disksStyle": "graph",
           "gpuStyle": "graph",
           "graphWidth": 36,
@@ -86,6 +86,13 @@
           "utilizationColors": false
         },
         {
+          "id": "crmne.mpris",
+          "showControls": false
+        },
+        {
+          "id": "crmne.ultimate-guitar"
+        },
+        {
           "id": "omarchy.agents"
         },
         {
@@ -106,7 +113,7 @@
       ]
     },
     "position": "top",
-    "transparent": false
+    "transparent": true
   },
   "idle": {
     "lock": 300,

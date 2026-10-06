@@ -11,6 +11,21 @@
   frame capture, ffmpeg NVENC, Blender) wrapped in `gpu-lock`. Never deliver a
   render that fell back to screenshot or software capture. Load the
   `gpu-render` skill before rendering.
+- Render with one worker. With several, each worker captures every Nth frame
+  and can hold different animation state, so motion flickers on every Nth
+  frame. `hf-render` enforces it and runs `hf-flicker` on the result; never
+  deliver a render with pops, unless you looked and each is a designed
+  one-frame effect such as a screen shake.
+
+# Processes
+
+- Each session runs in a systemd scope of its own (the fish `claude`
+  function), so running out of memory kills one session, not herdr and every
+  session with it.
+- Stop processes by exact PID you started, never `pkill -f`, `killall`, or a
+  `pgrep -f` pattern, which also match your own shell and other sessions.
+- Never open URLs in the desktop browser (`open`, `xdg-open`); use headless
+  Playwright or `curl`.
 
 # Films and product videos
 
