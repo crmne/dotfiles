@@ -1,0 +1,37 @@
+# NuPhy Air75 V3 keymap, Windows mode (side switch on Win).
+# Apply with: nuphyctl keymap apply ~/.config/nuphyctl/air75v3.toml
+#
+# The top row sends the same codes as the Halo75 V2's QMK keymap (crmne), so
+# both keyboards drive the same Hyprland bindings in ~/.config/hypr/bindings.lua.
+# The F-keys move to the Fn layer.
+
+[windows.base]  # layer 4
+F1 = "BRID"
+F2 = "BRIU"
+F3 = "MISSION_CONTROL"  # XF86LaunchA: Omarchy menu
+F4 = "WSCH"             # XF86Search: file search
+F5 = "F20"              # XF86AudioMicMute, dictation with Shift
+F6 = "DND"              # XF86DoNotDisturb, night light with Shift
+F7 = "MPRV"
+F8 = "MPLY"
+F9 = "MNXT"
+F10 = "MUTE"
+F11 = "VOLD"
+F12 = "VOLU"
+PSCR = "PSCR"           # factory: NuPhy area screenshot (Super+Shift+S)
+YELLOW = "DEL"          # factory: Insert; the Halo75 V2 has Delete here
+
+[windows.base.knob]     # the red key until the knob module is fitted
+ccw = "VOLD"
+cw = "VOLU"
+press = "MUTE"
+
+[windows.fn]  # layer 5
+F1 = "F1"
+F2 = "F2"
+F7 = "F7"
+F8 = "F8"
+F9 = "F9"
+F10 = "F10"
+F11 = "F11"
+F12 = "F12"
