@@ -119,6 +119,10 @@
     "lock": 300,
     "screensaver": 150
   },
-  "plugins": [],
+  "plugins": [
+    {
+      "id": "crmne.files"
+    }
+  ],
   "version": 1
 }

@@ -1,6 +1,7 @@
 {
   "omarchyPlugins": {
     "crmne.active-window": "https://github.com/crmne/omarchy-active-window.git",
+    "crmne.files": "https://github.com/crmne/omarchy-files.git",
     "crmne.hyprmoncfg": "https://github.com/crmne/omarchy-hyprmoncfg.git",
     "crmne.moza": "https://github.com/crmne/omarchy-moza.git",
     "crmne.mpris": "https://github.com/crmne/omarchy-mpris.git",
