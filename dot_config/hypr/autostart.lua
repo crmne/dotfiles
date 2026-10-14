@@ -2,4 +2,4 @@
 
 o.launch_on_start("hyprsunset")
 o.exec_on_start("xrdb -merge ~/.Xresources")
-o.launch_on_start("wayvnc")
+o.launch_on_start("wayvnc --gpu --keyboard=us-dvorak")

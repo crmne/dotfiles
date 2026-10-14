@@ -48,7 +48,7 @@
         },
         {
           "id": "crmne.omastats",
-          "barDisks": "nvme0n1:speed",
+          "barDisks": "nvme-KIOXIA-EXCERIA_G3_SSD_YFWKS0TJZ3TS:used",
           "barGpus": "0000:01:00.0",
           "barSensors": "cpu,gpu",
           "batteryStyle": "",
@@ -83,7 +83,8 @@
           "style": "both",
           "tabs": "cpu,gpu,memory,disks,network,sensors,battery",
           "temperatureUnit": "Celsius",
-          "utilizationColors": false
+          "utilizationColors": false,
+          "barLabels": "text"
         },
         {
           "id": "crmne.mpris",
