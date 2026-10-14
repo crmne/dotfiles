@@ -15,7 +15,7 @@
         {
           "id": "crmne.omacal",
           "format": "ddd d MMM HH:mm",
-          "lastCalendarId": 383707
+          "lastCalendarId": 383710
         },
         {
           "id": "omarchy.system-update"
@@ -48,7 +48,7 @@
         },
         {
           "id": "crmne.omastats",
-          "barDisks": "nvme1n1:used",
+          "barDisks": "nvme0n1:speed",
           "barGpus": "0000:01:00.0",
           "barSensors": "cpu,gpu",
           "batteryStyle": "",
