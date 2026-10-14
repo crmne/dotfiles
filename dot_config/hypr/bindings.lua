@@ -23,8 +23,9 @@ o.bind("SUPER + SHIFT + P", "Immich", {
 o.bind("XF86LaunchA", "Omarchy menu", "omarchy-menu toggle")
 o.bind("SHIFT + XF86LaunchA", "Apps menu", "omarchy-menu toggle apps")
 
--- Search key (QMK KC_WWW_SEARCH).
+-- Search key (QMK KC_WWW_SEARCH), and Super+Ctrl+/ on any keyboard.
 o.bind("XF86Search", "Find files", "omarchy-shell shell toggle crmne.files")
+o.bind("SUPER + CTRL + SLASH", "Find files", "omarchy-shell shell toggle crmne.files")
 
 -- Microphone key (F20): mute by default, dictation with Shift.
 hl.unbind("SUPER + CTRL + X")
