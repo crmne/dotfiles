@@ -32,8 +32,7 @@
 - Read 1Password secrets with `op-cache read "op://..."`, never `op read`.
   `op-cache` caches them, so you don't trigger a 1Password approval prompt on
   every read. Project `.env` files already use it.
-- `op-cache` is a mise shim: run it from a directory whose mise config is
-  trusted, or with `MISE_TRUSTED_CONFIG_PATHS=$PWD`. Never run `mise trust`.
+- `op-cache` is Carmine's AUR package, `op-cache-git`, at `/usr/bin/op-cache`.
 - If it fails or times out, 1Password is probably locked or waiting for an
   approval: tell Carmine, and don't fall back to `op` or work around it.
 - Never print, log or commit a secret. Check a value resolved by its length.
