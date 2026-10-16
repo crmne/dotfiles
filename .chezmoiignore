@@ -1,6 +1,17 @@
 README.md
+.gitattributes
 tools
 tests
+
+{{ if ne .chezmoi.os "darwin" }}
+.config/omniwm
+.config/hammerspoon
+.config/herdr
+{{ end }}
+
+{{ if eq .chezmoi.os "darwin" }}
+.config/alacritty
+{{ end }}
 
 {{ if ne .chezmoi.os "linux" }}
 .config/user-dirs.dirs

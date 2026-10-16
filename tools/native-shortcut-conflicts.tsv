@@ -1,0 +1,248 @@
+Shortcut	Bridge action	Known native use	Review
+ALT+ALT_R	Right Option push-to-talk		No match in reviewed catalog; not proof of no app conflict
+ALT+PRINT	Screenshot / recording controls		No match in reviewed catalog; not proof of no app conflict
+ALT+SHIFT+TAB	Previous window		No match in reviewed catalog; not proof of no app conflict
+ALT+SHIFT+XF86AUDIOPLAY	Previous track		No match in reviewed catalog; not proof of no app conflict
+ALT+TAB	Next window		No match in reviewed catalog; not proof of no app conflict
+ALT+XF86AUDIOLOWERVOLUME	Fine volume		No match in reviewed catalog; not proof of no app conflict
+ALT+XF86AUDIOPLAY	Next track		No match in reviewed catalog; not proof of no app conflict
+ALT+XF86AUDIORAISEVOLUME	Fine volume		No match in reviewed catalog; not proof of no app conflict
+ALT+XF86MONBRIGHTNESSDOWN	Fine brightness		No match in reviewed catalog; not proof of no app conflict
+ALT+XF86MONBRIGHTNESSUP	Fine brightness		No match in reviewed catalog; not proof of no app conflict
+CTRL+ALT+DELETE	Close all windows		Not intercepted by bridge
+CTRL+ALT+SHIFT+TAB	Previous monitor		No match in reviewed catalog; not proof of no app conflict
+CTRL+ALT+TAB	Next monitor		No match in reviewed catalog; not proof of no app conflict
+CTRL+SPACE	Terminal prefix passthrough		Not intercepted by bridge
+F9	Push-to-talk dictation		No match in reviewed catalog; not proof of no app conflict
+PRINT	Screenshot selection		No match in reviewed catalog; not proof of no app conflict
+SHIFT+XF86AUDIOMICMUTE	Toggle dictation		No match in reviewed catalog; not proof of no app conflict
+SHIFT+XF86AUDIOMUTE	Switch audio output		No match in reviewed catalog; not proof of no app conflict
+SHIFT+XF86AUDIOPAUSE	Select media source		No match in reviewed catalog; not proof of no app conflict
+SHIFT+XF86AUDIOPLAY	Select media source		No match in reviewed catalog; not proof of no app conflict
+SHIFT+XF86DONOTDISTURB	Night Shift		No match in reviewed catalog; not proof of no app conflict
+SHIFT+XF86LAUNCHA	Applications		No match in reviewed catalog; not proof of no app conflict
+SHIFT+XF86MONBRIGHTNESSDOWN	Brightness extreme		No match in reviewed catalog; not proof of no app conflict
+SHIFT+XF86MONBRIGHTNESSUP	Brightness extreme		No match in reviewed catalog; not proof of no app conflict
+SUPER+0	Workspace 10	Reset browser zoom	Deliberate desktop override; confirm tradeoff
+SUPER+1	Workspace 1	Select browser tab / Finder view (1-4)	Deliberate desktop override; confirm tradeoff
+SUPER+2	Workspace 2	Select browser tab / Finder view (1-4)	Deliberate desktop override; confirm tradeoff
+SUPER+3	Workspace 3	Select browser tab / Finder view (1-4)	Deliberate desktop override; confirm tradeoff
+SUPER+4	Workspace 4	Select browser tab / Finder view (1-4)	Deliberate desktop override; confirm tradeoff
+SUPER+5	Workspace 5	Select browser tab / Finder view (1-4)	Deliberate desktop override; confirm tradeoff
+SUPER+6	Workspace 6	Select browser tab / Finder view (1-4)	Deliberate desktop override; confirm tradeoff
+SUPER+7	Workspace 7	Select browser tab / Finder view (1-4)	Deliberate desktop override; confirm tradeoff
+SUPER+8	Workspace 8	Select browser tab / Finder view (1-4)	Deliberate desktop override; confirm tradeoff
+SUPER+9	Workspace 9	Select browser tab / Finder view (1-4)	Deliberate desktop override; confirm tradeoff
+SUPER+A	Native editing	Select all	Not intercepted by bridge
+SUPER+ALT+1	Group member 1		Not intercepted by bridge
+SUPER+ALT+2	Group member 2		Not intercepted by bridge
+SUPER+ALT+3	Group member 3		Not intercepted by bridge
+SUPER+ALT+4	Group member 4		Not intercepted by bridge
+SUPER+ALT+5	Group member 5		Not intercepted by bridge
+SUPER+ALT+COMMA	Invoke notification	Browser settings variant / app-specific	Native conflict; decision needed
+SUPER+ALT+DOWN	Group or extract down		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+EQUAL	Resize horizontal		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+F	Full-width floating window		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+G	Extract from group		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+HOME	Save floating width		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+K	Tmux shortcuts		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+L	Restore Dwindle tiling	Downloads folder	Native conflict; decision needed
+SUPER+ALT+LEFT	Group or extract left	Previous browser tab	Native conflict; decision needed
+SUPER+ALT+LEFTBRACKET	Shrink webcam overlay		Not intercepted by bridge
+SUPER+ALT+MINUS	Resize horizontal		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+MOUSE_DOWN	Next group member		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+MOUSE_UP	Previous group member		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+RETURN	Tmux		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+RIGHT	Group or extract right	Next browser tab	Native conflict; decision needed
+SUPER+ALT+RIGHTBRACKET	Enlarge webcam overlay		Not intercepted by bridge
+SUPER+ALT+S	Assign scratchpad	Finder sidebar	Native conflict; decision needed
+SUPER+ALT+SHIFT+0	Move silently to workspace 10		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+1	Move silently to workspace 1		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+2	Move silently to workspace 2		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+3	Move silently to workspace 3		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+4	Move silently to workspace 4		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+5	Move silently to workspace 5		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+6	Move silently to workspace 6		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+7	Move silently to workspace 7		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+8	Move silently to workspace 8		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+9	Move silently to workspace 9		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+A	Grok		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+B	Private browser		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+COMMA	Notification history		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+DOWN	Move workspace to monitor down		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+E	New email		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+EQUAL	Resize vertical		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+F	Finder at terminal directory		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+G	Signal		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+LEFT	Move workspace to monitor left		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+M	Music		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+MINUS	Resize vertical		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+RIGHT	Move workspace to monitor right		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+TAB	Cycle within group		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+UP	Move workspace to monitor up		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SHIFT+X	X Post		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SLASH	Display scaling		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+SPACE	Applications	Finder search	Native conflict; decision needed
+SUPER+ALT+TAB	Cycle within group		No match in reviewed catalog; not proof of no app conflict
+SUPER+ALT+UP	Group or extract up		No match in reviewed catalog; not proof of no app conflict
+SUPER+BACKSPACE	Window transparency	Move to Trash / delete to start of line	Not intercepted by bridge
+SUPER+C	Native editing	Copy	Not intercepted by bridge
+SUPER+COMMA	Native App settings	App settings	Not intercepted by bridge
+SUPER+CTRL+1	Omarchy bar panel 1		Not intercepted by bridge
+SUPER+CTRL+2	Omarchy bar panel 2		Not intercepted by bridge
+SUPER+CTRL+3	Omarchy bar panel 3		Not intercepted by bridge
+SUPER+CTRL+4	Omarchy bar panel 4		Not intercepted by bridge
+SUPER+CTRL+5	Omarchy bar panel 5		Not intercepted by bridge
+SUPER+CTRL+6	Omarchy bar panel 6		Not intercepted by bridge
+SUPER+CTRL+7	Omarchy bar panel 7		Not intercepted by bridge
+SUPER+CTRL+8	Omarchy bar panel 8		Not intercepted by bridge
+SUPER+CTRL+9	Omarchy bar panel 9		Not intercepted by bridge
+SUPER+CTRL+A	Audio	Make Finder alias	Native conflict; decision needed
+SUPER+CTRL+ALT+B	Show battery / power		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+ALT+D	Calendar		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+ALT+DELETE	Display mirroring		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+ALT+E	World clock		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+ALT+F	Desktop overview		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+ALT+R	Show reminders		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+ALT+T	Show time		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+ALT+W	Weather		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+ALT+Z	Reset zoom settings		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+B	Bluetooth		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+BACKSPACE	Square floating window		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+C	Capture menu		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+COMMA	Focus		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+D	Displays		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+DELETE	Display settings		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+E	Emoji picker		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+EQUAL	Resize horizontal		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+ESCAPE	Toggle native shortcut passthrough		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+F	Native fullscreen	Native fullscreen	Same broad purpose; app semantics may differ
+SUPER+CTRL+H	Hardware menu		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+I	Toggle keep-awake		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+K	Herdr shortcuts		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+L	Lock screen		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+LEFT	Cycle within group		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+MINUS	Resize horizontal		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+N	Night Shift	New folder with selection	Native conflict; decision needed
+SUPER+CTRL+O	Toggle menu		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+P	Energy		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+PERIOD	Transcode media		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+PRINT	Screenshot for Live Text		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+Q	Calculator	Lock screen	Native conflict; decision needed
+SUPER+CTRL+R	Set reminder		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+RETURN	Herdr		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+RIGHT	Cycle within group		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+S	Share files		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+SHIFT+A	Claude		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+SHIFT+EQUAL	Resize vertical		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+SHIFT+G	Google Messages		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+SHIFT+MINUS	Resize vertical		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+SHIFT+R	Manage reminders		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+SHIFT+SPACE	Appearance		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+SLASH	Find files		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+SPACE	Wallpaper	Emoji / Character Viewer	Native conflict; decision needed
+SUPER+CTRL+T	Activity Monitor	Add Finder item to sidebar	Native conflict; decision needed
+SUPER+CTRL+TAB	Previous workspace		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+V	Clipboard history		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+W	Network		No match in reviewed catalog; not proof of no app conflict
+SUPER+CTRL+Z	Accessibility zoom		No match in reviewed catalog; not proof of no app conflict
+SUPER+DOWN	Focus down	End of document / open selection	Deliberate desktop override; confirm tradeoff
+SUPER+EQUAL	Resize horizontal		No match in reviewed catalog; not proof of no app conflict
+SUPER+ESCAPE	System menu		No match in reviewed catalog; not proof of no app conflict
+SUPER+F	Native Find	Find	Not intercepted by bridge
+SUPER+G	Native Find next	Find next	Not intercepted by bridge
+SUPER+GRAVE	Toggle scratchpad	Next window of current app	Native conflict; decision needed
+SUPER+HOME	Restore floating width		No match in reviewed catalog; not proof of no app conflict
+SUPER+I	Next input source	Get Info / formatting	Native conflict; decision needed
+SUPER+J	Toggle split	Downloads / Finder view options	Native conflict; decision needed
+SUPER+K	Search all shortcuts	Address search / link / Connect to Server	Deliberate desktop override; confirm tradeoff
+SUPER+L	Native address bar / app action	Address bar / app action	Not intercepted by bridge
+SUPER+LEFT	Focus left	Start of line / browser back	Deliberate desktop override; confirm tradeoff
+SUPER+M	Minimize	Minimize	Same broad purpose; app semantics may differ
+SUPER+MINUS	Resize horizontal		No match in reviewed catalog; not proof of no app conflict
+SUPER+MOUSE:272	Drag window		Not intercepted by bridge
+SUPER+MOUSE:273	Resize window		Not intercepted by bridge
+SUPER+MOUSE_DOWN	Next workspace		No match in reviewed catalog; not proof of no app conflict
+SUPER+MOUSE_UP	Previous workspace		No match in reviewed catalog; not proof of no app conflict
+SUPER+O	Pop out window	Open file	Deliberate desktop override; confirm tradeoff
+SUPER+P	Native Print	Print	Not intercepted by bridge
+SUPER+PRINT	Color picker		No match in reviewed catalog; not proof of no app conflict
+SUPER+Q	Native Quit app	Quit app	Not intercepted by bridge
+SUPER+RETURN	New Ghostty window		No match in reviewed catalog; not proof of no app conflict
+SUPER+RIGHT	Focus right	End of line / browser forward	Deliberate desktop override; confirm tradeoff
+SUPER+S	Native Save	Save	Not intercepted by bridge
+SUPER+SHIFT+0	Move and follow to workspace 10		No match in reviewed catalog; not proof of no app conflict
+SUPER+SHIFT+1	Move and follow to workspace 1		No match in reviewed catalog; not proof of no app conflict
+SUPER+SHIFT+2	Move and follow to workspace 2		No match in reviewed catalog; not proof of no app conflict
+SUPER+SHIFT+3	Move and follow to workspace 3	macOS screenshot controls	Native conflict; decision needed
+SUPER+SHIFT+4	Move and follow to workspace 4	macOS screenshot controls	Native conflict; decision needed
+SUPER+SHIFT+5	Move and follow to workspace 5	macOS screenshot controls	Native conflict; decision needed
+SUPER+SHIFT+6	Move and follow to workspace 6		No match in reviewed catalog; not proof of no app conflict
+SUPER+SHIFT+7	Move and follow to workspace 7		No match in reviewed catalog; not proof of no app conflict
+SUPER+SHIFT+8	Move and follow to workspace 8		No match in reviewed catalog; not proof of no app conflict
+SUPER+SHIFT+9	Move and follow to workspace 9		No match in reviewed catalog; not proof of no app conflict
+SUPER+SHIFT+A	ChatGPT		No match in reviewed catalog; not proof of no app conflict
+SUPER+SHIFT+B	Browser	Bookmarks bar	Native conflict; decision needed
+SUPER+SHIFT+BACKSPACE	Toggle gaps		No match in reviewed catalog; not proof of no app conflict
+SUPER+SHIFT+C	Calendar	Inspect element / Computer	Native conflict; decision needed
+SUPER+SHIFT+CODE:201	Linux alternate menu key		Not intercepted by bridge
+SUPER+SHIFT+COMMA	Dismiss all notifications		No match in reviewed catalog; not proof of no app conflict
+SUPER+SHIFT+D	Docker TUI	Bookmark tabs / Desktop folder	Native conflict; decision needed
+SUPER+SHIFT+DOWN	Swap tile down	Select to end of document	Deliberate desktop override; confirm tradeoff
+SUPER+SHIFT+E	Email		No match in reviewed catalog; not proof of no app conflict
+SUPER+SHIFT+EQUAL	Resize vertical		No match in reviewed catalog; not proof of no app conflict
+SUPER+SHIFT+F	Finder	Browser presentation / Finder Recents	Native conflict; decision needed
+SUPER+SHIFT+G	ZapFast / WhatsApp	Find previous / Go to Folder	Native conflict; decision needed
+SUPER+SHIFT+GRAVE	Assign scratchpad	Previous window of current app	Native conflict; decision needed
+SUPER+SHIFT+I	Activity Monitor	Developer tools / iCloud Drive	Native conflict; decision needed
+SUPER+SHIFT+LEFT	Swap tile left	Select to start of line	Deliberate desktop override; confirm tradeoff
+SUPER+SHIFT+M	Spotifast / Spotify		No match in reviewed catalog; not proof of no app conflict
+SUPER+SHIFT+MINUS	Resize vertical		No match in reviewed catalog; not proof of no app conflict
+SUPER+SHIFT+N	Native Private window / new folder	Private window / new folder	Not intercepted by bridge
+SUPER+SHIFT+O	Obsidian	Bookmark manager / Documents	Native conflict; decision needed
+SUPER+SHIFT+P	Immich	Page setup / Finder preview pane	Native conflict; decision needed
+SUPER+SHIFT+RETURN	Browser		No match in reviewed catalog; not proof of no app conflict
+SUPER+SHIFT+RIGHT	Swap tile right	Select to end of line	Deliberate desktop override; confirm tradeoff
+SUPER+SHIFT+S	Google Maps		No match in reviewed catalog; not proof of no app conflict
+SUPER+SHIFT+SLASH	Passwords	Help menu	Native conflict; decision needed
+SUPER+SHIFT+SPACE	Toggle workspace bar		No match in reviewed catalog; not proof of no app conflict
+SUPER+SHIFT+T	Native Reopen closed tab	Reopen closed tab / Finder tab bar	Not intercepted by bridge
+SUPER+SHIFT+TAB	Previous occupied workspace	Switch apps backwards	Native conflict; decision needed
+SUPER+SHIFT+UP	Swap tile up	Select to start of document	Deliberate desktop override; confirm tradeoff
+SUPER+SHIFT+W	Native Close window	Close browser window	Not intercepted by bridge
+SUPER+SHIFT+X	X		No match in reviewed catalog; not proof of no app conflict
+SUPER+SHIFT+Y	YouTube		No match in reviewed catalog; not proof of no app conflict
+SUPER+SLASH	Display scaling	Finder status bar	Native conflict; decision needed
+SUPER+SPACE	Raycast	Spotlight (Raycast intentional replacement)	Not intercepted by bridge
+SUPER+T	Native new tab	New tab	Not intercepted by bridge
+SUPER+TAB	Next occupied workspace	Switch apps	Native conflict; decision needed
+SUPER+UP	Focus up	Start of document / parent folder	Deliberate desktop override; confirm tradeoff
+SUPER+V	Native editing	Paste	Not intercepted by bridge
+SUPER+W	Native close tab/window	Close tab/window	Not intercepted by bridge
+SUPER+X	Native editing	Cut	Not intercepted by bridge
+SWITCH:OFF:APPLE SMC POWER/LID EVENTS	Native hardware behavior		Not intercepted by bridge
+SWITCH:OFF:LID SWITCH	Native hardware behavior		Not intercepted by bridge
+SWITCH:ON:APPLE SMC POWER/LID EVENTS	Native hardware behavior		Not intercepted by bridge
+SWITCH:ON:LID SWITCH	Native hardware behavior		Not intercepted by bridge
+XF86AUDIOLOWERVOLUME	Native hardware behavior		Not intercepted by bridge
+XF86AUDIOMICMUTE	Mute microphone		No match in reviewed catalog; not proof of no app conflict
+XF86AUDIOMUTE	Native hardware behavior		Not intercepted by bridge
+XF86AUDIONEXT	Native hardware behavior		Not intercepted by bridge
+XF86AUDIOPAUSE	Native hardware behavior		Not intercepted by bridge
+XF86AUDIOPLAY	Native hardware behavior		Not intercepted by bridge
+XF86AUDIOPREV	Native hardware behavior		Not intercepted by bridge
+XF86AUDIORAISEVOLUME	Native hardware behavior		Not intercepted by bridge
+XF86CALCULATOR	Calculator		No match in reviewed catalog; not proof of no app conflict
+XF86DONOTDISTURB	Focus settings		No match in reviewed catalog; not proof of no app conflict
+XF86EJECT	Native hardware behavior		Not intercepted by bridge
+XF86KBDBRIGHTNESSDOWN	Native hardware behavior		Not intercepted by bridge
+XF86KBDBRIGHTNESSUP	Native hardware behavior		Not intercepted by bridge
+XF86KBDLIGHTONOFF	Linux hardware toggle		Not intercepted by bridge
+XF86LAUNCHA	Raycast		No match in reviewed catalog; not proof of no app conflict
+XF86MONBRIGHTNESSDOWN	Native hardware behavior		Not intercepted by bridge
+XF86MONBRIGHTNESSUP	Native hardware behavior		Not intercepted by bridge
+XF86POWEROFF	Power menu		No match in reviewed catalog; not proof of no app conflict
+XF86SEARCH	Find files		No match in reviewed catalog; not proof of no app conflict
+XF86TOUCHPADOFF	Linux hardware toggle		Not intercepted by bridge
+XF86TOUCHPADON	Linux hardware toggle		Not intercepted by bridge
+XF86TOUCHPADTOGGLE	Linux hardware toggle		Not intercepted by bridge

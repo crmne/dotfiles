@@ -1,0 +1,2 @@
+# Empty final TSV fields are intentional, not stray whitespace.
+*.tsv whitespace=-blank-at-eol

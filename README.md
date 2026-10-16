@@ -4,6 +4,14 @@ My dotfiles as managed by [chezmoi](https://www.chezmoi.io/).
 
 Configs may assume you're running [Omarchy](https://omarchy.org/).
 
+## macOS desktop
+
+The Mac desktop configuration follows [Omacase](https://github.com/crmne/omacase).
+Installation instructions, shortcut documentation and limitations live there.
+This repository keeps the personal configuration synced through chezmoi.
+OmniWM remains on the stable release; no development build is installed.
+
+
 Install them with:
 
 ```bash

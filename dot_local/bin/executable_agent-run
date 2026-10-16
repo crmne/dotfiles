@@ -1,0 +1,12 @@
+#!/bin/sh
+# Keep this Mac awake only for the lifetime of a foreground agent/test command.
+# Run inside Herdr so closing the terminal does not terminate the command.
+set -eu
+if [ "$#" -eq 0 ]; then
+  printf '%s\n' 'Usage: agent-run COMMAND [ARGUMENT ...]' >&2
+  exit 2
+fi
+if [ "$(uname -s)" = Darwin ]; then
+  exec /usr/bin/caffeinate -i "$@"
+fi
+exec "$@"

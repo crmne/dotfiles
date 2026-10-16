@@ -9,7 +9,7 @@ mode = "push_to_talk"
 [audio]
 
 # Pause MPRIS media players during recording
-pause_media = true
+pause_media = {{ if eq .chezmoi.os "darwin" }}false{{ else }}true{{ end }}
 device = "default"
 sample_rate = 16000
 max_duration_secs = 600
@@ -78,7 +78,7 @@ enabled = false
 source = "mic"
 
 [osd]
-enabled = true
+enabled = {{ if eq .chezmoi.os "darwin" }}false{{ else }}true{{ end }}
 frontend = "gtk4"
 style = "default"
 layout = "compact"

@@ -1,0 +1,247 @@
+# Omarchy quattro 246f33a2fef66411c990860d88e0823ae83987fc plus personal hypr/bindings.lua, 2026-10-15
+ALT+ALT_R	Start dictation (push-to-talk); Stop dictation (push-to-talk)
+ALT+PRINT	Screenrecording
+ALT+SHIFT+TAB	Focus on previous window; Reveal active window on top
+ALT+SHIFT+XF86AUDIOPLAY	Previous track
+ALT+TAB	Focus on next window; Reveal active window on top
+ALT+XF86AUDIOLOWERVOLUME	Volume down precise
+ALT+XF86AUDIOPLAY	Next track
+ALT+XF86AUDIORAISEVOLUME	Volume up precise
+ALT+XF86MONBRIGHTNESSDOWN	Brightness down precise
+ALT+XF86MONBRIGHTNESSUP	Brightness up precise
+CTRL+ALT+DELETE	Close all windows
+CTRL+ALT+SHIFT+TAB	Focus on previous monitor
+CTRL+ALT+TAB	Focus on next monitor
+CTRL+SPACE	Direct input for the terminal prefix
+F9	Start dictation (push-to-talk); Stop dictation (push-to-talk)
+PRINT	Screenshot
+SHIFT+XF86AUDIOMICMUTE	Toggle dictation
+SHIFT+XF86AUDIOMUTE	Switch audio output
+SHIFT+XF86AUDIOPAUSE	Switch media source
+SHIFT+XF86AUDIOPLAY	Switch media source
+SHIFT+XF86DONOTDISTURB	Toggle night light
+SHIFT+XF86LAUNCHA	Apps menu
+SHIFT+XF86MONBRIGHTNESSDOWN	Brightness minimum
+SHIFT+XF86MONBRIGHTNESSUP	Brightness maximum
+SUPER+0	Switch to workspace 10
+SUPER+1	Switch to workspace 1
+SUPER+2	Switch to workspace 2
+SUPER+3	Switch to workspace 3
+SUPER+4	Switch to workspace 4
+SUPER+5	Switch to workspace 5
+SUPER+6	Switch to workspace 6
+SUPER+7	Switch to workspace 7
+SUPER+8	Switch to workspace 8
+SUPER+9	Switch to workspace 9
+SUPER+A	Select all
+SUPER+ALT+1	Switch to group window 1
+SUPER+ALT+2	Switch to group window 2
+SUPER+ALT+3	Switch to group window 3
+SUPER+ALT+4	Switch to group window 4
+SUPER+ALT+5	Switch to group window 5
+SUPER+ALT+COMMA	Invoke last notification
+SUPER+ALT+DOWN	Move window to group on bottom
+SUPER+ALT+EQUAL	Shrink window left a little
+SUPER+ALT+F	Full width
+SUPER+ALT+G	Move active window out of group
+SUPER+ALT+HOME	Save window width
+SUPER+ALT+K	Tmux keybindings
+SUPER+ALT+L	Cycle workspace layout back
+SUPER+ALT+LEFT	Move window to group on left
+SUPER+ALT+LEFTBRACKET	Make webcam overlay smaller
+SUPER+ALT+MINUS	Expand window left a little
+SUPER+ALT+MOUSE_DOWN	Next window in group
+SUPER+ALT+MOUSE_UP	Previous window in group
+SUPER+ALT+RETURN	Tmux
+SUPER+ALT+RIGHT	Move window to group on right
+SUPER+ALT+RIGHTBRACKET	Make webcam overlay larger
+SUPER+ALT+S	Move window to scratchpad
+SUPER+ALT+SHIFT+0	Move window silently to workspace 10
+SUPER+ALT+SHIFT+1	Move window silently to workspace 1
+SUPER+ALT+SHIFT+2	Move window silently to workspace 2
+SUPER+ALT+SHIFT+3	Move window silently to workspace 3
+SUPER+ALT+SHIFT+4	Move window silently to workspace 4
+SUPER+ALT+SHIFT+5	Move window silently to workspace 5
+SUPER+ALT+SHIFT+6	Move window silently to workspace 6
+SUPER+ALT+SHIFT+7	Move window silently to workspace 7
+SUPER+ALT+SHIFT+8	Move window silently to workspace 8
+SUPER+ALT+SHIFT+9	Move window silently to workspace 9
+SUPER+ALT+SHIFT+A	Grok
+SUPER+ALT+SHIFT+B	Browser (private)
+SUPER+ALT+SHIFT+COMMA	Open notification history
+SUPER+ALT+SHIFT+DOWN	Move workspace to down monitor
+SUPER+ALT+SHIFT+E	New email
+SUPER+ALT+SHIFT+EQUAL	Expand window down a little
+SUPER+ALT+SHIFT+F	File manager (cwd)
+SUPER+ALT+SHIFT+G	Signal
+SUPER+ALT+SHIFT+LEFT	Move workspace to left monitor
+SUPER+ALT+SHIFT+M	Music TUI
+SUPER+ALT+SHIFT+MINUS	Shrink window up a little
+SUPER+ALT+SHIFT+RIGHT	Move workspace to right monitor
+SUPER+ALT+SHIFT+TAB	Previous window in group
+SUPER+ALT+SHIFT+UP	Move workspace to up monitor
+SUPER+ALT+SHIFT+X	X Post
+SUPER+ALT+SLASH	Monitor scaling down
+SUPER+ALT+SPACE	Apps
+SUPER+ALT+TAB	Next window in group
+SUPER+ALT+UP	Move window to group on top
+SUPER+BACKSPACE	Toggle transparency on a window
+SUPER+C	Universal copy
+SUPER+COMMA	Dismiss last notification
+SUPER+CTRL+1	Bar panel 1
+SUPER+CTRL+2	Bar panel 2
+SUPER+CTRL+3	Bar panel 3
+SUPER+CTRL+4	Bar panel 4
+SUPER+CTRL+5	Bar panel 5
+SUPER+CTRL+6	Bar panel 6
+SUPER+CTRL+7	Bar panel 7
+SUPER+CTRL+8	Bar panel 8
+SUPER+CTRL+9	Bar panel 9
+SUPER+CTRL+A	Audio
+SUPER+CTRL+ALT+B	Show battery remaining
+SUPER+CTRL+ALT+D	Calendar
+SUPER+CTRL+ALT+DELETE	Toggle laptop display mirroring
+SUPER+CTRL+ALT+E	World clock
+SUPER+CTRL+ALT+F	Toggle full screen desktop
+SUPER+CTRL+ALT+R	Show reminders
+SUPER+CTRL+ALT+T	Show time
+SUPER+CTRL+ALT+W	Toggle weather
+SUPER+CTRL+ALT+Z	Reset zoom
+SUPER+CTRL+B	Bluetooth
+SUPER+CTRL+BACKSPACE	Toggle single-window square aspect
+SUPER+CTRL+C	Capture menu
+SUPER+CTRL+COMMA	Toggle silencing notifications
+SUPER+CTRL+D	Display
+SUPER+CTRL+DELETE	Toggle laptop display
+SUPER+CTRL+E	Emojis
+SUPER+CTRL+EQUAL	Shrink window left a lot
+SUPER+CTRL+F	Tiled full screen
+SUPER+CTRL+H	Hardware menu
+SUPER+CTRL+I	Toggle locking on idle
+SUPER+CTRL+K	Herdr keybindings
+SUPER+CTRL+L	Lock system
+SUPER+CTRL+LEFT	Move grouped window focus left
+SUPER+CTRL+MINUS	Expand window left a lot
+SUPER+CTRL+N	Toggle nightlight
+SUPER+CTRL+O	Toggle menu
+SUPER+CTRL+P	Power
+SUPER+CTRL+PERIOD	Transcode
+SUPER+CTRL+PRINT	Extract text (OCR) from screenshot
+SUPER+CTRL+Q	Calculator
+SUPER+CTRL+R	Set reminder
+SUPER+CTRL+RETURN	Herdr
+SUPER+CTRL+RIGHT	Move grouped window focus right
+SUPER+CTRL+S	Share
+SUPER+CTRL+SHIFT+A	Claude
+SUPER+CTRL+SHIFT+EQUAL	Expand window down a lot
+SUPER+CTRL+SHIFT+G	Google Messages
+SUPER+CTRL+SHIFT+MINUS	Shrink window up a lot
+SUPER+CTRL+SHIFT+R	Clear reminders
+SUPER+CTRL+SHIFT+SPACE	Theme menu
+SUPER+CTRL+SLASH	Find files
+SUPER+CTRL+SPACE	Background switcher
+SUPER+CTRL+T	Activity
+SUPER+CTRL+TAB	Former workspace
+SUPER+CTRL+V	Clipboard manager
+SUPER+CTRL+W	Network
+SUPER+CTRL+Z	Zoom in
+SUPER+DOWN	Focus on below window
+SUPER+EQUAL	Shrink window left
+SUPER+ESCAPE	System menu
+SUPER+F	Full screen
+SUPER+G	Toggle window grouping
+SUPER+GRAVE	Toggle scratchpad
+SUPER+HOME	Restore window width
+SUPER+I	Switch input language
+SUPER+J	Toggle window split
+SUPER+K	Keybindings
+SUPER+L	Cycle workspace layout
+SUPER+LEFT	Focus on left window
+SUPER+M	Minimize window to the dock
+SUPER+MINUS	Expand window left
+SUPER+MOUSE:272	Move window
+SUPER+MOUSE:273	Resize window
+SUPER+MOUSE_DOWN	Scroll active workspace forward
+SUPER+MOUSE_UP	Scroll active workspace backward
+SUPER+O	Pop window out (float & pin)
+SUPER+P	Pseudo window
+SUPER+PRINT	Color picker
+SUPER+Q	Close window
+SUPER+RETURN	Terminal
+SUPER+RIGHT	Focus on right window
+SUPER+S	Toggle scratchpad
+SUPER+SHIFT+0	Move window to workspace 10
+SUPER+SHIFT+1	Move window to workspace 1
+SUPER+SHIFT+2	Move window to workspace 2
+SUPER+SHIFT+3	Move window to workspace 3
+SUPER+SHIFT+4	Move window to workspace 4
+SUPER+SHIFT+5	Move window to workspace 5
+SUPER+SHIFT+6	Move window to workspace 6
+SUPER+SHIFT+7	Move window to workspace 7
+SUPER+SHIFT+8	Move window to workspace 8
+SUPER+SHIFT+9	Move window to workspace 9
+SUPER+SHIFT+A	ChatGPT
+SUPER+SHIFT+B	Browser
+SUPER+SHIFT+BACKSPACE	Toggle window gaps
+SUPER+SHIFT+C	Calendar
+SUPER+SHIFT+CODE:201	Omarchy menu
+SUPER+SHIFT+COMMA	Dismiss all notifications
+SUPER+SHIFT+D	Docker
+SUPER+SHIFT+DOWN	Swap window down
+SUPER+SHIFT+E	Email
+SUPER+SHIFT+EQUAL	Expand window down
+SUPER+SHIFT+F	File manager
+SUPER+SHIFT+G	ZapFast
+SUPER+SHIFT+GRAVE	Move window to scratchpad
+SUPER+SHIFT+I	Switch input language back; Activity
+SUPER+SHIFT+LEFT	Swap window to the left
+SUPER+SHIFT+M	Spotifast
+SUPER+SHIFT+MINUS	Shrink window up
+SUPER+SHIFT+N	Editor
+SUPER+SHIFT+O	Obsidian
+SUPER+SHIFT+P	Immich
+SUPER+SHIFT+RETURN	Browser
+SUPER+SHIFT+RIGHT	Swap window to the right
+SUPER+SHIFT+S	Google Maps
+SUPER+SHIFT+SLASH	Passwords
+SUPER+SHIFT+SPACE	Toggle top bar
+SUPER+SHIFT+T	Todoist
+SUPER+SHIFT+TAB	Previous workspace
+SUPER+SHIFT+UP	Swap window up
+SUPER+SHIFT+W	Omawrite
+SUPER+SHIFT+X	X
+SUPER+SHIFT+Y	YouTube
+SUPER+SLASH	Monitor scaling up
+SUPER+SPACE	Omarchy menu
+SUPER+T	Toggle window floating/tiling
+SUPER+TAB	Next workspace
+SUPER+UP	Focus on above window
+SUPER+V	Universal paste
+SUPER+W	Close window
+SUPER+X	Universal cut
+SWITCH:OFF:APPLE SMC POWER/LID EVENTS	Hardware event
+SWITCH:OFF:LID SWITCH	Hardware event
+SWITCH:ON:APPLE SMC POWER/LID EVENTS	Hardware event
+SWITCH:ON:LID SWITCH	Hardware event
+XF86AUDIOLOWERVOLUME	Volume down
+XF86AUDIOMICMUTE	Mute microphone
+XF86AUDIOMUTE	Mute
+XF86AUDIONEXT	Next track
+XF86AUDIOPAUSE	Pause
+XF86AUDIOPLAY	Play
+XF86AUDIOPREV	Previous track
+XF86AUDIORAISEVOLUME	Volume up
+XF86CALCULATOR	Calculator
+XF86DONOTDISTURB	Toggle silencing notifications
+XF86EJECT	Eject media
+XF86KBDBRIGHTNESSDOWN	Keyboard brightness down
+XF86KBDBRIGHTNESSUP	Keyboard brightness up
+XF86KBDLIGHTONOFF	Keyboard backlight cycle
+XF86LAUNCHA	Omarchy menu
+XF86MONBRIGHTNESSDOWN	Brightness down
+XF86MONBRIGHTNESSUP	Brightness up
+XF86POWEROFF	Power menu
+XF86SEARCH	Find files
+XF86TOUCHPADOFF	Disable touchpad
+XF86TOUCHPADON	Enable touchpad
+XF86TOUCHPADTOGGLE	Toggle touchpad

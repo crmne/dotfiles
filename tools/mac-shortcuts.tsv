@@ -1,0 +1,247 @@
+Shortcut	Omarchy action	Mac disposition	Difference / note
+ALT+ALT_R	Start dictation (push-to-talk); Stop dictation (push-to-talk)	mapped	
+ALT+PRINT	Screenrecording	mapped	
+ALT+SHIFT+TAB	Focus on previous window; Reveal active window on top	equivalent	Cycles visible windows in stable OmniWM ID order, not Hyprland ordering.
+ALT+SHIFT+XF86AUDIOPLAY	Previous track	mapped	
+ALT+TAB	Focus on next window; Reveal active window on top	equivalent	Cycles visible windows in stable OmniWM ID order, not Hyprland ordering.
+ALT+XF86AUDIOLOWERVOLUME	Volume down precise	mapped	
+ALT+XF86AUDIOPLAY	Next track	mapped	
+ALT+XF86AUDIORAISEVOLUME	Volume up precise	mapped	
+ALT+XF86MONBRIGHTNESSDOWN	Brightness down precise	mapped	
+ALT+XF86MONBRIGHTNESSUP	Brightness up precise	mapped	
+CTRL+ALT+DELETE	Close all windows	unavailable	Deliberately not globally bound: risks closing agent work. Close individual windows with Command+W.
+CTRL+ALT+SHIFT+TAB	Focus on previous monitor	mapped	
+CTRL+ALT+TAB	Focus on next monitor	mapped	
+CTRL+SPACE	Direct input for the terminal prefix	native	Passed unchanged to the terminal; check macOS input-source shortcut conflicts.
+F9	Start dictation (push-to-talk); Stop dictation (push-to-talk)	mapped	
+PRINT	Screenshot	equivalent	Native selection capture to clipboard, not Omarchy screenshot editor/file workflow.
+SHIFT+XF86AUDIOMICMUTE	Toggle dictation	mapped	
+SHIFT+XF86AUDIOMUTE	Switch audio output	mapped	
+SHIFT+XF86AUDIOPAUSE	Switch media source	equivalent	Opens Music; no universal macOS media-source switching API.
+SHIFT+XF86AUDIOPLAY	Switch media source	equivalent	Opens Music; no universal macOS media-source switching API.
+SHIFT+XF86DONOTDISTURB	Toggle night light	hardware-unverified	NuPhy consumer-key event is not identified on macOS. Use the corresponding Command shortcut or menu.
+SHIFT+XF86LAUNCHA	Apps menu	hardware-unverified	Handles macOS LAUNCH_PANEL events; the physical NuPhy Mission Control key still needs testing. Command+Space / Command+Option+Space work independently.
+SHIFT+XF86MONBRIGHTNESSDOWN	Brightness minimum	mapped	
+SHIFT+XF86MONBRIGHTNESSUP	Brightness maximum	mapped	
+SUPER+0	Switch to workspace 10	mapped	
+SUPER+1	Switch to workspace 1	mapped	
+SUPER+2	Switch to workspace 2	mapped	
+SUPER+3	Switch to workspace 3	mapped	
+SUPER+4	Switch to workspace 4	mapped	
+SUPER+5	Switch to workspace 5	mapped	
+SUPER+6	Switch to workspace 6	mapped	
+SUPER+7	Switch to workspace 7	mapped	
+SUPER+8	Switch to workspace 8	mapped	
+SUPER+9	Switch to workspace 9	mapped	
+SUPER+A	Select all	native	
+SUPER+ALT+1	Switch to group window 1	unavailable	Dwindle IPC exposes group cycling, not indexed tab selection. Use Command+Option+Tab.
+SUPER+ALT+2	Switch to group window 2	unavailable	Dwindle IPC exposes group cycling, not indexed tab selection. Use Command+Option+Tab.
+SUPER+ALT+3	Switch to group window 3	unavailable	Dwindle IPC exposes group cycling, not indexed tab selection. Use Command+Option+Tab.
+SUPER+ALT+4	Switch to group window 4	unavailable	Dwindle IPC exposes group cycling, not indexed tab selection. Use Command+Option+Tab.
+SUPER+ALT+5	Switch to group window 5	unavailable	Dwindle IPC exposes group cycling, not indexed tab selection. Use Command+Option+Tab.
+SUPER+ALT+COMMA	Invoke last notification	equivalent	Opens notification settings; click the menu-bar clock for history and dismissal. No stable notification-control API.
+SUPER+ALT+DOWN	Move window to group on bottom	equivalent	OmniWM joins singleton tiles or extracts the active group member.
+SUPER+ALT+EQUAL	Shrink window left a little	equivalent	Floating/Niri use 25/100/300-point increments. Dwindle uses 1/2/6 proportional steps for fine/normal/coarse.
+SUPER+ALT+F	Full width	equivalent	Floats the window; does not reproduce Hyprland full-width tiling.
+SUPER+ALT+G	Move active window out of group	equivalent	Extracts left from a group; on a singleton this can join a neighbor.
+SUPER+ALT+HOME	Save window width	mapped	
+SUPER+ALT+K	Tmux keybindings	mapped	
+SUPER+ALT+L	Cycle workspace layout back	equivalent	Restores screen-contained split tiling; never switches into the Niri scrolling layout.
+SUPER+ALT+LEFT	Move window to group on left	equivalent	OmniWM joins singleton tiles or extracts the active group member.
+SUPER+ALT+LEFTBRACKET	Make webcam overlay smaller	unavailable	No webcam overlay is installed.
+SUPER+ALT+MINUS	Expand window left a little	equivalent	Floating/Niri use 25/100/300-point increments. Dwindle uses 1/2/6 proportional steps for fine/normal/coarse.
+SUPER+ALT+MOUSE_DOWN	Next window in group	mapped	
+SUPER+ALT+MOUSE_UP	Previous window in group	mapped	
+SUPER+ALT+RETURN	Tmux	mapped	
+SUPER+ALT+RIGHT	Move window to group on right	equivalent	OmniWM joins singleton tiles or extracts the active group member.
+SUPER+ALT+RIGHTBRACKET	Make webcam overlay larger	unavailable	No webcam overlay is installed.
+SUPER+ALT+S	Move window to scratchpad	mapped	
+SUPER+ALT+SHIFT+0	Move window silently to workspace 10	mapped	
+SUPER+ALT+SHIFT+1	Move window silently to workspace 1	mapped	
+SUPER+ALT+SHIFT+2	Move window silently to workspace 2	mapped	
+SUPER+ALT+SHIFT+3	Move window silently to workspace 3	mapped	
+SUPER+ALT+SHIFT+4	Move window silently to workspace 4	mapped	
+SUPER+ALT+SHIFT+5	Move window silently to workspace 5	mapped	
+SUPER+ALT+SHIFT+6	Move window silently to workspace 6	mapped	
+SUPER+ALT+SHIFT+7	Move window silently to workspace 7	mapped	
+SUPER+ALT+SHIFT+8	Move window silently to workspace 8	mapped	
+SUPER+ALT+SHIFT+9	Move window silently to workspace 9	mapped	
+SUPER+ALT+SHIFT+A	Grok	mapped	
+SUPER+ALT+SHIFT+B	Browser (private)	mapped	
+SUPER+ALT+SHIFT+COMMA	Open notification history	equivalent	Opens notification settings; click the menu-bar clock for history and dismissal. No stable notification-control API.
+SUPER+ALT+SHIFT+DOWN	Move workspace to down monitor	mapped	
+SUPER+ALT+SHIFT+E	New email	mapped	
+SUPER+ALT+SHIFT+EQUAL	Expand window down a little	equivalent	Floating/Niri use 25/100/300-point increments. Dwindle uses 1/2/6 proportional steps for fine/normal/coarse.
+SUPER+ALT+SHIFT+F	File manager (cwd)	mapped	Uses Ghostty AppleScript working directory; home when no directory is reported.
+SUPER+ALT+SHIFT+G	Signal	mapped	
+SUPER+ALT+SHIFT+LEFT	Move workspace to left monitor	mapped	
+SUPER+ALT+SHIFT+M	Music TUI	equivalent	Music app instead of Linux cliamp TUI.
+SUPER+ALT+SHIFT+MINUS	Shrink window up a little	equivalent	Floating/Niri use 25/100/300-point increments. Dwindle uses 1/2/6 proportional steps for fine/normal/coarse.
+SUPER+ALT+SHIFT+RIGHT	Move workspace to right monitor	mapped	
+SUPER+ALT+SHIFT+TAB	Previous window in group	mapped	
+SUPER+ALT+SHIFT+UP	Move workspace to up monitor	mapped	
+SUPER+ALT+SHIFT+X	X Post	mapped	
+SUPER+ALT+SLASH	Monitor scaling down	equivalent	Opens native settings; no fragile UI automation or private display API.
+SUPER+ALT+SPACE	Apps	mapped	
+SUPER+ALT+TAB	Next window in group	mapped	
+SUPER+ALT+UP	Move window to group on top	equivalent	OmniWM joins singleton tiles or extracts the active group member.
+SUPER+BACKSPACE	Toggle transparency on a window	unavailable	macOS does not expose arbitrary app-window opacity.
+SUPER+C	Universal copy	native	
+SUPER+COMMA	Dismiss last notification	native	Passed unchanged to the focused app by explicit user preference.
+SUPER+CTRL+1	Bar panel 1	unavailable	Linux Omarchy shell panels are not installed. Use Command+Control+H for Mac hardware controls.
+SUPER+CTRL+2	Bar panel 2	unavailable	Linux Omarchy shell panels are not installed. Use Command+Control+H for Mac hardware controls.
+SUPER+CTRL+3	Bar panel 3	unavailable	Linux Omarchy shell panels are not installed. Use Command+Control+H for Mac hardware controls.
+SUPER+CTRL+4	Bar panel 4	unavailable	Linux Omarchy shell panels are not installed. Use Command+Control+H for Mac hardware controls.
+SUPER+CTRL+5	Bar panel 5	unavailable	Linux Omarchy shell panels are not installed. Use Command+Control+H for Mac hardware controls.
+SUPER+CTRL+6	Bar panel 6	unavailable	Linux Omarchy shell panels are not installed. Use Command+Control+H for Mac hardware controls.
+SUPER+CTRL+7	Bar panel 7	unavailable	Linux Omarchy shell panels are not installed. Use Command+Control+H for Mac hardware controls.
+SUPER+CTRL+8	Bar panel 8	unavailable	Linux Omarchy shell panels are not installed. Use Command+Control+H for Mac hardware controls.
+SUPER+CTRL+9	Bar panel 9	unavailable	Linux Omarchy shell panels are not installed. Use Command+Control+H for Mac hardware controls.
+SUPER+CTRL+A	Audio	equivalent	Opens native settings; no fragile UI automation or private display API.
+SUPER+CTRL+ALT+B	Show battery remaining	mapped	
+SUPER+CTRL+ALT+D	Calendar	mapped	
+SUPER+CTRL+ALT+DELETE	Toggle laptop display mirroring	equivalent	Opens native settings; no fragile UI automation or private display API.
+SUPER+CTRL+ALT+E	World clock	mapped	
+SUPER+CTRL+ALT+F	Toggle full screen desktop	equivalent	OmniWM Overview, not full-screen desktop mode.
+SUPER+CTRL+ALT+R	Show reminders	equivalent	Opens Reminders; never deletes existing reminders automatically.
+SUPER+CTRL+ALT+T	Show time	mapped	
+SUPER+CTRL+ALT+W	Toggle weather	mapped	
+SUPER+CTRL+ALT+Z	Reset zoom	equivalent	Native Zoom settings; does not forcibly reset zoom.
+SUPER+CTRL+B	Bluetooth	equivalent	Opens native settings; no fragile UI automation or private display API.
+SUPER+CTRL+BACKSPACE	Toggle single-window square aspect	equivalent	Floats and squares the focused window.
+SUPER+CTRL+C	Capture menu	mapped	
+SUPER+CTRL+COMMA	Toggle silencing notifications	equivalent	Opens native settings; no fragile UI automation or private display API.
+SUPER+CTRL+D	Display	equivalent	Opens native settings; no fragile UI automation or private display API.
+SUPER+CTRL+DELETE	Toggle laptop display	equivalent	Opens native settings; no fragile UI automation or private display API.
+SUPER+CTRL+E	Emojis	mapped	
+SUPER+CTRL+EQUAL	Shrink window left a lot	equivalent	Floating/Niri use 25/100/300-point increments. Dwindle uses 1/2/6 proportional steps for fine/normal/coarse.
+SUPER+CTRL+F	Tiled full screen	equivalent	Native macOS fullscreen, not Hyprland tiled-fullscreen.
+SUPER+CTRL+H	Hardware menu	mapped	
+SUPER+CTRL+I	Toggle locking on idle	equivalent	Prevents idle sleep rather than disabling the screen-lock policy. Manual locking remains available.
+SUPER+CTRL+K	Herdr keybindings	mapped	
+SUPER+CTRL+L	Lock system	mapped	
+SUPER+CTRL+LEFT	Move grouped window focus left	mapped	
+SUPER+CTRL+MINUS	Expand window left a lot	equivalent	Floating/Niri use 25/100/300-point increments. Dwindle uses 1/2/6 proportional steps for fine/normal/coarse.
+SUPER+CTRL+N	Toggle nightlight	equivalent	Opens native settings; no fragile UI automation or private display API.
+SUPER+CTRL+O	Toggle menu	mapped	
+SUPER+CTRL+P	Power	equivalent	Opens native settings; no fragile UI automation or private display API.
+SUPER+CTRL+PERIOD	Transcode	equivalent	Opens installed Compressor; no unattended conversion is started.
+SUPER+CTRL+PRINT	Extract text (OCR) from screenshot	equivalent	Capture, then use Live Text in Preview; automatic OCR is not installed.
+SUPER+CTRL+Q	Calculator	mapped	
+SUPER+CTRL+R	Set reminder	equivalent	Opens Reminders; never deletes existing reminders automatically.
+SUPER+CTRL+RETURN	Herdr	mapped	
+SUPER+CTRL+RIGHT	Move grouped window focus right	mapped	
+SUPER+CTRL+S	Share	equivalent	Opens installed LocalSend; does not upload anything automatically.
+SUPER+CTRL+SHIFT+A	Claude	mapped	
+SUPER+CTRL+SHIFT+EQUAL	Expand window down a lot	equivalent	Floating/Niri use 25/100/300-point increments. Dwindle uses 1/2/6 proportional steps for fine/normal/coarse.
+SUPER+CTRL+SHIFT+G	Google Messages	mapped	
+SUPER+CTRL+SHIFT+MINUS	Shrink window up a lot	equivalent	Floating/Niri use 25/100/300-point increments. Dwindle uses 1/2/6 proportional steps for fine/normal/coarse.
+SUPER+CTRL+SHIFT+R	Clear reminders	equivalent	Opens Reminders; never deletes existing reminders automatically.
+SUPER+CTRL+SHIFT+SPACE	Theme menu	equivalent	Opens native settings; no fragile UI automation or private display API.
+SUPER+CTRL+SLASH	Find files	mapped	
+SUPER+CTRL+SPACE	Background switcher	equivalent	Opens native settings; no fragile UI automation or private display API.
+SUPER+CTRL+T	Activity	mapped	
+SUPER+CTRL+TAB	Former workspace	mapped	
+SUPER+CTRL+V	Clipboard manager	equivalent	Uses Raycast clipboard history and its privacy settings.
+SUPER+CTRL+W	Network	equivalent	Opens native settings; no fragile UI automation or private display API.
+SUPER+CTRL+Z	Zoom in	equivalent	Configure native Zoom in Accessibility; no global zoom transform API.
+SUPER+DOWN	Focus on below window	mapped	
+SUPER+EQUAL	Shrink window left	equivalent	Floating/Niri use 25/100/300-point increments. Dwindle uses 1/2/6 proportional steps for fine/normal/coarse.
+SUPER+ESCAPE	System menu	mapped	
+SUPER+F	Full screen	native	Passed unchanged to the focused app by explicit user preference.
+SUPER+G	Toggle window grouping	native	Passed unchanged to the focused app by explicit user preference.
+SUPER+GRAVE	Toggle scratchpad	mapped	
+SUPER+HOME	Restore window width	equivalent	Restores as a floating window.
+SUPER+I	Switch input language	mapped	
+SUPER+J	Toggle window split	mapped	
+SUPER+K	Keybindings	mapped	
+SUPER+L	Cycle workspace layout	native	Command+L belongs to the focused app; Command+Option+L restores Dwindle tiling.
+SUPER+LEFT	Focus on left window	mapped	
+SUPER+M	Minimize window to the dock	mapped	
+SUPER+MINUS	Expand window left	equivalent	Floating/Niri use 25/100/300-point increments. Dwindle uses 1/2/6 proportional steps for fine/normal/coarse.
+SUPER+MOUSE:272	Move window	native	OmniWM Command+left drag.
+SUPER+MOUSE:273	Resize window	native	OmniWM Command+right drag.
+SUPER+MOUSE_DOWN	Scroll active workspace forward	mapped	
+SUPER+MOUSE_UP	Scroll active workspace backward	mapped	
+SUPER+O	Pop window out (float & pin)	equivalent	Floats the window; pinning across workspaces is unavailable.
+SUPER+P	Pseudo window	native	Passed unchanged to the focused app by explicit user preference.
+SUPER+PRINT	Color picker	equivalent	Native Digital Color Meter instead of Linux color picker.
+SUPER+Q	Close window	native	Passed unchanged to the focused app by explicit user preference.
+SUPER+RETURN	Terminal	mapped	
+SUPER+RIGHT	Focus on right window	mapped	
+SUPER+S	Toggle scratchpad	native	Passed unchanged to the focused app by explicit user preference.
+SUPER+SHIFT+0	Move window to workspace 10	mapped	
+SUPER+SHIFT+1	Move window to workspace 1	mapped	
+SUPER+SHIFT+2	Move window to workspace 2	mapped	
+SUPER+SHIFT+3	Move window to workspace 3	mapped	
+SUPER+SHIFT+4	Move window to workspace 4	mapped	
+SUPER+SHIFT+5	Move window to workspace 5	mapped	
+SUPER+SHIFT+6	Move window to workspace 6	mapped	
+SUPER+SHIFT+7	Move window to workspace 7	mapped	
+SUPER+SHIFT+8	Move window to workspace 8	mapped	
+SUPER+SHIFT+9	Move window to workspace 9	mapped	
+SUPER+SHIFT+A	ChatGPT	mapped	
+SUPER+SHIFT+B	Browser	mapped	
+SUPER+SHIFT+BACKSPACE	Toggle window gaps	mapped	
+SUPER+SHIFT+C	Calendar	mapped	
+SUPER+SHIFT+CODE:201	Omarchy menu	unavailable	Linux evdev code 201 has no identified macOS counterpart. Use Command+Space.
+SUPER+SHIFT+COMMA	Dismiss all notifications	equivalent	Opens notification settings; click the menu-bar clock for history and dismissal. No stable notification-control API.
+SUPER+SHIFT+D	Docker	mapped	
+SUPER+SHIFT+DOWN	Swap window down	mapped	
+SUPER+SHIFT+E	Email	mapped	
+SUPER+SHIFT+EQUAL	Expand window down	equivalent	Floating/Niri use 25/100/300-point increments. Dwindle uses 1/2/6 proportional steps for fine/normal/coarse.
+SUPER+SHIFT+F	File manager	mapped	
+SUPER+SHIFT+G	ZapFast	equivalent	Opens ZapFast if installed, otherwise https://web.whatsapp.com
+SUPER+SHIFT+GRAVE	Move window to scratchpad	mapped	
+SUPER+SHIFT+I	Switch input language back; Activity	equivalent	Personal Activity binding wins over the inherited input-language-back binding.
+SUPER+SHIFT+LEFT	Swap window to the left	mapped	
+SUPER+SHIFT+M	Spotifast	equivalent	Opens Spotifast if installed, otherwise https://open.spotify.com
+SUPER+SHIFT+MINUS	Shrink window up	equivalent	Floating/Niri use 25/100/300-point increments. Dwindle uses 1/2/6 proportional steps for fine/normal/coarse.
+SUPER+SHIFT+N	Editor	native	Passed unchanged to the focused app by explicit user preference.
+SUPER+SHIFT+O	Obsidian	mapped	
+SUPER+SHIFT+P	Immich	mapped	
+SUPER+SHIFT+RETURN	Browser	mapped	
+SUPER+SHIFT+RIGHT	Swap window to the right	mapped	
+SUPER+SHIFT+S	Google Maps	mapped	
+SUPER+SHIFT+SLASH	Passwords	mapped	
+SUPER+SHIFT+SPACE	Toggle top bar	mapped	
+SUPER+SHIFT+T	Todoist	native	Passed unchanged to the focused app by explicit user preference.
+SUPER+SHIFT+TAB	Previous workspace	mapped	
+SUPER+SHIFT+UP	Swap window up	mapped	
+SUPER+SHIFT+W	Omawrite	native	Passed unchanged to the focused app by explicit user preference.
+SUPER+SHIFT+X	X	mapped	
+SUPER+SHIFT+Y	YouTube	mapped	
+SUPER+SLASH	Monitor scaling up	equivalent	Opens native settings; no fragile UI automation or private display API.
+SUPER+SPACE	Omarchy menu	native	Raycast owns Command+Space.
+SUPER+T	Toggle window floating/tiling	native	Native Command+T in every app. Command+O toggles floating.
+SUPER+TAB	Next workspace	mapped	
+SUPER+UP	Focus on above window	mapped	
+SUPER+V	Universal paste	native	
+SUPER+W	Close window	native	Native macOS close action, including Ghostty tabs.
+SUPER+X	Universal cut	native	
+SWITCH:OFF:APPLE SMC POWER/LID EVENTS	Hardware event	native	macOS / keyboard firmware handles this event; lid events do not apply to a desktop Mac.
+SWITCH:OFF:LID SWITCH	Hardware event	native	macOS / keyboard firmware handles this event; lid events do not apply to a desktop Mac.
+SWITCH:ON:APPLE SMC POWER/LID EVENTS	Hardware event	native	macOS / keyboard firmware handles this event; lid events do not apply to a desktop Mac.
+SWITCH:ON:LID SWITCH	Hardware event	native	macOS / keyboard firmware handles this event; lid events do not apply to a desktop Mac.
+XF86AUDIOLOWERVOLUME	Volume down	native	macOS / keyboard firmware handles this event; lid events do not apply to a desktop Mac.
+XF86AUDIOMICMUTE	Mute microphone	mapped	
+XF86AUDIOMUTE	Mute	native	macOS / keyboard firmware handles this event; lid events do not apply to a desktop Mac.
+XF86AUDIONEXT	Next track	native	macOS / keyboard firmware handles this event; lid events do not apply to a desktop Mac.
+XF86AUDIOPAUSE	Pause	native	macOS / keyboard firmware handles this event; lid events do not apply to a desktop Mac.
+XF86AUDIOPLAY	Play	native	macOS / keyboard firmware handles this event; lid events do not apply to a desktop Mac.
+XF86AUDIOPREV	Previous track	native	macOS / keyboard firmware handles this event; lid events do not apply to a desktop Mac.
+XF86AUDIORAISEVOLUME	Volume up	native	macOS / keyboard firmware handles this event; lid events do not apply to a desktop Mac.
+XF86CALCULATOR	Calculator	hardware-unverified	NuPhy consumer-key event is not identified on macOS. Use the corresponding Command shortcut or menu.
+XF86DONOTDISTURB	Toggle silencing notifications	hardware-unverified	NuPhy consumer-key event is not identified on macOS. Use the corresponding Command shortcut or menu.
+XF86EJECT	Eject media	native	macOS / keyboard firmware handles this event; lid events do not apply to a desktop Mac.
+XF86KBDBRIGHTNESSDOWN	Keyboard brightness down	native	macOS / keyboard firmware handles this event; lid events do not apply to a desktop Mac.
+XF86KBDBRIGHTNESSUP	Keyboard brightness up	native	macOS / keyboard firmware handles this event; lid events do not apply to a desktop Mac.
+XF86KBDLIGHTONOFF	Keyboard backlight cycle	unavailable	No corresponding macOS event/control; NuPhy keyboard lighting is firmware-controlled.
+XF86LAUNCHA	Omarchy menu	hardware-unverified	Handles macOS LAUNCH_PANEL events; the physical NuPhy Mission Control key still needs testing. Command+Space / Command+Option+Space work independently.
+XF86MONBRIGHTNESSDOWN	Brightness down	native	macOS / keyboard firmware handles this event; lid events do not apply to a desktop Mac.
+XF86MONBRIGHTNESSUP	Brightness up	native	macOS / keyboard firmware handles this event; lid events do not apply to a desktop Mac.
+XF86POWEROFF	Power menu	mapped	
+XF86SEARCH	Find files	hardware-unverified	NuPhy consumer-key event is not identified on macOS. Use the corresponding Command shortcut or menu.
+XF86TOUCHPADOFF	Disable touchpad	unavailable	No corresponding macOS event/control; NuPhy keyboard lighting is firmware-controlled.
+XF86TOUCHPADON	Enable touchpad	unavailable	No corresponding macOS event/control; NuPhy keyboard lighting is firmware-controlled.
+XF86TOUCHPADTOGGLE	Toggle touchpad	unavailable	No corresponding macOS event/control; NuPhy keyboard lighting is firmware-controlled.
