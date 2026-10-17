@@ -1,0 +1,198 @@
+{
+  "version": 1,
+  "skills": {
+    "bitwig-track": {
+      "source": "crmne/skills",
+      "ref": null,
+      "ref_type": "branch",
+      "commit": "6972475d8c8ad9a0e8a56bfccfdfd2ae436fda22",
+      "path": "skills/bitwig-track",
+      "digest": "sha256-1c9d438bd4127dd6b8935abb1cfefd4f8a907a1985f43efd1003d251d1ba8b35",
+      "executable": false,
+      "targets": [
+        "~/.agents/skills",
+        "~/.claude/skills"
+      ]
+    },
+    "gpu-render": {
+      "source": "crmne/skills-private",
+      "ref": null,
+      "ref_type": "branch",
+      "commit": "aab73e81c9ea54a07d9b33ce1ccc2584fdaaef92",
+      "path": "skills/gpu-render",
+      "digest": "sha256-3e79bd37fe7c0f7f001ad6b32b071cfb0c5369c014597c701dfe34236911062d",
+      "executable": false,
+      "targets": [
+        "~/.agents/skills",
+        "~/.claude/skills"
+      ]
+    },
+    "hey": {
+      "source": "basecamp/hey-cli",
+      "ref": "v1.9.0",
+      "ref_type": "tag",
+      "commit": "76ea03f5e52651521fef86edc24224ca4033d374",
+      "path": "skills/hey",
+      "plugin": "hey",
+      "digest": "sha256-092211c72c90b7a1fc9d4dfac8afeb52852b776d75ef577fc48a6a07727b9391",
+      "executable": false,
+      "targets": [
+        "~/.agents/skills",
+        "~/.claude/skills"
+      ]
+    },
+    "hyperframes": {
+      "source": "heygen-com/hyperframes",
+      "ref": null,
+      "ref_type": "branch",
+      "commit": "b18b3e958aa199529fa5fa06728e81b97d520021",
+      "path": "skills/hyperframes",
+      "plugin": "hyperframes",
+      "digest": "sha256-dac10a49cee681e9943e7079bfe90975cee1669d9291d35304fca936eba954c3",
+      "executable": false,
+      "targets": [
+        "~/.agents/skills",
+        "~/.claude/skills"
+      ]
+    },
+    "hyperframes-animation": {
+      "source": "heygen-com/hyperframes",
+      "ref": null,
+      "ref_type": "branch",
+      "commit": "b18b3e958aa199529fa5fa06728e81b97d520021",
+      "path": "skills/hyperframes-animation",
+      "plugin": "hyperframes",
+      "digest": "sha256-399e73c6eaf8b0d5862141a6245a501c3b424fdc67ce3652def3c0e47a4f63c1",
+      "executable": false,
+      "targets": [
+        "~/.agents/skills",
+        "~/.claude/skills"
+      ]
+    },
+    "hyperframes-audio": {
+      "source": "heygen-com/hyperframes",
+      "ref": null,
+      "ref_type": "branch",
+      "commit": "b18b3e958aa199529fa5fa06728e81b97d520021",
+      "path": "skills/hyperframes-audio",
+      "plugin": "hyperframes",
+      "digest": "sha256-7b09b8b2815428d5b0489ce96f6021867e94d01b897ed567ec17f41c7cb847d6",
+      "executable": false,
+      "targets": [
+        "~/.agents/skills",
+        "~/.claude/skills"
+      ]
+    },
+    "hyperframes-cli": {
+      "source": "heygen-com/hyperframes",
+      "ref": null,
+      "ref_type": "branch",
+      "commit": "b18b3e958aa199529fa5fa06728e81b97d520021",
+      "path": "skills/hyperframes-cli",
+      "plugin": "hyperframes",
+      "digest": "sha256-c1919d4d251942916d4bad14ab24c52c277f30714afdee4806a0741a183f3418",
+      "executable": false,
+      "targets": [
+        "~/.agents/skills",
+        "~/.claude/skills"
+      ]
+    },
+    "hyperframes-core": {
+      "source": "heygen-com/hyperframes",
+      "ref": null,
+      "ref_type": "branch",
+      "commit": "b18b3e958aa199529fa5fa06728e81b97d520021",
+      "path": "skills/hyperframes-core",
+      "plugin": "hyperframes",
+      "digest": "sha256-2637a4d7bf43985b834476be5d75e2f49e434de424e8e89e91599f6caa1cc140",
+      "executable": false,
+      "targets": [
+        "~/.agents/skills",
+        "~/.claude/skills"
+      ]
+    },
+    "hyperframes-creative": {
+      "source": "heygen-com/hyperframes",
+      "ref": null,
+      "ref_type": "branch",
+      "commit": "b18b3e958aa199529fa5fa06728e81b97d520021",
+      "path": "skills/hyperframes-creative",
+      "plugin": "hyperframes",
+      "digest": "sha256-32034f0bdefb4b694cdb00db1e3cfb579102aa56275acd836f7ae3b43f8e6b1b",
+      "executable": false,
+      "targets": [
+        "~/.agents/skills",
+        "~/.claude/skills"
+      ]
+    },
+    "hyperframes-keyframes": {
+      "source": "heygen-com/hyperframes",
+      "ref": null,
+      "ref_type": "branch",
+      "commit": "b18b3e958aa199529fa5fa06728e81b97d520021",
+      "path": "skills/hyperframes-keyframes",
+      "plugin": "hyperframes",
+      "digest": "sha256-3a27df958f930ce2f264a65bbe3372d6f22fc7c0d38f993a1ec33f850a0284d8",
+      "executable": false,
+      "targets": [
+        "~/.agents/skills",
+        "~/.claude/skills"
+      ]
+    },
+    "hyperframes-registry": {
+      "source": "heygen-com/hyperframes",
+      "ref": null,
+      "ref_type": "branch",
+      "commit": "b18b3e958aa199529fa5fa06728e81b97d520021",
+      "path": "skills/hyperframes-registry",
+      "plugin": "hyperframes",
+      "digest": "sha256-ba05606e331a9ce7392e54c7aa695b5bec4755d12b261e37a00e53a759f3963c",
+      "executable": false,
+      "targets": [
+        "~/.agents/skills",
+        "~/.claude/skills"
+      ]
+    },
+    "hyperframes-studio": {
+      "source": "heygen-com/hyperframes",
+      "ref": null,
+      "ref_type": "branch",
+      "commit": "b18b3e958aa199529fa5fa06728e81b97d520021",
+      "path": "skills/hyperframes-studio",
+      "plugin": "hyperframes",
+      "digest": "sha256-10aa6e585d9f160f9638fdba373ebc0133b297ccbcbde2cf323a9dcce1ee6465",
+      "executable": false,
+      "targets": [
+        "~/.agents/skills",
+        "~/.claude/skills"
+      ]
+    },
+    "media-use": {
+      "source": "heygen-com/hyperframes",
+      "ref": null,
+      "ref_type": "branch",
+      "commit": "b18b3e958aa199529fa5fa06728e81b97d520021",
+      "path": "skills/media-use",
+      "plugin": "hyperframes",
+      "digest": "sha256-177b9dc575ec273e97bc3b3ce969ae34a54f9f44191fa905d1f26a8d0413a778",
+      "executable": false,
+      "targets": [
+        "~/.agents/skills",
+        "~/.claude/skills"
+      ]
+    },
+    "rubyllm": {
+      "source": "crmne/ruby_llm",
+      "ref": null,
+      "ref_type": "branch",
+      "commit": "aaaae92776eaed009cc8926eed3488344d5bf427",
+      "path": "skills/rubyllm",
+      "digest": "sha256-3b4897116d099f768f67346fdd2523e93285822ba894bdf3ba94071123fcc5fe",
+      "executable": false,
+      "targets": [
+        "~/.agents/skills",
+        "~/.claude/skills"
+      ]
+    }
+  }
+}
