@@ -14,6 +14,7 @@ want='[Service]
 Delegate=cpu cpuset io memory pids'
 if [ "$(cat "$delegate" 2>/dev/null)" != "$want" ]; then
   echo "agents.slice: delegating the io controller to user sessions (sudo)"
+  sudo mkdir -p "$(dirname "$delegate")"
   printf '%s\n' "$want" | sudo tee "$delegate" >/dev/null
   sudo systemctl daemon-reload
 fi
