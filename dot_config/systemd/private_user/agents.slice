@@ -1,0 +1,14 @@
+[Unit]
+Description=Coding agents and everything they start (herdr, Claude Code, builds, tests)
+
+# Agents yield to the desktop: under contention they get a fifth of the CPU
+# and disk time an app gets, and memory past MemoryHigh is reclaimed from
+# them first, leaving about 16 GB for Chromium and the rest of the desktop.
+[Slice]
+CPUWeight=20
+IOWeight=20
+MemoryHigh=44G
+MemoryMax=52G
+MemorySwapMax=8G
+ManagedOOMMemoryPressure=kill
+ManagedOOMMemoryPressureLimit=80%
