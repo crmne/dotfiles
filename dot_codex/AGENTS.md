@@ -6,6 +6,25 @@
   render that fell back to screenshot or software capture. Load the
   `gpu-render` skill before rendering.
 
+# Secrets
+
+- Read 1Password secrets with `op-cache read "op://..."` (or `op-cache run`
+  for environment variables), never `op read`. `op-cache` caches them, so you
+  don't trigger a 1Password approval prompt on every read. Project `.env`
+  files already use it.
+- Never search 1Password: `op item list`, `op item get` (`--otp` included) and
+  `op vault list` each raise an approval prompt. Find the `op://` reference in
+  the repository (`.envrc`, `.env`, Makefile, docs, Terraform) or ask Carmine.
+- Use `op` only where `op-cache` can't do the job, which is creating or
+  editing an item, with the value passed through a file or stdin, never in
+  arguments, and as few calls as possible.
+- When you start a subagent that may touch secrets, put these rules in its
+  prompt.
+- `op-cache` is Carmine's AUR package, `op-cache-git`, at `/usr/bin/op-cache`.
+- If it fails or times out, 1Password is probably locked or waiting for an
+  approval: tell Carmine, and don't fall back to `op` or work around it.
+- Never print, log or commit a secret. Check a value resolved by its length.
+
 # Films and product videos
 
 - Every film's source (HyperFrames project, brief, storyboard, compositions,
