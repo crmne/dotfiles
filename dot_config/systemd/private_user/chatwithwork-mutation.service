@@ -1,0 +1,9 @@
+[Unit]
+Description=Weekly mutation testing of Chat with Work's main (bin/mutate-weekly)
+
+[Service]
+Type=oneshot
+Slice=agents.slice
+WorkingDirectory=%h/Work/chatwithwork
+# A login shell, so mise, Ruby and gh are on the PATH.
+ExecStart=/usr/bin/fish -l -c 'bin/mutate-weekly'

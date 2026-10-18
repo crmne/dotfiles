@@ -1,0 +1,9 @@
+[Unit]
+Description=Run Chat with Work's mutation testing every Sunday night
+
+[Timer]
+OnCalendar=Sun 02:30
+Persistent=true
+
+[Install]
+WantedBy=timers.target
