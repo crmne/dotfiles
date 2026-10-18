@@ -1,0 +1,27 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/sh
+# Puts every coding agent in agents.slice (dot_config/systemd/user), where it
+# gives way to the desktop: low CPU and IO weight, memory reclaimed first.
+# Runs again whenever the slice or the Local Agent drop-in changes:
+# slice {{ include "dot_config/systemd/private_user/agents.slice" | sha256sum }}
+# cww   {{ include "dot_config/systemd/private_user/cww.service.d/agents-slice.conf" | sha256sum }}
+set -eu
+
+# The user manager can weight disk IO only if systemd delegates the io
+# controller to it, which takes root once (effective from the next login).
+delegate=/etc/systemd/system/user@.service.d/delegate.conf
+want='[Service]
+Delegate=cpu cpuset io memory pids'
+if [ "$(cat "$delegate" 2>/dev/null)" != "$want" ]; then
+  echo "agents.slice: delegating the io controller to user sessions (sudo)"
+  printf '%s\n' "$want" | sudo tee "$delegate" >/dev/null
+  sudo systemctl daemon-reload
+fi
+
+systemctl --user daemon-reload
+systemctl --user start agents.slice
+# Move a running Local Agent into the slice.
+if systemctl --user is-active --quiet cww.service; then
+  [ "$(systemctl --user show cww.service -p Slice --value)" = agents.slice ] || systemctl --user restart cww.service
+fi
+{{ end -}}
