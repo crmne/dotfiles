@@ -1,3 +1,20 @@
+# Every host gets exactly one key from the 1Password agent: IdentityFile points
+# at the key's public half and IdentitiesOnly stops ssh offering the other
+# keys, which would trip MaxAuthTries and fail2ban on hosts late in the list.
+
+# Hetzner VPSes (hcloud's "Hetzner" key)
+Host prod
+  HostName 188.245.107.117
+Host stats
+  HostName 95.217.235.100
+Host chatwithwork
+  HostName 46.224.182.164
+Host prod stats chatwithwork 188.245.107.117 95.217.235.100 46.224.182.164 chatwithwork.com *.chatwithwork.com clusterheadachetracker.com
+  User root
+  IdentityFile ~/.ssh/hetzner-1password.pub
+  IdentitiesOnly yes
+
+# NUC
 Host chalk nsac63f.glddns.com
   HostName nsac63f.glddns.com
   User carmine
@@ -5,9 +22,51 @@ Host chalk nsac63f.glddns.com
   IdentityFile ~/.ssh/nuc-1password.pub
   IdentitiesOnly yes
 
+Host nuc nuc.local home.paolino.me 192.168.8.166
+  User carmine
+  IdentityFile ~/.ssh/nuc-1password.pub
+  IdentitiesOnly yes
+
 Host carmines-mac-mini.local Carmines-Mac-Mini.local
   User carmine
   IdentityFile ~/.ssh/nuc-1password.pub
+  IdentitiesOnly yes
+
+# Raspberry Pi Snapcast clients
+Host rpi3.local rpi4.local house-speaker.local rpi0w.local
+  User carmine
+  IdentityFile ~/.ssh/nuc-1password.pub
+  IdentitiesOnly yes
+
+Host windows-box 192.168.8.231
+  HostName 192.168.8.231
+  User carmine
+  IdentityFile ~/.ssh/nuc-1password.pub
+  IdentitiesOnly yes
+
+# Forges
+Match host github.com exec "test -S ~/.ssh/forwarded-agent.sock"
+  IdentityAgent ~/.ssh/forwarded-agent.sock
+
+Host github.com
+  IdentityFile ~/.ssh/github-1password.pub
+  IdentitiesOnly yes
+
+Host aur.archlinux.org
+  User aur
+  IdentityFile ~/.ssh/aur-1password.pub
+  IdentitiesOnly yes
+
+Host gitlab.alpinelinux.org
+  IdentityFile ~/.ssh/alpinelinux-1password.pub
+  IdentitiesOnly yes
+
+Host git.gentoo.org
+  IdentityFile ~/.ssh/gentoo-guru-1password.pub
+  IdentitiesOnly yes
+
+Host salsa.debian.org
+  IdentityFile ~/.ssh/debian-1password.pub
   IdentitiesOnly yes
 
 Host *
