@@ -42,5 +42,5 @@ ensure_plugin() {
 # Generated from the list captured by the add/re-add hook. Check on every apply
 # so missing plugins are restored even when the list itself has not changed.
 {{ range $id, $url := .omarchyPlugins -}}
-ensure_plugin {{ $id | shellQuote }} {{ $url | shellQuote }}
+ensure_plugin '{{ $id | replace "'" "'\\''" }}' '{{ $url | replace "'" "'\\''" }}'
 {{ end -}}
