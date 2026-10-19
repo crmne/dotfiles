@@ -15,7 +15,10 @@
         {
           "id": "crmne.omacal",
           "format": "ddd d MMM HH:mm",
-          "lastCalendarId": 383710
+          "lastCalendarId": "hey:383708",
+          "weekStartDay": "monday",
+          "googleEnabled": false,
+          "hiddenCalendars": ""
         },
         {
           "id": "omarchy.system-update"
@@ -106,10 +109,10 @@
           "id": "omarchy.audio"
         },
         {
-          "id": "crmne.hyprmoncfg"
+          "id": "omarchy.power"
         },
         {
-          "id": "omarchy.power"
+          "id": "crmne.hyprmoncfg"
         }
       ]
     },

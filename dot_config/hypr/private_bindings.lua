@@ -16,20 +16,22 @@ o.bind("SUPER + SHIFT + P", "Immich", {
 })
 
 -- NuPhy keyboards (Halo75 V2 with QMK keymap crmne, Air75 V3 remapped with
--- nuphyctl) send the same codes from their top row. Brightness, mic mute,
+-- nuphyctl) send the same codes from their top row. Brightness,
 -- media, volume and Print Screen use Omarchy's default bindings.
 
 -- Mission Control key (QMK KC_MISSION_CONTROL, NuPhy 0x7E06).
 o.bind("XF86LaunchA", "Omarchy menu", "omarchy-menu toggle")
 o.bind("SHIFT + XF86LaunchA", "Apps menu", "omarchy-menu toggle apps")
 
--- Search key (QMK KC_WWW_SEARCH), and Super+Ctrl+/ on any keyboard.
+-- Search key (QMK KC_WWW_SEARCH), and Ctrl+Alt+Super+Space on any keyboard.
 o.bind("XF86Search", "Find files", "omarchy-shell shell toggle crmne.files")
-o.bind("SUPER + CTRL + SLASH", "Find files", "omarchy-shell shell toggle crmne.files")
 
--- Microphone key (F20): mute by default, dictation with Shift.
+-- Microphone key: dictation by default, mute with Shift.
 hl.unbind("SUPER + CTRL + X")
-o.bind("SHIFT + XF86AudioMicMute", "Toggle dictation", "voxtype record toggle")
+hl.unbind("XF86AudioMicMute")
+hl.unbind("SHIFT + XF86AudioMicMute")
+o.bind("XF86AudioMicMute", "Toggle dictation", "voxtype record toggle")
+o.bind("SHIFT + XF86AudioMicMute", "Mute microphone", "omarchy-audio-input-mute", { locked = true })
 
 -- Moon key (QMK MAC_DND, NuPhy 0x7E16): notifications, night light with Shift.
 o.bind_toggle("XF86DoNotDisturb", "Toggle silencing notifications", "notification-silencing")
@@ -54,3 +56,6 @@ o.bind("SUPER + SHIFT + G", "ZapFast", { launch = "zapfast" })
 
 hl.unbind("SUPER + SHIFT + ALT + G")
 o.bind("SUPER + SHIFT + ALT + G", "Signal", { omarchy = "signal" })
+
+-- Files opening shortcut (managed from Files settings).
+dofile(os.getenv("HOME") .. "/.config/hypr/crmne-files.lua")
