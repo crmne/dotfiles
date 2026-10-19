@@ -2,6 +2,8 @@
 -- current theme.
 
 hl.config({
+  -- Apps may request attention, but must not take keyboard focus.
+  misc = { focus_on_activate = false },
   general = {
     gaps_out = 10,
   },

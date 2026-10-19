@@ -3,9 +3,12 @@
 ~/Code/zapfast	claude:6b9831ac-3677-43ab-9407-023d3293e449
 ~/Code/archspec	claude:2b9552d0-1c84-482b-a3c4-0fdfcef2bb27
 ~/Code/spotifast	claude:848d4ca8-dd15-4940-87cb-5f61d65d0689
-~/Code/omacal	claude:c6523b4e-b66b-4f88-b685-02a42a6feedb
+~/Code/omacal	claude:c6523b4e-b66b-4f88-b685-02a42a6feedb	codex
 ~/Work/terraform	codex
 ~/Code/plenty.is	claude:d5752399-1621-4ae3-9458-df916a0e50c0
-~/Code/hyprmoncfg	claude:8c78721e-9328-4eb9-9c73-d181c7be33f8
+~/Code/hyprmoncfg	claude:8c78721e-9328-4eb9-9c73-d181c7be33f8	codex
 ~/Code/copilot-triage	claude:f970d96d-d1a0-465b-a713-af0b25dd6720
 ~/Code/omarchy-moza	claude:21eddede-32df-4db6-848d-9a9826ae5e83
+~/Code/omarchy-files	codex
+~/Code/fastframe	codex
+~/Work/ruby_llm	codex

@@ -36,3 +36,12 @@ o.window("fastpotify", {
 -- Steam's float/center/opacity rules come from Omarchy's defaults; its
 -- 1100x700 main window is too cramped, so match the music players instead.
 o.window({ class = "steam", title = "Steam" }, { size = { 1514, 899 } })
+
+-- Keep Chromium automation from stealing focus; manual window switching still works.
+o.window("chromium", { focus_on_activate = false, suppress_event = "activate activatefocus" })
+
+-- Give Assetto Corsa its full render size before CSP creates the swapchain.
+o.window({ class = "^steam_app_244210$", title = "^Assetto Corsa$" }, {
+	float = true,
+	fullscreen = true,
+})

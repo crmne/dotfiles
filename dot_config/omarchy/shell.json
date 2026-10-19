@@ -15,7 +15,7 @@
         {
           "id": "crmne.omacal",
           "format": "ddd d MMM HH:mm",
-          "lastCalendarId": "hey:383708",
+          "lastCalendarId": "hey:383710",
           "weekStartDay": "monday",
           "googleEnabled": false,
           "hiddenCalendars": ""
@@ -117,7 +117,7 @@
       ]
     },
     "position": "top",
-    "transparent": true
+    "transparent": false
   },
   "idle": {
     "lock": 300,
