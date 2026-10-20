@@ -33,6 +33,10 @@
   `pgrep -f` pattern, which also match your own shell and other sessions.
 - Never open URLs in the desktop browser (`open`, `xdg-open`); use headless
   Playwright or `curl`.
+- Local model servers run only while something uses them. GPUStack's
+  container (`gpustack-<version>`, restart policy `no`) serves RubyLLM's
+  `gpustack` specs on port 11444: `docker start` it before recording those
+  cassettes and `docker stop` it after, so it doesn't hold GPU memory.
 
 # Secrets
 
