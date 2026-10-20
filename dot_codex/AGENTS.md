@@ -47,9 +47,10 @@
   for environment variables), never `op read`. `op-cache` caches them, so you
   don't trigger a 1Password approval prompt on every read. Project `.env`
   files already use it.
-- Never search 1Password: `op item list`, `op item get` (`--otp` included) and
-  `op vault list` each raise an approval prompt. Find the `op://` reference in
-  the repository (`.envrc`, `.env`, Makefile, docs, Terraform) or ask Carmine.
+- When you don't know an item's `op://` path, look in the repository first
+  (`.envrc`, `.env`, Makefile, docs, Terraform), then search 1Password with
+  `op item list` or `op item get`. Each search raises an approval prompt, so
+  search once for what you need rather than item by item.
 - Use `op` only where `op-cache` can't do the job, which is creating or
   editing an item, with the value passed through a file or stdin, never in
   arguments, and as few calls as possible.
