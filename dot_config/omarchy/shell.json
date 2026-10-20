@@ -13,15 +13,15 @@
           "id": "omarchy.weather"
         },
         {
+          "id": "omarchy.system-update"
+        },
+        {
           "id": "crmne.omacal",
           "format": "ddd d MMM HH:mm",
           "lastCalendarId": "hey:383710",
           "weekStartDay": "monday",
           "googleEnabled": false,
           "hiddenCalendars": ""
-        },
-        {
-          "id": "omarchy.system-update"
         }
       ],
       "left": [
