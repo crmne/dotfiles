@@ -1,3 +1,16 @@
+# Commits and pull requests
+
+- Never add a `Co-Authored-By` trailer, a `Claude-Session` link, or any
+  "Generated with Claude Code" line to commit messages, pull request
+  descriptions, or anywhere else. Carmine's commits carry Carmine's name only.
+
+# Linking issues and pull requests
+
+- When you mention an issue, pull request, discussion or commit to Carmine,
+  write it as a clickable Markdown link to its page, e.g.
+  [#909](https://github.com/owner/repo/pull/909), never a bare `#909` or SHA.
+  This applies to every summary, triage list and decision list.
+
 # Rendering video
 
 - Render on the GPU, one render at a time: Hyperframes only through `hf-render`
@@ -5,6 +18,28 @@
   frame capture, ffmpeg NVENC, Blender) wrapped in `gpu-lock`. Never deliver a
   render that fell back to screenshot or software capture. Load the
   `gpu-render` skill before rendering.
+- Render with one worker. With several, each worker captures every Nth frame
+  and can hold different animation state, so motion flickers on every Nth
+  frame. `hf-render` enforces it and runs `hf-flicker` on the result; never
+  deliver a render with pops, unless you looked and each is a designed
+  one-frame effect such as a screen shake.
+
+# Processes
+
+- Each session runs in a systemd scope of its own (the fish wrappers for
+  `claude`, `codex` and the other agents), so running out of memory kills one
+  session, not herdr and every session with it.
+- Stop processes by exact PID you started, never `pkill -f`, `killall`, or a
+  `pgrep -f` pattern, which also match your own shell and other sessions.
+- Never open URLs in the desktop browser (`open`, `xdg-open`); use headless
+  Playwright or `curl`. The exception is Playwriter (`npx -y playwriter`),
+  which drives Carmine's own Chromium for vendor consoles that block headless
+  browsers: work only in tabs in its "vendors" tab group, screenshot before
+  every submit, and never touch billing or payment details.
+- Local model servers run only while something uses them. GPUStack's
+  container (`gpustack-<version>`, restart policy `no`) serves RubyLLM's
+  `gpustack` specs on port 11444: `docker start` it before recording those
+  cassettes and `docker stop` it after, so it doesn't hold GPU memory.
 
 # Secrets
 
