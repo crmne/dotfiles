@@ -59,6 +59,9 @@
 - When you start a subagent that may touch secrets, put these rules in its
   prompt.
 - `op-cache` is Carmine's AUR package, `op-cache-git`, at `/usr/bin/op-cache`.
+- Two-step login: prefer an authenticator app whose secret lives in 1Password
+  (a one-time password field on the service's login item) over SMS, and turn
+  SMS off where the service allows. Save backup codes in the same item.
 - If it fails or times out, 1Password is probably locked or waiting for an
   approval: tell Carmine, and don't fall back to `op` or work around it.
 - Never print, log or commit a secret. Check a value resolved by its length.
