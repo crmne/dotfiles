@@ -35,7 +35,9 @@
   Playwright or `curl`. The exception is Playwriter (`npx -y playwriter`),
   which drives Carmine's own Chromium for vendor consoles that block headless
   browsers: work only in tabs in its "vendors" tab group, screenshot before
-  every submit, and never touch billing or payment details.
+  every submit, and never touch billing or payment details unless Carmine
+  asked for that purchase or account (then use the card in 1Password, and keep
+  auto-recharge off).
 - Local model servers run only while something uses them. GPUStack's
   container (`gpustack-<version>`, restart policy `no`) serves RubyLLM's
   `gpustack` specs on port 11444: `docker start` it before recording those
