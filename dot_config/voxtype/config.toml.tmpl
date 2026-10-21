@@ -1,5 +1,5 @@
 state_file = "auto"
-engine = "whisper"
+engine = "parakeet"
 
 [hotkey]
 enabled = false
@@ -12,7 +12,8 @@ mode = "push_to_talk"
 pause_media = {{ if eq .chezmoi.os "darwin" }}false{{ else }}true{{ end }}
 device = "default"
 sample_rate = 16000
-max_duration_secs = 600
+# Long dictations need Parakeet windowing (crmne integration build, PR #891)
+max_duration_secs = {{ if eq .chezmoi.os "darwin" }}600{{ else }}1800{{ end }}
 duck_media = false
 duck_media_volume_percent = 70
 duck_media_fade_ms = 150
@@ -34,7 +35,7 @@ eager_processing = false
 mode = "local"
 
 [output]
-mode = "clipboard"
+mode = "paste"
 fallback_to_clipboard = true
 
 # Delay between typed characters in milliseconds
@@ -59,7 +60,8 @@ smart_auto_submit = false
 icon_theme = "omarchy"
 
 [parakeet]
-model = "parakeet-tdt-0.6b-v3-int8"
+# Full-precision model on the NVIDIA desktop, int8 on CPU-only machines
+model = {{ if and (eq .chezmoi.os "linux") (lookPath "nvidia-smi") }}"parakeet-tdt-0.6b-v3"{{ else }}"parakeet-tdt-0.6b-v3-int8"{{ end }}
 streaming = false
 on_demand_loading = false
 
@@ -79,7 +81,7 @@ source = "mic"
 
 [osd]
 enabled = {{ if eq .chezmoi.os "darwin" }}false{{ else }}true{{ end }}
-frontend = "gtk4"
+frontend = "native"
 style = "default"
 layout = "compact"
 position = "bottom-center"
