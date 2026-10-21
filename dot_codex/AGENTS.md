@@ -43,6 +43,56 @@
   `gpustack` specs on port 11444: `docker start` it before recording those
   cassettes and `docker stop` it after, so it doesn't hold GPU memory.
 
+# Rust builds
+
+- Cargo runs through mbx (Mr. Boxington, enabled by mise's `mr_boxington`
+  Rust option), which makes every checkout's `target/` a symlink into its
+  cache at `/mnt/scratch-disk/mbx`, on the Samsung NVMe. Never put build
+  output on the root disk: don't set `CARGO_TARGET_DIR`, `build.target-dir`
+  or `build.build-dir` to a path under `/home`, and don't replace the
+  `target` symlink with a real directory. Heavy builds there saturate the
+  root drive and freeze the desktop.
+- A `target` link that still points into `~/.cache/mbx` is from before the
+  move: delete the link (not what it points to) before building, and mbx
+  makes a new one on the Samsung.
+- If `/mnt/scratch-disk` isn't mounted, stop and tell Carmine instead of
+  building elsewhere.
+- Run one heavy build or test suite per project at a time (`cargo test
+  --all-targets`, release builds with LTO): each links large binaries, and
+  several at once still saturate a disk.
+
+# Test machines
+
+- Windows: test on the Windows 11 VM on the NUC, never on Carmine's Windows
+  laptop (`windows-box`, 192.168.8.231), which is his to use. Control it
+  through SSH to `nuc.local` (`ssh nuc` doesn't resolve from the desktop):
+  `ssh nuc.local sudo -n /usr/local/sbin/windows11-test-vm start|status|address|display|shutdown`.
+  There is one VM: run `status` first, and if it's running, another agent is
+  using it, so wait or ask. Start refuses with less than 10 GiB free on the
+  NUC. Always `shutdown` when you're done, then check `status`.
+- Get into it over SSH through the NUC. Its address is fixed at
+  192.168.122.11 (`address` prints it). The login shell is PowerShell, so
+  pass PowerShell directly:
+  `ssh -o IdentitiesOnly=yes -i ~/.ssh/windows11-test-vm -J nuc.local vm-tester@192.168.122.11 '$PSVersionTable.PSVersion'`.
+  Copy files with `scp` using the same options. `IdentitiesOnly=yes` is
+  required, or the 1Password agent's other keys exhaust sshd's attempts.
+  Windows takes about a minute to boot after `start`, so retry SSH until it
+  answers.
+- Use the VM to install and run, not to build. The NUC is weak and also
+  runs Home Assistant, media and backups. Build Windows binaries in CI
+  (`windows-latest`) or by cross-compiling on the desktop, then copy the
+  artifact in with `scp` or download it inside Windows. Compile inside the
+  VM only when nothing else can produce the build, and say so first.
+- VNC is still there for the GUI: read the display number from `display`
+  (`:N` is TCP port 5900 + N), forward it with
+  `ssh -N -L 590N:127.0.0.1:590N nuc.local`, and drive it with `vncdo`.
+  Basic graphics only, with no GPU acceleration, camera or microphone, so it
+  can't prove GPU, video, call or low-latency audio behaviour. It's a 90-day
+  Enterprise evaluation. Recipe and details: Ansible role `windows11_vm` in
+  `~/Work/terraform`.
+- macOS: the Mac mini, `ssh carmines-mac-mini.local` (Apple Silicon,
+  macOS 27).
+
 # Secrets
 
 - Read 1Password secrets with `op-cache read "op://..."` (or `op-cache run`

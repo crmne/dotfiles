@@ -1,0 +1,20 @@
+# mbx: shared Rust build cache for all of Carmine's Rust projects.
+# One budget for the action store, managed targets and incremental state,
+# so parallel agents and worktrees can't fill the disk again.
+
+# Every checkout's target/ is a symlink into this cache, so it holds all Rust
+# build output. Keep it on the Samsung 970 EVO Plus (XFS, reflinks), which
+# sustains heavy writes; the root KIOXIA stalls the desktop under build I/O.
+cache_dir = "/mnt/scratch-disk/mbx"
+
+[gc]
+max_total_size = "250GiB"
+
+[target]
+# Most of the budget is live checkouts: five apps, their worktrees and agents.
+max_size = "180GiB"
+max_age = "30d"
+
+[scheduler]
+# Leave room for the desktop while agents build in parallel.
+reserve_cpus = 2
