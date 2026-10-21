@@ -8,11 +8,12 @@
 cache_dir = "/mnt/scratch-disk/mbx"
 
 [gc]
-max_total_size = "250GiB"
+# Half the 1 TB Samsung.
+max_total_size = "500GiB"
 
 [target]
 # Most of the budget is live checkouts: five apps, their worktrees and agents.
-max_size = "180GiB"
+max_size = "360GiB"
 max_age = "30d"
 
 [scheduler]
