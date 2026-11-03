@@ -13,11 +13,10 @@
 
 # Rendering video
 
-- Render on the GPU, one render at a time: Hyperframes only through `hf-render`
-  (never `npx hyperframes render` directly), and any other GPU job (Playwright
-  frame capture, ffmpeg NVENC, Blender) wrapped in `gpu-lock`. Never deliver a
-  render that fell back to screenshot or software capture. Load the
-  `gpu-render` skill before rendering.
+- Render on the GPU. Use `hf-render` for Hyperframes and run other GPU jobs
+  directly. Do not use `gpu-lock` or wait for a machine-wide GPU lock.
+  Never deliver a render that fell back to screenshot or software capture.
+  Load the `gpu-render` skill before rendering.
 - Render with one worker. With several, each worker captures every Nth frame
   and can hold different animation state, so motion flickers on every Nth
   frame. `hf-render` enforces it and runs `hf-flicker` on the result; never
@@ -42,6 +41,13 @@
   container (`gpustack-<version>`, restart policy `no`) serves RubyLLM's
   `gpustack` specs on port 11444: `docker start` it before recording those
   cassettes and `docker stop` it after, so it doesn't hold GPU memory.
+- Run every heavy job (a test suite, CI, a build, evals, a render) as its own
+  unit, one at a time across all projects:
+  `systemd-run --user --slice=agents.slice --unit=<name> flock --close
+  "$XDG_RUNTIME_DIR/heavy-job.lock" <command>`, never inside the session.
+  A repository's own wrapper (Chat with Work's `bin/heavy`) takes the same
+  lock. oomd kills the scope under the most memory pressure, so a job inside
+  a session takes the session and its agents down with it.
 
 # Rust builds
 
@@ -63,9 +69,12 @@
 
 # Test machines
 
-- Windows: test on the Windows 11 VM on the NUC, never on Carmine's Windows
-  laptop (`windows-box`, 192.168.8.231), which is his to use. Control it
-  through SSH to `nuc.local` (`ssh nuc` doesn't resolve from the desktop):
+- Windows laptop: Carmine's Windows laptop (`ssh windows-box`,
+  192.168.8.231) is fine to use over SSH, for example for work that needs
+  real hardware plugged into it or Windows-only vendor software (MOZA Pit
+  House). Leave apps he has open alone.
+- Windows VM: for isolated installs and tests, use the Windows 11 VM on the
+  NUC. Control it through SSH to `nuc.local` (`ssh nuc` doesn't resolve from the desktop):
   `ssh nuc.local sudo -n /usr/local/sbin/windows11-test-vm start|status|address|display|shutdown`.
   There is one VM: run `status` first, and if it's running, another agent is
   using it, so wait or ask. Start refuses with less than 10 GiB free on the
