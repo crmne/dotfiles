@@ -48,6 +48,17 @@
   A repository's own wrapper (Chat with Work's `bin/heavy`) takes the same
   lock. oomd kills the scope under the most memory pressure, so a job inside
   a session takes the session and its agents down with it.
+- The same goes for anything long-lived or memory-hungry that isn't a test
+  run: dev servers (`bin/dev`, `rails s`, job workers), headless browsers and
+  Playwright scripts, emulators and simulators, `cargo build`, Gradle and
+  Xcode. Start each with `systemd-run --user --slice=agents.slice
+  --unit=<name> --collect`, stop it by unit name when done, and never leave
+  one running after you finish. Only the heavy ones (tests, CI, builds,
+  emulators, evals) also take the lock.
+- Keep a session to at most three subagents running at once. Each one, and
+  everything it starts in the session, counts against that session's scope;
+  on 2026-11-04 nine subagents with their dev servers and browsers grew one
+  scope to 12.6 GB and oomd killed it with all of them.
 
 # Rust builds
 
