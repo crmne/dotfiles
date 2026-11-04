@@ -3,6 +3,7 @@ Version=1.0
 Name=DEGIRO
 Comment=DEGIRO
 Exec=omarchy-launch-webapp https://trader.degiro.nl/trader/#/portfolio/assets
+StartupWMClass=chrome-trader.degiro.nl__trader_-Default
 Terminal=false
 Type=Application
 Icon=/home/carmine/.local/share/applications/icons/DEGIRO.png

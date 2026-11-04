@@ -1,40 +1,65 @@
 {
   "bar": {
-    "centerAnchor": "crmne.omacal",
+    "background": "glassy",
     "layout": {
       "center": [
         {
-          "id": "omarchy.indicators"
+          "format": "ddd d MMM HH:mm",
+          "googleEnabled": false,
+          "hiddenCalendars": "",
+          "id": "crmne.omacal",
+          "lastCalendarId": "hey:383710",
+          "weekStartDay": "monday"
         },
         {
-          "id": "omarchy.keyboard-layout"
+          "cities": [
+            {
+              "name": "Berlin",
+              "zone": "Europe/Berlin"
+            },
+            {
+              "name": "Dubai",
+              "zone": "Asia/Dubai"
+            },
+            {
+              "name": "Tokyo",
+              "zone": "Asia/Tokyo"
+            },
+            {
+              "name": "Los Angeles",
+              "zone": "America/Los_Angeles"
+            },
+            {
+              "name": "New York",
+              "zone": "America/New_York"
+            }
+          ],
+          "id": "omarchy.elsewhen"
+        }
+      ],
+      "centerBegin": [
+        {
+          "id": "omarchy.indicators"
         },
         {
           "id": "omarchy.weather"
         },
         {
           "id": "omarchy.system-update"
-        },
-        {
-          "id": "crmne.omacal",
-          "format": "ddd d MMM HH:mm",
-          "lastCalendarId": "hey:383710",
-          "weekStartDay": "monday",
-          "googleEnabled": false,
-          "hiddenCalendars": ""
         }
       ],
+      "centerEnd": [],
       "left": [
         {
           "id": "omarchy.menu"
         },
         {
-          "id": "omarchy.workspaces"
+          "id": "crmne.hyprmoncfg-workspaces"
         },
         {
-          "id": "crmne.active-window",
           "iconSaturation": 100,
           "iconSize": 16,
+          "id": "crmne.active-window",
           "maxWidth": 280,
           "showTitle": true
         }
@@ -44,26 +69,34 @@
           "id": "omarchy.tray"
         },
         {
+          "id": "io.github.cempack.songrec"
+        },
+        {
+          "id": "omarchy.keyboard-layout"
+        },
+        {
           "id": "crmne.moza"
         },
         {
           "id": "crmne.todoist"
         },
         {
-          "id": "crmne.omastats",
-          "barDisks": "nvme-KIOXIA-EXCERIA_G3_SSD_YFWKS0TJZ3TS:used",
+          "barDisks": "nvme-Samsung_SSD_970_EVO_Plus_1TB_S4EWNF0M921645X:used,nvme-KIOXIA-EXCERIA_G3_SSD_YFWKS0TJZ3TS:used",
           "barGpus": "0000:01:00.0",
-          "barSensors": "cpu,gpu",
+          "barLabels": "text",
+          "barSensors": "cpu",
           "batteryStyle": "",
           "cpuStyle": "graph",
           "disksSource": "all",
           "disksStyle": "graph",
           "gpuStyle": "graph",
+          "gpuTabVersion": 1,
           "graphWidth": 36,
           "historySeconds": 240,
+          "id": "crmne.omastats",
           "memoryStyle": "ring",
-          "modules": "cpu,memory,network,disks,gpu",
-          "networkStyle": "both",
+          "modules": "cpu,memory,network,gpu,disks",
+          "networkStyle": "",
           "publicIp": true,
           "refreshSeconds": 1,
           "sensorsStyle": "",
@@ -87,7 +120,10 @@
           "tabs": "cpu,gpu,memory,disks,network,sensors,battery",
           "temperatureUnit": "Celsius",
           "utilizationColors": false,
-          "barLabels": "text"
+          "utilizationCriticalColor": "",
+          "utilizationLowColor": "",
+          "utilizationNormalColor": "",
+          "utilizationWarningColor": ""
         },
         {
           "id": "crmne.mpris",
@@ -114,11 +150,17 @@
         {
           "id": "crmne.hyprmoncfg"
         }
-      ]
+      ],
+      "tray": []
     },
-    "position": "top",
-    "transparent": false
+    "position": "top"
   },
+  "cloneSourceRestores": [
+    "crmne.hyprmoncfg-workspaces"
+  ],
+  "disabledPlugins": [
+    "omarchy.workspaces"
+  ],
   "idle": {
     "lock": 300,
     "screensaver": 150

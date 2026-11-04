@@ -3,6 +3,7 @@ Version=1.0
 Name=Immich
 Comment=Immich
 Exec=omarchy-launch-webapp https://photos.paolino.me
+StartupWMClass=chrome-photos.paolino.me__-Default
 Terminal=false
 Type=Application
 Icon=/home/carmine/.local/share/applications/icons/Immich.png

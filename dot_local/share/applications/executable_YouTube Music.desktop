@@ -3,6 +3,7 @@ Version=1.0
 Name=YouTube Music
 Comment=YouTube Music
 Exec=omarchy-launch-webapp https://music.youtube.com/
+StartupWMClass=chrome-music.youtube.com__-Default
 Terminal=false
 Type=Application
 Icon=/home/carmine/.local/share/applications/icons/YouTube Music.png

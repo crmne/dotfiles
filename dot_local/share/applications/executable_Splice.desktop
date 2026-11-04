@@ -3,6 +3,7 @@ Version=1.0
 Name=Splice
 Comment=Splice
 Exec=omarchy-launch-webapp https://splice.com/sounds
+StartupWMClass=chrome-splice.com__sounds-Default
 Terminal=false
 Type=Application
 Icon=/home/carmine/.local/share/applications/icons/Splice.png
