@@ -41,24 +41,30 @@
   container (`gpustack-<version>`, restart policy `no`) serves RubyLLM's
   `gpustack` specs on port 11444: `docker start` it before recording those
   cassettes and `docker stop` it after, so it doesn't hold GPU memory.
-- Run every heavy job (a test suite, CI, a build, evals, a render) as its own
-  unit, one at a time across all projects:
-  `systemd-run --user --slice=agents.slice --unit=<name> flock --close
-  "$XDG_RUNTIME_DIR/heavy-job.lock" <command>`, never inside the session.
-  A repository's own wrapper (Chat with Work's `bin/heavy`) takes the same
-  lock. oomd kills the scope under the most memory pressure, so a job inside
-  a session takes the session and its agents down with it.
-- The same goes for anything long-lived or memory-hungry that isn't a test
-  run: dev servers (`bin/dev`, `rails s`, job workers), headless browsers and
-  Playwright scripts, emulators and simulators, `cargo build`, Gradle and
-  Xcode. Start each with `systemd-run --user --slice=agents.slice
-  --unit=<name> --collect`, stop it by unit name when done, and never leave
-  one running after you finish. Only the heavy ones (tests, CI, builds,
-  emulators, evals) also take the lock.
-- Keep a session to at most three subagents running at once. Each one, and
-  everything it starts in the session, counts against that session's scope;
-  on 2026-11-04 nine subagents with their dev servers and browsers grew one
-  scope to 12.6 GB and oomd killed it with all of them.
+- Use the machine: it has 24 cores, about 60 GB and an RTX 3090, and it is
+  meant to run at full load. There is no limit on how many jobs or subagents
+  run at once; the slices below and `agent-job` share it out by memory.
+- Sessions (Claude Code, Codex, herdr and their subagents) run in
+  `agents-sessions.slice`, whose first 16 GB the kernel protects. Everything
+  a session starts that does work runs in `agents-jobs.slice` through
+  `agent-job`, never inside the session: tests, CI, builds (`cargo build`,
+  Gradle, Xcode), evals, renders, dev servers (`bin/dev`, `rails s`, job
+  workers), headless browsers and Playwright scripts, emulators and
+  simulators. oomd kills a stalled job there, never the session that started
+  it, so a job inside a session takes the session down with it instead.
+- `agent-job [--mem SIZE] [--name NAME] -- <command>` waits until free memory
+  covers `--mem` (default 6G) plus headroom, then runs the command as a scope
+  of its own, with your environment and output. Give a realistic `--mem` for
+  big jobs (Chat with Work's CI about 14G, Android builds about 10G). For
+  something long-lived, background it and stop it by name when done
+  (`systemctl --user stop <name>-*.scope`); never leave one running after you
+  finish. A repository's own wrapper (Chat with Work's `bin/heavy`) goes
+  through `agent-job`.
+- The Mac mini (`ssh carmines-mac-mini.local`, Apple Silicon, 10 cores,
+  16 GB, macOS 27) is there to use as well: run and test Mac builds, run
+  suites or builds there when this machine is busy, and try things on
+  macOS. Copy work over with `rsync` or a git checkout, keep it under
+  `~/agent-work/<project>` there, and clean up when you finish.
 
 # Rust builds
 

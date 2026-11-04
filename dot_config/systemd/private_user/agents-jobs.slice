@@ -1,0 +1,14 @@
+[Unit]
+Description=Jobs agents start: CI, builds, tests, dev servers, browsers, renders
+
+# Jobs take every spare core but yield to sessions. Past MemoryHigh the
+# kernel slows and reclaims them; when jobs stall on memory, oomd kills the
+# job with the most reclaim activity, never a session. agent-job admits a
+# new job only when memory is free (~/.local/bin/agent-job).
+[Slice]
+CPUWeight=25
+IOWeight=25
+MemoryHigh=46G
+ManagedOOMMemoryPressure=kill
+ManagedOOMMemoryPressureLimit=60%
+ManagedOOMMemoryPressureDurationSec=20s

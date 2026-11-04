@@ -1,14 +1,15 @@
 [Unit]
-Description=Coding agents and everything they start (herdr, Claude Code, builds, tests)
+Description=Coding agents and everything they start: sessions and jobs
 
-# Agents yield to the desktop: under contention they get a fifth of the CPU
-# and disk time an app gets, and memory past MemoryHigh is reclaimed from
-# them first, leaving about 16 GB for Chromium and the rest of the desktop.
+# Two children share this: agents-sessions.slice (Claude Code, Codex, herdr
+# and their subagents) and agents-jobs.slice (CI, builds, tests, servers,
+# browsers, renders). Agents yield to the desktop: under contention they get
+# a fifth of the CPU and disk time an app gets. MemoryMax is the outer
+# safety net that keeps the desktop alive; oomd watches the children, not
+# this slice, so a job's pressure never kills a session.
 [Slice]
 CPUWeight=20
 IOWeight=20
-MemoryHigh=44G
-MemoryMax=52G
-MemorySwapMax=8G
-ManagedOOMMemoryPressure=kill
-ManagedOOMMemoryPressureLimit=80%
+MemoryLow=16G
+MemoryMax=54G
+MemorySwapMax=16G

@@ -1,0 +1,13 @@
+[Unit]
+Description=Coding agent sessions: Claude Code, Codex, herdr and their subagents
+
+# The kernel reclaims from jobs before it touches the first 16 GB here, so an
+# idle session isn't the one swapped out when a build grows. oomd kills a
+# session only when sessions themselves stall for a minute.
+[Slice]
+CPUWeight=100
+IOWeight=100
+MemoryLow=16G
+ManagedOOMMemoryPressure=kill
+ManagedOOMMemoryPressureLimit=90%
+ManagedOOMMemoryPressureDurationSec=60s

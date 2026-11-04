@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# Run a job an agent starts (tests, CI, a build, a dev server, a browser, a
+# render) in agents-jobs.slice, once the machine has room for it.
+#
+#   agent-job [--mem SIZE] [--name NAME] [--] <command> [args...]
+#
+# Admission is by resources, not by count: it waits until free memory covers
+# --mem (default 6G) plus 6G of headroom, and jobs aren't stalled on memory.
+# Starts are spaced 20 s apart so a job can grow before the next one checks.
+# The job runs as a scope of its own, so it keeps this shell's environment
+# and output, oomd can kill it without touching the session, and
+# `systemctl --user stop <name>.scope` stops it. Without systemd it just runs.
+set -uo pipefail
+
+mem=6G name=job
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --mem) mem=$2; shift 2 ;;
+    --name) name=$2; shift 2 ;;
+    --) shift; break ;;
+    *) break ;;
+  esac
+done
+[ $# -gt 0 ] || { echo "usage: agent-job [--mem SIZE] [--name NAME] [--] <command> [args...]" >&2; exit 2; }
+
+if ! command -v systemd-run >/dev/null 2>&1 || [ ! -d /run/systemd/system ]; then
+  exec "$@"
+fi
+
+bytes() { numfmt --from=iec "${1%B}"; }
+need=$(( $(bytes "$mem") + $(bytes 6G) ))
+slice=/sys/fs/cgroup/user.slice/user-$(id -u).slice/user@$(id -u).service/agents.slice/agents-jobs.slice
+room() {
+  local available stall
+  available=$(( $(awk '/MemAvailable/ {print $2}' /proc/meminfo) * 1024 ))
+  stall=$(awk '/^some/ {split($2, a, "="); print int(a[2])}' "$slice/memory.pressure" 2>/dev/null || echo 0)
+  [ "$available" -ge "$need" ] && [ "$stall" -lt 10 ]
+}
+
+lock=${XDG_RUNTIME_DIR:-/tmp}/agent-job-admission.lock
+exec 9>"$lock"
+flock 9
+said=
+until room; do
+  [ -n "$said" ] || { echo "agent-job: waiting for $mem of free memory before starting $name..." >&2; said=1; }
+  sleep 5
+done
+
+unit="$name-$(date +%s)-$$"
+systemd-run --user --scope --quiet --collect --slice=agents-jobs.slice --unit="$unit" -- "$@" 9>&- &
+pid=$!
+trap 'kill -INT $pid 2>/dev/null' INT
+trap 'kill -TERM $pid 2>/dev/null' TERM
+( sleep 20; flock -u 9 ) &
+spacer=$!
+exec 9>&-
+wait $pid
+status=$?
+kill $spacer 2>/dev/null
+exit $status
