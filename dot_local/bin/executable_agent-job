@@ -7,6 +7,7 @@
 # Admission is by resources, not by count: it waits until free memory covers
 # --mem (default 6G) plus 6G of headroom, and jobs aren't stalled on memory.
 # Starts are spaced 20 s apart so a job can grow before the next one checks.
+# Jobs aren't first come, first served: a big job can wait while small ones pass.
 # The job runs as a scope of its own, so it keeps this shell's environment
 # and output, oomd can kill it without touching the session, and
 # `systemctl --user stop <name>.scope` stops it. Without systemd it just runs.
@@ -37,11 +38,12 @@ room() {
   [ "$available" -ge "$need" ] && [ "$stall" -lt 10 ]
 }
 
-lock=${XDG_RUNTIME_DIR:-/tmp}/agent-job-admission.lock
+# A waiting job doesn't hold the lock, so a small job that fits starts ahead of
+# a big one that doesn't. The lock only spaces out the starts.
+lock=${XDG_RUNTIME_DIR:-/tmp}/agent-job-start.lock
 exec 9>"$lock"
-flock 9
 said=
-until room; do
+until room && flock 9 && { room || { flock -u 9; false; }; }; do
   [ -n "$said" ] || { echo "agent-job: waiting for $mem of free memory before starting $name..." >&2; said=1; }
   sleep 5
 done
