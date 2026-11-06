@@ -1,0 +1,9 @@
+[Unit]
+Description=Run Chat with Work's competitor benchmark every night
+
+[Timer]
+OnCalendar=*-*-* 03:40
+Persistent=true
+
+[Install]
+WantedBy=timers.target
