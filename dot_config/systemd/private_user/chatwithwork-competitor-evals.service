@@ -1,10 +1,12 @@
 [Unit]
-Description=Nightly competitor benchmark of Chat with Work's main on GPT-6 Luna (bin/competitor-evals-nightly)
+Description=Nightly competitor benchmark of Chat with Work's main on GPT-6 Luna, run on the Mac mini (bin/competitor-evals-nightly --mini)
 
 [Service]
 Type=oneshot
+# Only orchestrates here: the benchmark runs on the Mac mini, so heavy jobs on
+# chalk don't stretch its seconds; results, the log and any issue stay here.
 Slice=agents.slice
 # A checkout of its own that follows origin/main, whatever the working one has checked out.
 WorkingDirectory=%h/Work/chatwithwork-nightly
 # A login shell, so mise, Ruby, the credentials and gh are on the PATH.
-ExecStart=/usr/bin/fish -l -c 'git fetch --quiet origin main; and git checkout --quiet --detach origin/main; and bin/competitor-evals-nightly'
+ExecStart=/usr/bin/fish -l -c 'git fetch --quiet origin main; and git checkout --quiet --detach origin/main; and bin/competitor-evals-nightly --mini'
