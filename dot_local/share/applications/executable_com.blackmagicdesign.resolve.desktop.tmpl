@@ -5,7 +5,12 @@ Name=DaVinci Resolve
 GenericName=DaVinci Resolve
 Comment=Revolutionary new tools for editing, visual effects, color correction and professional audio post production, all in a single application!
 Path=/opt/resolve/
-Exec=/home/carmine/scripts/resolve-rocm.sh %u
+{{- /* resolve-rocm.sh forces AMD OpenCL for the Radeon machines; NVIDIA machines run Resolve directly. */}}
+{{- if lookPath "nvidia-smi" }}
+Exec=/opt/resolve/bin/resolve %u
+{{- else }}
+Exec={{ .chezmoi.homeDir }}/scripts/resolve-rocm.sh %u
+{{- end }}
 Terminal=false
 MimeType=application/x-resolveproj;
 Icon=/opt/resolve/graphics/DV_Resolve.png
