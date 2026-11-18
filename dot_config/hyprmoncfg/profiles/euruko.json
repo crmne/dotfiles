@@ -1,0 +1,101 @@
+{
+  "name": "EuRuKo",
+  "created_at": "2026-09-18T06:18:14.887031292Z",
+  "updated_at": "2026-09-18T06:19:15.401474444Z",
+  "outputs": [
+    {
+      "key": "roland corporation|roland video",
+      "match_key": "roland corporation|roland video",
+      "name": "HDMI-A-1",
+      "description": "Roland Corporation ROLAND VIDEO",
+      "make": "Roland Corporation",
+      "model": "ROLAND VIDEO",
+      "enabled": true,
+      "mode": "1920x1080@50.00Hz",
+      "width": 1920,
+      "height": 1080,
+      "refresh": 50,
+      "x": 1920,
+      "y": 0,
+      "scale": 2,
+      "transform": 0,
+      "bitdepth": 8,
+      "cm": "srgb",
+      "sdr_brightness": 1,
+      "sdr_saturation": 1,
+      "sdr_min_luminance": 0.2,
+      "sdr_max_luminance": 80,
+      "min_luminance": 0
+    },
+    {
+      "key": "samsung display corp.|atna60cl10-0",
+      "match_key": "samsung display corp.|atna60cl10-0",
+      "name": "eDP-1",
+      "description": "Samsung Display Corp. ATNA60CL10-0",
+      "make": "Samsung Display Corp.",
+      "model": "ATNA60CL10-0 ",
+      "enabled": true,
+      "mode": "2880x1800@120.00Hz",
+      "width": 2880,
+      "height": 1800,
+      "refresh": 120,
+      "x": 0,
+      "y": 0,
+      "scale": 1.5,
+      "vrr": 1,
+      "transform": 0,
+      "sdr_brightness": 1,
+      "sdr_saturation": 1,
+      "sdr_min_luminance": 0.2,
+      "sdr_max_luminance": 80,
+      "min_luminance": 0
+    }
+  ],
+  "workspaces": {
+    "enabled": true,
+    "strategy": "sequential",
+    "max_workspaces": 6,
+    "group_size": 2,
+    "monitor_order": [
+      "samsung display corp.|atna60cl10-0",
+      "roland corporation|roland video"
+    ],
+    "rules": [
+      {
+        "workspace": "1",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1",
+        "default": true,
+        "persistent": true
+      },
+      {
+        "workspace": "2",
+        "output_key": "roland corporation|roland video",
+        "output_name": "HDMI-A-1",
+        "default": true,
+        "persistent": true
+      },
+      {
+        "workspace": "3",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1"
+      },
+      {
+        "workspace": "4",
+        "output_key": "roland corporation|roland video",
+        "output_name": "HDMI-A-1"
+      },
+      {
+        "workspace": "5",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1"
+      },
+      {
+        "workspace": "6",
+        "output_key": "roland corporation|roland video",
+        "output_name": "HDMI-A-1"
+      }
+    ]
+  },
+  "exec": ""
+}

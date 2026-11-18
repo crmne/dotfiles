@@ -1,0 +1,105 @@
+{
+  "name": "SFJAZZ",
+  "created_at": "2026-11-10T01:42:57.160745427Z",
+  "updated_at": "2026-11-10T01:43:21.221506346Z",
+  "outputs": [
+    {
+      "key": "decimator design pty ltd|decimator",
+      "match_key": "decimator design pty ltd|decimator",
+      "name": "DP-1",
+      "description": "DECIMATOR DESIGN PTY LTD DECIMATOR",
+      "make": "DECIMATOR DESIGN PTY LTD",
+      "model": "DECIMATOR",
+      "enabled": true,
+      "mode": "1920x1080@60.00Hz",
+      "width": 1920,
+      "height": 1080,
+      "refresh": 60,
+      "x": 1920,
+      "y": 330,
+      "scale": 2,
+      "transform": 0,
+      "bitdepth": 8,
+      "cm": "srgb",
+      "sdr_brightness": 1,
+      "sdr_saturation": 1,
+      "sdr_min_luminance": 0.2,
+      "sdr_max_luminance": 80,
+      "min_luminance": 0
+    },
+    {
+      "key": "samsung display corp.|atna60cl10-0",
+      "match_key": "samsung display corp.|atna60cl10-0",
+      "name": "eDP-1",
+      "description": "Samsung Display Corp. ATNA60CL10-0",
+      "make": "Samsung Display Corp.",
+      "model": "ATNA60CL10-0 ",
+      "enabled": true,
+      "mode": "2880x1800@120.00Hz",
+      "width": 2880,
+      "height": 1800,
+      "refresh": 120,
+      "x": 0,
+      "y": 0,
+      "scale": 1.5,
+      "vrr": 1,
+      "transform": 0,
+      "sdr_brightness": 1,
+      "sdr_saturation": 1,
+      "sdr_min_luminance": 0.2,
+      "sdr_max_luminance": 80,
+      "min_luminance": 0
+    }
+  ],
+  "workspaces": {
+    "enabled": true,
+    "strategy": "sequential",
+    "max_workspaces": 2,
+    "group_size": 1,
+    "monitor_order": [
+      "samsung display corp.|atna60cl10-0",
+      "decimator design pty ltd|decimator"
+    ],
+    "rules": [
+      {
+        "workspace": "1",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1",
+        "default": true,
+        "persistent": true
+      },
+      {
+        "workspace": "2",
+        "output_key": "decimator design pty ltd|decimator",
+        "output_name": "DP-1",
+        "default": true,
+        "persistent": true
+      },
+      {
+        "workspace": "3",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1"
+      },
+      {
+        "workspace": "4",
+        "output_key": "decimator design pty ltd|decimator",
+        "output_name": "DP-1"
+      },
+      {
+        "workspace": "5",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1"
+      },
+      {
+        "workspace": "6",
+        "output_key": "decimator design pty ltd|decimator",
+        "output_name": "DP-1"
+      },
+      {
+        "workspace": "special:qconsole",
+        "output_key": ""
+      }
+    ]
+  },
+  "exec": ""
+}

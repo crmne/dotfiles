@@ -1,0 +1,102 @@
+{
+  "name": "Codex",
+  "created_at": "2026-10-24T11:08:20.90666424Z",
+  "updated_at": "2026-10-24T09:27:03.485506542Z",
+  "outputs": [
+    {
+      "key": "samsung display corp.|atna60cl10-0",
+      "match_key": "samsung display corp.|atna60cl10-0",
+      "name": "eDP-1",
+      "description": "Samsung Display Corp. ATNA60CL10-0",
+      "make": "Samsung Display Corp.",
+      "model": "ATNA60CL10-0 ",
+      "enabled": true,
+      "mode": "2880x1800@120.00Hz",
+      "width": 2880,
+      "height": 1800,
+      "refresh": 120,
+      "x": 4480,
+      "y": 195,
+      "scale": 1.6,
+      "vrr": 1,
+      "transform": 0,
+      "sdr_brightness": 1,
+      "sdr_saturation": 1,
+      "sdr_min_luminance": 0.2,
+      "sdr_max_luminance": 80,
+      "min_luminance": 0
+    },
+    {
+      "key": "samsung electric company|ls27a600u|hnmw303219",
+      "match_key": "samsung electric company|ls27a600u|hnmw303219",
+      "name": "DP-1",
+      "description": "Samsung Electric Company LS27A600U HNMW303219",
+      "make": "Samsung Electric Company",
+      "model": "LS27A600U",
+      "serial": "HNMW303219",
+      "enabled": true,
+      "mode": "2560x1440@75.00Hz",
+      "width": 2560,
+      "height": 1440,
+      "refresh": 74.998,
+      "x": 1920,
+      "y": -120,
+      "scale": 1,
+      "transform": 0,
+      "bitdepth": 8,
+      "cm": "srgb",
+      "sdr_brightness": 1,
+      "sdr_saturation": 1,
+      "sdr_min_luminance": 0.2,
+      "sdr_max_luminance": 80,
+      "min_luminance": 0
+    }
+  ],
+  "workspaces": {
+    "enabled": true,
+    "strategy": "sequential",
+    "max_workspaces": 6,
+    "group_size": 1,
+    "monitor_order": [
+      "samsung electric company|ls27a600u|hnmw303219",
+      "samsung display corp.|atna60cl10-0"
+    ],
+    "rules": [
+      {
+        "workspace": "1",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1",
+        "default": true,
+        "persistent": true
+      },
+      {
+        "workspace": "2",
+        "output_key": "samsung electric company|ls27a600u|hnmw303219",
+        "output_name": "DP-1",
+        "default": true,
+        "persistent": true
+      },
+      {
+        "workspace": "3",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1"
+      },
+      {
+        "workspace": "4",
+        "output_key": "samsung electric company|ls27a600u|hnmw303219",
+        "output_name": "DP-1"
+      },
+      {
+        "workspace": "5",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1"
+      },
+      {
+        "workspace": "6",
+        "output_key": "samsung electric company|ls27a600u|hnmw303219",
+        "output_name": "DP-1"
+      }
+    ]
+  },
+  "exec": ""
+}

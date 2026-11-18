@@ -13,3 +13,10 @@
 .local/share/applications/Chat with Work.desktop
 .local/share/applications/icons/Chat with Work.png
 .local/share/applications/Disk Usage.desktop
+
+# Desktop monitor profiles chalk retired on 2026-11-07 for desktop-work.
+.config/hyprmoncfg/profiles/desktop-all.*
+.config/hyprmoncfg/profiles/desktop-gaming.*
+.config/hyprmoncfg/profiles/desktop-gaming-couch.*
+.config/hyprmoncfg/profiles/desktop-home.*
+.config/hyprmoncfg/profiles/desktop-tv-disabled.*

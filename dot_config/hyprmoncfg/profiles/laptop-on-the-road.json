@@ -1,0 +1,106 @@
+{
+  "name": "Laptop on the Road",
+  "created_at": "2026-11-16T17:14:39.580101428Z",
+  "updated_at": "2026-11-18T04:46:23.808181709Z",
+  "outputs": [
+    {
+      "key": "lg electronics|16mr70|311nzsj039494",
+      "match_key": "lg electronics|16mr70|311nzsj039494",
+      "name": "DP-1",
+      "description": "LG Electronics 16MR70 311NZSJ039494",
+      "make": "LG Electronics",
+      "model": "16MR70",
+      "serial": "311NZSJ039494",
+      "enabled": true,
+      "mode": "2560x1600@59.97Hz",
+      "width": 2560,
+      "height": 1600,
+      "refresh": 59.972,
+      "x": -217,
+      "y": 745,
+      "scale": 1.25,
+      "transform": 0,
+      "bitdepth": 8,
+      "cm": "srgb",
+      "sdr_brightness": 1,
+      "sdr_saturation": 1,
+      "sdr_min_luminance": 0.2,
+      "sdr_max_luminance": 80,
+      "min_luminance": 0
+    },
+    {
+      "key": "samsung display corp.|atna60cl10-0",
+      "match_key": "samsung display corp.|atna60cl10-0",
+      "name": "eDP-1",
+      "description": "Samsung Display Corp. ATNA60CL10-0",
+      "make": "Samsung Display Corp.",
+      "model": "ATNA60CL10-0 ",
+      "enabled": true,
+      "mode": "2880x1800@120.00Hz",
+      "width": 2880,
+      "height": 1800,
+      "refresh": 120,
+      "x": -2017,
+      "y": 900,
+      "scale": 1.6,
+      "vrr": 1,
+      "transform": 0,
+      "sdr_brightness": 1,
+      "sdr_saturation": 1,
+      "sdr_min_luminance": 0.2,
+      "sdr_max_luminance": 80,
+      "min_luminance": 0
+    }
+  ],
+  "workspaces": {
+    "enabled": true,
+    "strategy": "sequential",
+    "max_workspaces": 6,
+    "group_size": 3,
+    "monitor_order": [
+      "lg electronics|16mr70|311nzsj039494",
+      "samsung display corp.|atna60cl10-0"
+    ],
+    "rules": [
+      {
+        "workspace": "1",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1",
+        "default": true,
+        "persistent": true
+      },
+      {
+        "workspace": "2",
+        "output_key": "lg electronics|16mr70|311nzsj039494",
+        "output_name": "DP-1",
+        "default": true,
+        "persistent": true
+      },
+      {
+        "workspace": "3",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1"
+      },
+      {
+        "workspace": "4",
+        "output_key": "lg electronics|16mr70|311nzsj039494",
+        "output_name": "DP-1"
+      },
+      {
+        "workspace": "5",
+        "output_key": "samsung display corp.|atna60cl10-0",
+        "output_name": "eDP-1"
+      },
+      {
+        "workspace": "6",
+        "output_key": "lg electronics|16mr70|311nzsj039494",
+        "output_name": "DP-1"
+      },
+      {
+        "workspace": "special:qconsole",
+        "output_key": ""
+      }
+    ]
+  },
+  "exec": ""
+}
