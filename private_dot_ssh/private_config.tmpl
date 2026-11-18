@@ -3,13 +3,13 @@
 # keys, which would trip MaxAuthTries and fail2ban on hosts late in the list.
 
 # Hetzner VPSes (hcloud's "Hetzner" key)
-Host prod
+Host staging prod
   HostName 188.245.107.117
 Host stats
   HostName 95.217.235.100
 Host chatwithwork
   HostName 46.224.182.164
-Host prod stats chatwithwork 188.245.107.117 95.217.235.100 46.224.182.164 chatwithwork.com *.chatwithwork.com clusterheadachetracker.com
+Host staging prod stats chatwithwork 188.245.107.117 95.217.235.100 46.224.182.164 chatwithwork.com *.chatwithwork.com clusterheadachetracker.com
   User root
   IdentityFile ~/.ssh/hetzner-1password.pub
   IdentitiesOnly yes
@@ -28,6 +28,17 @@ Host nuc nuc.local home.paolino.me 192.168.8.166
   IdentitiesOnly yes
 
 Host carmines-mac-mini.local Carmines-Mac-Mini.local
+  User carmine
+  IdentityFile ~/.ssh/nuc-1password.pub
+  IdentitiesOnly yes
+
+Host carmines-mba.local Carmines-MBA.local
+  User carmine
+  IdentityFile ~/.ssh/nuc-1password.pub
+  IdentitiesOnly yes
+
+Host zenbook zenbook.local
+  HostName zenbook.local
   User carmine
   IdentityFile ~/.ssh/nuc-1password.pub
   IdentitiesOnly yes
