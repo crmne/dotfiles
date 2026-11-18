@@ -14,6 +14,7 @@ tests
 {{ end }}
 
 {{ if ne .chezmoi.os "linux" }}
+.config/fontconfig
 .config/gws
 .config/systemd/user/agents.slice
 .config/systemd/user/cww.service.d

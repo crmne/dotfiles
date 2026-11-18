@@ -45,6 +45,18 @@ unavailable sync target to home. Change the saved mappings in
 Existing files are not moved. These settings are skipped on other operating
 systems.
 
+On Linux, `~/.config/fontconfig/conf.d/90-omarchy-shell-font.conf` sets the
+Omarchy shell (bar, panels, notifications and launcher) in IBM Plex Sans, from
+`ttf-ibm-plex`, while the terminals keep Omarchy's monospace font. The rule
+matches only the shell's `quickshell` process, so other programs are not
+affected, and it still applies after `omarchy font set`. JetBrainsMono Nerd
+Font stays next in line for the shell's icons, and the shell falls back to it
+entirely if IBM Plex Sans is missing. To try another face, change the family
+in that file and run `omarchy restart shell`. Choose one with equal-width
+digits, or the clock and stats change width as they update: IBM Plex Sans has
+them, Inter and Geist don't. Omarchy otherwise expects no user fontconfig, so
+nothing else lives there.
+
 On Omarchy machines, `~/.config/omarchy/shell.json` controls plugin enablement,
 widget positions, and widget settings. After changing the bar or plugins, run:
 
