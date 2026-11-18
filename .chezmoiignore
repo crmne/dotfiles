@@ -28,3 +28,8 @@ Library
 .config/user-dirs.dirs
 .config/user-dirs.conf
 {{ end }}
+
+{{ if ne .chezmoi.hostname "chalk" }}
+# Refreshes the token for berlinrb.org's daily sync, which runs from ~/Code/berlinrb.org on chalk.
+.config/systemd/user/berlinrb-basecamp-token.*
+{{ end }}

@@ -1,0 +1,7 @@
+[Unit]
+Description=Refresh the Basecamp token berlinrb.org's daily sync uses
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/Code/berlinrb.org/bin/refresh-basecamp-token
