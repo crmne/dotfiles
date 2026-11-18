@@ -5,8 +5,8 @@
 -- focused window casts the deeper shadow.
 hl.config({
   general = {
-    gaps_in = 8,
-    gaps_out = 16,
+    gaps_in = 4,
+    gaps_out = 8,
     border_size = 0,
   },
 
@@ -15,11 +15,11 @@ hl.config({
 
     shadow = {
       enabled = true,
-      range = 28,
-      render_power = 2,
-      offset = { 0, 6 },
-      color = "rgba(00000059)",
-      color_inactive = "rgba(00000026)",
+      range = 14,
+      render_power = 3,
+      offset = { 0, 3 },
+      color = "rgba(00000040)",
+      color_inactive = "rgba(0000001a)",
     },
   },
 })
