@@ -3,7 +3,7 @@ config-file = ?"~/.local/state/omarchy/current/theme/ghostty.conf"
 
 # Font
 font-family = "JetBrainsMono Nerd Font"
-font-style = Text
+font-style = Regular
 font-size = 10
 
 # Window
