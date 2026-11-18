@@ -1,9 +1,12 @@
 README.md
+AGENTS.md
+renovate.json
 .gitattributes
 tools
 tests
 
 {{ if ne .chezmoi.os "darwin" }}
+Library
 .config/omniwm
 .config/hammerspoon
 .config/herdr
