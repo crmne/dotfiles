@@ -5,11 +5,17 @@ hl.config({
   -- Apps may request attention, but must not take keyboard focus.
   misc = { focus_on_activate = false },
   general = {
-    gaps_out = 10,
+    gaps_in = 0,
+    gaps_out = 0,
+    border_size = 0,
   },
 
   decoration = {
-    rounding = 10,
+    rounding = 0,
+
+    -- Mark the focused window by dimming the others instead of a border.
+    dim_inactive = true,
+    dim_strength = 0.2,
 
     shadow = {
       enabled = true,
