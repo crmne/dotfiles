@@ -54,8 +54,8 @@ Font stays next in line for the shell's icons, and the shell falls back to it
 entirely if IBM Plex Sans is missing. To try another face, change the family
 in that file and run `omarchy restart shell`. Choose one with equal-width
 digits, or the clock and stats change width as they update: IBM Plex Sans has
-them, Inter and Geist don't. Omarchy otherwise expects no user fontconfig, so
-nothing else lives there.
+them, Inter and Geist don't. `omarchy font set` writes its own
+`~/.config/fontconfig/fonts.conf`, which this rule outlasts.
 
 On Omarchy machines, `~/.config/omarchy/shell.json` controls plugin enablement,
 widget positions, and widget settings. After changing the bar or plugins, run:
