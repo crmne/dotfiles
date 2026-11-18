@@ -1,48 +1,24 @@
 {
   "bar": {
-    "background": "glassy",
+    "background": "opaque",
     "layout": {
       "center": [
         {
+          "barBold": true,
           "format": "ddd d MMM HH:mm",
-          "googleEnabled": false,
+          "googleEnabled": {{ eq .chezmoi.hostname "chalk" }},
           "hiddenCalendars": "",
           "id": "crmne.omacal",
           "lastCalendarId": "hey:383710",
           "weekStartDay": "monday"
         },
         {
-          "cities": [
-            {
-              "name": "Berlin",
-              "zone": "Europe/Berlin"
-            },
-            {
-              "name": "Dubai",
-              "zone": "Asia/Dubai"
-            },
-            {
-              "name": "Tokyo",
-              "zone": "Asia/Tokyo"
-            },
-            {
-              "name": "Los Angeles",
-              "zone": "America/Los_Angeles"
-            },
-            {
-              "name": "New York",
-              "zone": "America/New_York"
-            }
-          ],
-          "id": "omarchy.elsewhen"
+          "id": "omarchy.weather"
         }
       ],
       "centerBegin": [
         {
           "id": "omarchy.indicators"
-        },
-        {
-          "id": "omarchy.weather"
         },
         {
           "id": "omarchy.system-update"
@@ -51,9 +27,7 @@
       "centerEnd": [],
       "left": [
         {
-          "id": "omarchy.menu"
-        },
-        {
+          "accentFocused": true,
           "id": "crmne.hyprmoncfg-workspaces"
         },
         {
@@ -78,11 +52,15 @@
           "id": "crmne.moza"
         },
         {
+          "id": "crmne.mpris",
+          "showControls": false
+        },
+        {
           "id": "crmne.todoist"
         },
         {
-          "barDisks": "nvme-Samsung_SSD_970_EVO_Plus_1TB_S4EWNF0M921645X:used,nvme-KIOXIA-EXCERIA_G3_SSD_YFWKS0TJZ3TS:used",
-          "barGpus": "0000:01:00.0",
+          "barDisks": {{ if eq .chezmoi.hostname "chalk" }}"nvme-Samsung_SSD_970_EVO_Plus_1TB_S4EWNF0M921645X:used,nvme-KIOXIA-EXCERIA_G3_SSD_YFWKS0TJZ3TS:used"{{ else }}""{{ end }},
+          "barGpus": "discrete",
           "barLabels": "text",
           "barSensors": "cpu",
           "batteryStyle": "",
@@ -95,7 +73,7 @@
           "historySeconds": 240,
           "id": "crmne.omastats",
           "memoryStyle": "ring",
-          "modules": "cpu,memory,network,gpu,disks",
+          "modules": {{ if eq .chezmoi.hostname "chalk" }}"cpu,memory,network,gpu,disks"{{ else }}"cpu,memory,network,disks"{{ end }},
           "networkStyle": "",
           "publicIp": true,
           "refreshSeconds": 1,
@@ -124,13 +102,6 @@
           "utilizationLowColor": "",
           "utilizationNormalColor": "",
           "utilizationWarningColor": ""
-        },
-        {
-          "id": "crmne.mpris",
-          "showControls": false
-        },
-        {
-          "id": "crmne.ultimate-guitar"
         },
         {
           "id": "omarchy.agents"
@@ -168,6 +139,9 @@
   "plugins": [
     {
       "id": "crmne.files"
+    },
+    {
+      "id": "io.voxtype.settings"
     }
   ],
   "version": 1

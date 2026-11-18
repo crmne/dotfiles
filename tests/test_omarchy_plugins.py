@@ -20,6 +20,11 @@ SPEC = importlib.util.spec_from_file_location(
 )
 CAPTURE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(CAPTURE)
+READD_SPEC = importlib.util.spec_from_file_location(
+    "readd", REPO / "tools/re-add-shell-json.py"
+)
+READD = importlib.util.module_from_spec(READD_SPEC)
+READD_SPEC.loader.exec_module(READD)
 
 
 def write_json(path, data):
@@ -75,6 +80,22 @@ class CaptureTests(unittest.TestCase):
         (plugins / "acme.shipped").symlink_to(shipped)
         write_json(self.shell, {"plugins": [{"id": "acme.shipped"}]})
         self.assertEqual(self.capture(), {})
+
+    def test_private_source_is_read(self):
+        # chezmoi names the source private_shell.json for its 0600 mode.
+        write_json(self.overrides, {"acme.widget": "https://github.com/acme/widget.git"})
+        write_json(self.source / "dot_config/omarchy/private_shell.json",
+                   {"bar": {"layout": {"left": [{"id": "acme.widget"}]}}})
+        self.assertEqual(self.capture(), {"acme.widget": "https://github.com/acme/widget.git"})
+
+    @unittest.skipUnless(shutil.which("chezmoi"), "rendering needs chezmoi")
+    def test_template_source_is_rendered(self):
+        write_json(self.overrides, {"acme.widget": "https://github.com/acme/widget.git"})
+        template = self.source / "dot_config/omarchy/private_shell.json.tmpl"
+        template.parent.mkdir(parents=True, exist_ok=True)
+        template.write_text('{"bar": {"layout": {"left": [{"id": "acme.widget", '
+                            '"on": {{ eq .chezmoi.hostname "no-such-host" }}}]}}}')
+        self.assertEqual(self.capture(), {"acme.widget": "https://github.com/acme/widget.git"})
 
     def test_services_custom_bar_and_disabled_plugins(self):
         write_json(self.shell, {
@@ -218,6 +239,40 @@ with open(os.environ["OMARCHY_TEST_LOG"], "a") as log:
             result = chezmoi("apply", ok=False)
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("missing or mismatched manifest", result.stderr)
+
+
+@unittest.skipUnless(shutil.which("chezmoi"), "rendering needs chezmoi")
+class ReAddShellJsonTests(unittest.TestCase):
+    LIVE = {"bar": {"background": "opaque", "layout": {"center": [
+        {"id": "crmne.omacal", "googleEnabled": False, "format": "ddd d MMM HH:mm"}],
+        "right": [{"id": "crmne.omastats", "modules": "cpu,memory,network,disks",
+                   "barDisks": "nvme-Micron:used", "barGpus": "discrete"}]}}}
+
+    def render(self, text, host):
+        text = text.replace('eq .chezmoi.hostname "chalk"', "true" if host == "chalk" else "false")
+        result = subprocess.run(["chezmoi", "execute-template"], input=text,
+                                capture_output=True, text=True, check=True)
+        return json.loads(result.stdout)
+
+    def widget(self, config, widget_id):
+        return next(w for section in config["bar"]["layout"].values() for w in section
+                    if isinstance(w, dict) and w["id"] == widget_id)
+
+    def test_per_machine_settings_render_for_each_machine(self):
+        text = READD.template_for(json.loads(json.dumps(self.LIVE)))
+        chalk, other = self.render(text, "chalk"), self.render(text, "zenbook")
+        self.assertEqual(self.widget(chalk, "crmne.omastats")["modules"], "cpu,memory,network,gpu,disks")
+        self.assertEqual(self.widget(other, "crmne.omastats")["modules"], "cpu,memory,network,disks")
+        self.assertIn("KIOXIA", self.widget(chalk, "crmne.omastats")["barDisks"])
+        self.assertEqual(self.widget(other, "crmne.omastats")["barDisks"], "")
+        self.assertIs(self.widget(chalk, "crmne.omacal")["googleEnabled"], True)
+        self.assertIs(self.widget(other, "crmne.omacal")["googleEnabled"], False)
+
+    def test_everything_else_is_kept_as_it_is_live(self):
+        other = self.render(READD.template_for(json.loads(json.dumps(self.LIVE))), "zenbook")
+        self.assertEqual(other["bar"]["background"], "opaque")
+        self.assertEqual(self.widget(other, "crmne.omacal")["format"], "ddd d MMM HH:mm")
+        self.assertEqual(self.widget(other, "crmne.omastats")["barGpus"], "discrete")
 
 
 if __name__ == "__main__":

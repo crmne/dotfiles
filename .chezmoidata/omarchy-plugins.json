@@ -2,13 +2,13 @@
   "omarchyPlugins": {
     "crmne.active-window": "https://github.com/crmne/omarchy-active-window.git",
     "crmne.files": "https://github.com/crmne/omarchy-files.git",
-    "crmne.global-workspaces": "https://github.com/crmne/omarchy-global-workspaces.git",
     "crmne.hyprmoncfg": "https://github.com/crmne/omarchy-hyprmoncfg.git",
+    "crmne.hyprmoncfg-workspaces": "https://github.com/crmne/omarchy-hyprmoncfg-workspaces.git",
     "crmne.moza": "https://github.com/crmne/omarchy-moza.git",
     "crmne.mpris": "https://github.com/crmne/omarchy-mpris.git",
-    "crmne.omacal": "https://github.com/crmne/omacal.git",
+    "crmne.omacal": "https://github.com/crmne/omarchy-calendar.git",
     "crmne.omastats": "https://github.com/crmne/omastats.git",
     "crmne.todoist": "https://github.com/crmne/omatasks.git",
-    "crmne.ultimate-guitar": "https://github.com/crmne/omarchy-ultimate-guitar.git"
+    "io.github.cempack.songrec": "https://github.com/cempack/SongRec.git"
   }
 }

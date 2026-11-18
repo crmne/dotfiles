@@ -1,4 +1,5 @@
 {
   "crmne.omastats": "https://github.com/crmne/omastats.git",
-  "crmne.todoist": "https://github.com/crmne/omatasks.git"
+  "crmne.todoist": "https://github.com/crmne/omatasks.git",
+  "io.github.cempack.songrec": "https://github.com/cempack/SongRec.git"
 }

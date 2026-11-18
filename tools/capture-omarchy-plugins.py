@@ -40,16 +40,44 @@ def portable_url(url):
     return url
 
 
-def capture(source, destination):
-    config_path = source / "dot_config/omarchy/shell.json"
-    if not config_path.is_file():
+# chezmoi names the file private_ for its 0600 mode, and .tmpl once it holds
+# per-machine settings; read whichever is there.
+SHELL_SOURCES = ("private_shell.json.tmpl", "shell.json.tmpl", "private_shell.json", "shell.json")
+
+
+def render(source, path):
+    # A private state file: the chezmoi command that runs this hook holds the
+    # lock on the real one.
+    with tempfile.TemporaryDirectory() as state:
+        result = subprocess.run(
+            ["chezmoi", "--source", str(source), "--persistent-state",
+             str(Path(state) / "state.boltdb"), "execute-template"],
+            input=path.read_text(), capture_output=True, text=True, check=False,
+        )
+    if result.returncode != 0:
+        raise ValueError(f"Could not render {path.name}: {result.stderr.strip()}")
+    return result.stdout
+
+
+def source_config(source):
+    for name in SHELL_SOURCES:
+        path = source / "dot_config/omarchy" / name
+        if path.is_file():
+            return json.loads(render(source, path) if name.endswith(".tmpl") else path.read_text())
+    return None
+
+
+def capture(source, destination, config=None):
+    if config is None:
+        config = source_config(source)
+    if config is None:
         return
     data_path = source / ".chezmoidata/omarchy-plugins.json"
     previous = read_json(data_path).get("omarchyPlugins", {}) if data_path.exists() else {}
     overrides = read_json(source / "tools/omarchy-plugin-sources.json")
     plugins = {}
     # Read source state so re-adding an unrelated file cannot capture an unsaved layout.
-    for plugin_id in enabled_plugins(read_json(config_path)):
+    for plugin_id in enabled_plugins(config):
         if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", plugin_id) or ".." in plugin_id:
             raise ValueError(f"Invalid plugin id: {plugin_id!r}")
         directory = destination / ".config/omarchy/plugins" / plugin_id

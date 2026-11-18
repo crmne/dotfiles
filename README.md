@@ -66,16 +66,20 @@ apply. Only personal fish files live here: `config.fish`, `conf.d/paths.fish`,
 `conf.d/elio.fish` and the agent wrappers.
 
 On Omarchy machines, `~/.config/omarchy/shell.json` controls plugin enablement,
-widget positions, and widget settings. After changing the bar or plugins, run:
+widget positions, and widget settings. Both machines share one layout, but a
+few widget settings differ by machine: chalk's omastats shows its GPU and its
+two NVMe drives, and Google Calendar is signed in only where `googleEnabled` is
+on. So the source is a template, `dot_config/omarchy/private_shell.json.tmpl`,
+and `chezmoi re-add` skips templates. After changing the bar or plugins, run:
 
 ```bash
-chezmoi re-add
-# Or capture just the shell configuration:
-chezmoi re-add ~/.config/omarchy/shell.json
+python3 ~/.local/share/chezmoi/tools/re-add-shell-json.py
 ```
 
-The `add`/`re-add` post hook regenerates
-`.chezmoidata/omarchy-plugins.json` from the saved shell configuration. It records
+It saves the live file into the template, puts the per-machine expressions
+back (they are listed in the tool), and regenerates
+`.chezmoidata/omarchy-plugins.json`. The `add`/`re-add` post hook regenerates the
+list too, from the saved shell configuration. It records
 only enabled third-party plugins, including services and custom bars. Git origins
 provide their URLs. `tools/omarchy-plugin-sources.json` supplies URLs for local
 development copies without Git metadata (currently OmaStats and OmaTasks).
