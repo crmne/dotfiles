@@ -72,7 +72,9 @@ gguf_backend = "vulkan"
 model = "parakeet-tdt-0.6b-v3"
 {{- end }}
 streaming = false
-on_demand_loading = false
+# chalk loads the model per dictation so its VRAM stays free for GPU jobs;
+# the Zenbook keeps it loaded so dictation starts at once.
+on_demand_loading = {{ if eq .chezmoi.hostname "chalk" }}true{{ else }}false{{ end }}
 
 [vad]
 enabled = false
