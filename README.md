@@ -57,6 +57,14 @@ digits, or the clock and stats change width as they update: IBM Plex Sans has
 them, Inter and Geist don't. `omarchy font set` writes its own
 `~/.config/fontconfig/fonts.conf`, which this rule outlasts.
 
+Fish plugins come from Fisher. `~/.config/fish/fish_plugins` lists them
+(Fisher itself, fzf.fish, fish-direnv and omafish), and
+`run_onchange_after_fisher-update.sh.tmpl` runs `fisher update` whenever the list
+changes, installing Fisher first on a new machine. The files those plugins
+install are not in this repository, so `fisher update` is never undone by an
+apply. Only personal fish files live here: `config.fish`, `conf.d/paths.fish`,
+`conf.d/elio.fish` and the agent wrappers.
+
 On Omarchy machines, `~/.config/omarchy/shell.json` controls plugin enablement,
 widget positions, and widget settings. After changing the bar or plugins, run:
 
