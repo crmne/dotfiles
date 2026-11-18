@@ -59,6 +59,23 @@ class CaptureTests(unittest.TestCase):
         write_json(self.shell, {"bar": {"layout": {"left": ["omarchy.menu"]}}})
         self.assertEqual(self.capture(), {})
 
+    def test_sections_beside_the_clock_are_captured(self):
+        write_json(self.shell, {"bar": {"layout": {
+            "centerBegin": [{"id": "acme.before"}], "centerEnd": ["acme.after"],
+            "center": [{"id": "omarchy.clock"}],
+        }}})
+        self.assertEqual(CAPTURE.enabled_plugins(json.loads(self.shell.read_text())),
+                         ["acme.after", "acme.before"])
+
+    def test_plugins_a_package_links_in_are_skipped(self):
+        shipped = self.root / "usr/share/acme/plugin"
+        write_json(shipped / "manifest.json", {"id": "acme.shipped"})
+        plugins = self.destination / ".config/omarchy/plugins"
+        plugins.mkdir(parents=True)
+        (plugins / "acme.shipped").symlink_to(shipped)
+        write_json(self.shell, {"plugins": [{"id": "acme.shipped"}]})
+        self.assertEqual(self.capture(), {})
+
     def test_services_custom_bar_and_disabled_plugins(self):
         write_json(self.shell, {
             "bar": {"id": "acme.bar", "layout": {"right": [{"id": "acme.off"}]}},

@@ -18,8 +18,10 @@ def read_json(path):
 def enabled_plugins(config):
     bar = config.get("bar", {})
     entries = list(config.get("plugins", []))
-    for section in ("left", "center", "right"):
-        entries.extend(bar.get("layout", {}).get(section, []))
+    # Every section, including centerBegin and centerEnd beside the clock.
+    for section in bar.get("layout", {}).values():
+        if isinstance(section, list):
+            entries.extend(section)
     ids = {entry if isinstance(entry, str) else entry["id"] for entry in entries}
     ids.difference_update(config.get("disabledPlugins", []))
     if bar.get("id"):
@@ -51,6 +53,11 @@ def capture(source, destination):
         if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", plugin_id) or ".." in plugin_id:
             raise ValueError(f"Invalid plugin id: {plugin_id!r}")
         directory = destination / ".config/omarchy/plugins" / plugin_id
+        # A package can ship a plugin as a link into its own files (voxtype
+        # links io.voxtype.settings into /usr/share/voxtype). The package
+        # installs it, so there is no repository to record.
+        if directory.is_symlink() and not directory.resolve().is_relative_to(destination.resolve()):
+            continue
         url = None
         if (directory / "manifest.json").is_file():
             if read_json(directory / "manifest.json").get("id") != plugin_id:
