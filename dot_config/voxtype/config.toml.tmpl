@@ -60,8 +60,17 @@ smart_auto_submit = false
 icon_theme = "omarchy"
 
 [parakeet]
-# Full-precision model on the NVIDIA desktop, int8 on CPU-only machines
-model = {{ if and (eq .chezmoi.os "linux") (lookPath "nvidia-smi") }}"parakeet-tdt-0.6b-v3"{{ else }}"parakeet-tdt-0.6b-v3-int8"{{ end }}
+# Full precision everywhere: int8 dropped words on long dictations
+# (~/Code/aur/voxtype-bench). The Zenbook runs the GGUF on its Radeon through
+# transcribe.cpp (voxtype-vulkan, peteonrails/voxtype#908), about 4x faster
+# than ONNX on its CPU. Elsewhere the installed variant picks the hardware:
+# ONNX CUDA on the NVIDIA desktop, CPU on the rest.
+{{- if eq .chezmoi.hostname "zenbook" }}
+model = "parakeet-tdt-0.6b-v3-F16.gguf"
+gguf_backend = "vulkan"
+{{- else }}
+model = "parakeet-tdt-0.6b-v3"
+{{- end }}
 streaming = false
 on_demand_loading = false
 
