@@ -17,6 +17,10 @@ tests
 .config/gws
 .config/systemd/user/agents.slice
 .config/systemd/user/cww.service.d
+.config/systemd/user/tmp-sweep.*
+.config/systemd/user/worktree-sweep.*
+.local/bin/tmp-sweep
+.local/bin/worktree-sweep
 .config/user-dirs.dirs
 .config/user-dirs.conf
 {{ end }}

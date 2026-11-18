@@ -1,0 +1,9 @@
+[Unit]
+Description=Sweep merged git worktrees every Saturday night
+
+[Timer]
+OnCalendar=Sat 03:30
+Persistent=true
+
+[Install]
+WantedBy=timers.target

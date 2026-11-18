@@ -1,0 +1,8 @@
+[Unit]
+Description=Remove merged, clean git worktrees untouched for two weeks, then collect their mbx build state (worktree-sweep)
+
+[Service]
+Type=oneshot
+Slice=agents.slice
+# A login shell, so mise's mbx and git's credentials are on the PATH.
+ExecStart=/usr/bin/fish -l -c '~/.local/bin/worktree-sweep'

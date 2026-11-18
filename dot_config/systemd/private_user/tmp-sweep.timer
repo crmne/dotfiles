@@ -1,0 +1,9 @@
+[Unit]
+Description=Sweep /tmp every three hours, so leftovers never reach its per-user quota
+
+[Timer]
+OnCalendar=*-*-* 00/3:20
+Persistent=true
+
+[Install]
+WantedBy=timers.target

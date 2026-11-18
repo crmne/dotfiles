@@ -1,0 +1,7 @@
+[Unit]
+Description=Remove what tests, browsers and tools left in /tmp a day ago (tmp-sweep)
+
+[Service]
+Type=oneshot
+Slice=agents.slice
+ExecStart=%h/.local/bin/tmp-sweep

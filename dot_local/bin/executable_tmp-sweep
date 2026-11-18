@@ -1,0 +1,67 @@
+#!/bin/bash
+# Removes what tests, browsers and tools leave in /tmp once nothing uses it.
+#
+# /tmp is a tmpfs with a per-user quota (80% of it): headless Chrome profiles
+# (org.chromium.Chromium.scoped_dir.*, about 160 MB each) left by killed
+# Selenium and Playwright runs filled it, and then every agent's commands
+# failed with EDQUOT. An entry goes only when it matches one of the patterns
+# below, belongs to this user, isn't a socket, nothing in it was written for
+# AGE minutes, and no process has a file in it open or works inside it.
+#
+#   tmp-sweep [--dry-run] [--age MINUTES]
+set -euo pipefail
+
+dry=0; age=1440; root=/tmp
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --dry-run) dry=1 ;;
+    --age) age=$2; shift ;;
+    --root) root=$2; shift ;;
+    *) echo "usage: tmp-sweep [--dry-run] [--age MINUTES]" >&2; exit 2 ;;
+  esac
+  shift
+done
+
+patterns=(
+  'org.chromium.Chromium.*' '.org.chromium.Chromium.*' 'scoped_dir*'
+  'playwright*' 'ferrum_user_data_dir_*' 'puppeteer_dev_*'
+  '.tmp??????' 'tmp.??????????' 'tmp.??????????.body'
+  'RackRewindableInput*' 'RackMultipart*' 'upload20*' 'templates20*'
+  'ruby20*' 'picture20*' 'sample20*' 'test20*' 'pdf_text20*' 'pdf_pages20*' 'long_pdf20*'
+  'ruby_llm-*' 'deploy-approval20*' 'cww-demo-*'
+  'zapfast-*' 'spotifast-*' 'tonepush-*' 'hx-test-*'
+  'kotlin-daemon.*.log' 'hyperframes-extract-cache-*' 'node-compile-cache' 'android-*'
+  'd20[0-9][0-9]????-*' '.git_signing_buffer_tmp*' 'herdr-sound-*' 'mbx-session-*'
+)
+
+me=$(id -u)
+now=$(date +%s)
+# Everything any process has open or works in, as real paths.
+in_use=$( { for p in /proc/[0-9]*; do
+              readlink "$p/cwd" 2>/dev/null
+              for f in "$p"/fd/*; do readlink "$f" 2>/dev/null; done
+            done; } | grep "^$root/" | sort -u || true)
+
+freed=0; count=0
+shopt -s nullglob dotglob
+for pat in "${patterns[@]}"; do
+  for entry in "$root"/$pat; do
+    [ -e "$entry" ] || continue
+    [ -L "$entry" ] && continue
+    [ "$(stat -c %u "$entry")" = "$me" ] || continue
+    [ -S "$entry" ] && continue
+    # Anything written in the last AGE minutes keeps the whole entry.
+    newest=$(find "$entry" -printf '%T@\n' 2>/dev/null | sort -n | tail -1 | cut -d. -f1)
+    [ -n "$newest" ] && [ $(( (now - newest) / 60 )) -ge "$age" ] || continue
+    if [ -d "$entry" ] && [ -n "$(find "$entry" -type s -print -quit 2>/dev/null)" ]; then continue; fi
+    if printf '%s\n' "$in_use" | grep -qF -- "$entry"; then continue; fi
+    kb=$(du -sk -- "$entry" 2>/dev/null | cut -f1)
+    if [ "$dry" = 1 ]; then
+      printf 'would remove %8d KB %s\n' "$kb" "$entry"
+    else
+      rm -rf -- "$entry" && printf 'removed %8d KB %s\n' "$kb" "$entry"
+    fi
+    freed=$((freed + kb)); count=$((count + 1))
+  done
+done
+printf 'tmp-sweep: %s %d entries, %d MB\n' "$([ $dry = 1 ] && echo would remove || echo removed)" "$count" $((freed / 1024))

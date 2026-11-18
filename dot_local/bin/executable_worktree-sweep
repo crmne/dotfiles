@@ -1,0 +1,111 @@
+#!/bin/bash
+# Removes git worktrees that hold nothing anymore, then lets mbx collect the
+# build state of the checkouts that went.
+#
+# Agents make a worktree per task and rarely remove it: by November there were
+# over 500 of Chat with Work alone, 56 GB on the root disk, and every Rust one
+# kept its build state in mbx on the scratch disk. A worktree goes only when
+# all of these hold:
+#   - its HEAD is in the default branch of origin (an ancestor, or every
+#     commit has an equal patch there, as after a rebase merge),
+#   - `git status` shows nothing, and its ignored files are only build output
+#     and caches (node_modules, tmp, log, coverage, ...),
+#   - nothing in it was written for DAYS days (default 14),
+#   - it isn't locked and no process works in it or has a file in it open.
+# Removal is `git worktree remove`, never --force, and branches stay.
+#
+#   worktree-sweep [--dry-run] [--no-gc] [--days N] [REPO...]
+#
+# Without REPO, every repository directly under ~/Work and ~/Code that has
+# worktrees, except ~/Code/films (renders live there, ignored by git).
+set -uo pipefail
+
+dry=0 gc=1 days=14 repos=()
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --dry-run) dry=1 ;;
+    --no-gc) gc=0 ;;
+    --days) days=$2; shift ;;
+    -*) echo "usage: worktree-sweep [--dry-run] [--no-gc] [--days N] [REPO...]" >&2; exit 2 ;;
+    *) repos+=("$1") ;;
+  esac
+  shift
+done
+if [ ${#repos[@]} -eq 0 ]; then
+  for git_dir in "$HOME"/Work/*/.git "$HOME"/Code/*/.git; do
+    [ -d "$git_dir/worktrees" ] || continue
+    repo=${git_dir%/.git}
+    [ "$repo" = "$HOME/Code/films" ] && continue
+    repos+=("$repo")
+  done
+fi
+
+# Ignored paths that are build output or caches, which a build makes again.
+regenerable='(^|/)(node_modules|tmp|log|logs|coverage|storage|\.bundle|vendor/bundle|public/assets|app/assets/builds|target|dist|build|out|\.gradle|\.kotlin|\.cache|\.turbo|\.next|\.parcel-cache|__pycache__|\.pytest_cache|\.ruff_cache|\.mypy_cache|\.venv|venv|\.byebug_history|\.DS_Store)(/|$)|\.(log|pyc)$'
+
+cutoff=$(date -d "-$days days" +%F)
+in_use=$( { for p in /proc/[0-9]*; do
+              readlink "$p/cwd" 2>/dev/null
+              for f in "$p"/fd/*; do readlink "$f" 2>/dev/null; done
+            done; } | sort -u)
+uses() { printf '%s\n' "$in_use" | grep -q -x -F -e "$1" || printf '%s\n' "$in_use" | grep -q -F -e "$1/"; }
+
+removed=0 kept=0 freed=0
+for repo in "${repos[@]}"; do
+  git -C "$repo" worktree prune
+  git -C "$repo" fetch --quiet origin 2>/dev/null
+  base=$(git -C "$repo" symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null)
+  for b in origin/main origin/master; do
+    [ -n "$base" ] && break
+    git -C "$repo" rev-parse --quiet --verify "$b" >/dev/null && base=$b
+  done
+  [ -n "$base" ] || { echo "skip $repo: no origin default branch"; continue; }
+
+  while IFS= read -r line; do
+    case "$line" in
+      "worktree "*) path=${line#worktree }; locked=0 ;;
+      locked*) locked=1 ;;
+      "") ;;
+      *) continue ;;
+    esac
+    [ -n "$line" ] && continue
+    # A blank line ends a record; the one after the last record ends nothing.
+    wt=$path; path=""
+    [ -n "$wt" ] && [ "$wt" != "$repo" ] && [ -d "$wt" ] || continue
+
+    why=""
+    if [ "$locked" = 1 ]; then why="locked"
+    elif uses "$wt"; then why="in use"
+    elif [ -n "$(find "$wt" -maxdepth 4 -newermt "$cutoff" -not -path '*/node_modules/*' -print -quit 2>/dev/null)" ]; then why="written in the last $days days"
+    elif [ -n "$(git -C "$wt" status --porcelain 2>/dev/null | head -1)" ]; then why="uncommitted changes"
+    elif ! git -C "$wt" merge-base --is-ancestor HEAD "$base" 2>/dev/null &&
+         git -C "$wt" cherry "$base" HEAD 2>/dev/null | grep -q '^+'; then why="commits not in $base"
+    else
+      other=$(git -C "$wt" status --porcelain --ignored 2>/dev/null | sed -n 's/^!! //p' | grep -v -E "$regenerable" | head -1)
+      [ -n "$other" ] && why="ignored files that aren't build output ($other)"
+    fi
+    if [ -n "$why" ]; then
+      [ "$dry" = 1 ] && echo "keep   $wt: $why"
+      kept=$((kept + 1)); continue
+    fi
+
+    kb=$(du -sxk "$wt" 2>/dev/null | cut -f1)
+    if [ "$dry" = 1 ]; then
+      printf 'would remove %7d MB %s\n' $((kb / 1024)) "$wt"
+    elif git -C "$repo" worktree remove "$wt"; then
+      printf 'removed %7d MB %s\n' $((kb / 1024)) "$wt"
+    else
+      continue
+    fi
+    removed=$((removed + 1)); freed=$((freed + kb))
+  done < <(git -C "$repo" worktree list --porcelain; echo)
+done
+
+printf 'worktree-sweep: %s %d worktrees, %d MB; kept %d\n' \
+  "$([ "$dry" = 1 ] && echo would remove || echo removed)" "$removed" $((freed / 1024)) "$kept"
+
+# The removed checkouts' build state (mbx targets and incremental units) goes
+# with mbx's own collection.
+if [ "$dry" = 0 ] && [ "$gc" = 1 ] && [ "$removed" -gt 0 ] && command -v mbx >/dev/null 2>&1; then
+  mbx gc
+fi
