@@ -7,3 +7,9 @@
 .config/fish/functions/gcad.fish
 .config/fish/functions/gcam.fish
 .config/fish/functions/gcm.fish
+
+# Launchers replaced by installed apps: chatwithwork-desktop-bin ships
+# cww-app.desktop, and ncdu covers disk usage.
+.local/share/applications/Chat with Work.desktop
+.local/share/applications/icons/Chat with Work.png
+.local/share/applications/Disk Usage.desktop
