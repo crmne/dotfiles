@@ -15,7 +15,7 @@ hl.config({
 
     -- Mark the focused window by dimming the others instead of a border.
     dim_inactive = true,
-    dim_strength = 0.12,
+    dim_strength = 0.09,
 
     shadow = {
       enabled = true,
