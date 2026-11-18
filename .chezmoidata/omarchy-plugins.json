@@ -8,7 +8,6 @@
     "crmne.mpris": "https://github.com/crmne/omarchy-mpris.git",
     "crmne.omacal": "https://github.com/crmne/omarchy-calendar.git",
     "crmne.omastats": "https://github.com/crmne/omastats.git",
-    "crmne.todoist": "https://github.com/crmne/omatasks.git",
-    "io.github.cempack.songrec": "https://github.com/cempack/SongRec.git"
+    "crmne.todoist": "https://github.com/crmne/omatasks.git"
   }
 }
