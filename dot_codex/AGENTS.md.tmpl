@@ -11,6 +11,14 @@
   [#909](https://github.com/owner/repo/pull/909), never a bare `#909` or SHA.
   This applies to every summary, triage list and decision list.
 
+# Odoo
+
+- Never put code into Odoo (plenty.odoo.com): no Python server actions,
+  automation rules that execute code, computed fields with code, Studio code,
+  or custom modules. Odoo Online bills every 100 lines of custom code as a
+  yearly maintenance fee. Run that logic outside Odoo instead, in our own apps
+  or a script calling Odoo's API. No-code automation rules are fine.
+
 # Rendering video
 
 - Render on the GPU. Use `hf-render` for Hyperframes and run other GPU jobs
@@ -122,9 +130,23 @@
 # Secrets
 
 - Read 1Password secrets with `op-cache read "op://..."` (or `op-cache run`
-  for environment variables), never `op read`. `op-cache` caches them, so you
+  for environment variables), never `op read`.
+{{- if eq .chezmoi.hostname "chalk" }} op-cache reads through the
+  read-only service account "Agents on chalk"
+  (`~/.config/op-cache/op-agents`), so reads need no approval and work
+  overnight and while Carmine is away. It can read the vaults Solco,
+  Plenty, Carmine, Berlin.rb, chatwithwork, RubyLLM, tonepush and
+  cluster-headache-tracker, never Personal.
+{{- end }} `op-cache` caches them, so you
   don't trigger a 1Password approval prompt on every read. Project `.env`
   files already use it.
+- Every secret an agent needs lives in its project's vault (Solco, Plenty,
+  chatwithwork, RubyLLM, tonepush, cluster-headache-tracker, Berlin.rb), and
+  Carmine's own ones agents use (GitHub, Todoist, X, the NUC) in "Carmine".
+  Create new items there, never in Personal or Private: chalk's agent service
+  account can't read those, so a reference to them stops an agent at an
+  approval prompt. A new vault must be added to that service account before
+  agents can read it.
 - When you don't know an item's `op://` path, look in the repository first
   (`.envrc`, `.env`, Makefile, docs, Terraform), then search 1Password with
   `op item list` or `op item get`. Each search raises an approval prompt, so
