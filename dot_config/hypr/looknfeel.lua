@@ -1,23 +1,25 @@
 -- Personal look-and-feel overrides, loaded after Omarchy's defaults and the
 -- current theme.
 
--- The current theme's accent, as rrggbb. Changing theme reloads Hyprland, so
--- this follows every theme. Black if a theme has no accent.
-local function theme_accent()
+-- Whether the current theme is dark. Changing theme reloads Hyprland, so this
+-- follows every theme.
+local function theme_is_dark()
   local state_home = require("default.hypr.paths").state_home
   local file = io.open(state_home .. "/omarchy/current/theme/colors.toml", "r")
   if not file then
-    return "000000"
+    return false
   end
   local colors = file:read("*a")
   file:close()
-  return colors:match('%f[%w_]accent%s*=%s*"#(%x%x%x%x%x%x)"') or "000000"
+  return colors:match('%f[%w_]mode%s*=%s*"(%a+)"') == "dark"
 end
 
-local accent = theme_accent()
+-- Black shadow alpha (focused, unfocused): lighter on dark themes, where a
+-- black shadow reads as a heavy halo.
+local shadow = theme_is_dark() and { "26", "0d" } or { "40", "1a" }
 
--- Floating cards: rounded, borderless windows on a soft shadow in the theme's
--- accent. The focused window casts the stronger one.
+-- Floating cards: rounded, borderless windows on a soft drop shadow. The
+-- focused window casts the deeper one.
 hl.config({
   general = {
     gaps_in = 4,
@@ -33,8 +35,8 @@ hl.config({
       range = 14,
       render_power = 3,
       offset = { 0, 3 },
-      color = "rgba(" .. accent .. "40)",
-      color_inactive = "rgba(" .. accent .. "1a)",
+      color = "rgba(000000" .. shadow[1] .. ")",
+      color_inactive = "rgba(000000" .. shadow[2] .. ")",
     },
   },
 })
