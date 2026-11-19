@@ -59,3 +59,41 @@ o.bind("SUPER + SHIFT + ALT + G", "Signal", { omarchy = "signal" })
 
 -- Files opening shortcut (managed from Files settings).
 dofile(os.getenv("HOME") .. "/.config/hypr/crmne-files.lua")
+
+-- Super + Shift + arrow swaps the window with its neighbour on this screen,
+-- as Omarchy's does, but at the screen's edge moves it to the next screen
+-- instead of swapping it with a window there.
+local function tiled_neighbour(window, direction)
+  local x, y, w, h = window.at.x, window.at.y, window.size.x, window.size.y
+  for _, other in ipairs(hl.get_workspace_windows(tostring(window.workspace.id))) do
+    if other.address ~= window.address and other.mapped and not other.hidden and not other.floating then
+      local ox, oy, ow, oh = other.at.x, other.at.y, other.size.x, other.size.y
+      local beside = oy < y + h and y < oy + oh
+      local stacked = ox < x + w and x < ox + ow
+      if (direction == "l" and beside and ox + ow <= x + 1)
+        or (direction == "r" and beside and ox >= x + w - 1)
+        or (direction == "u" and stacked and oy + oh <= y + 1)
+        or (direction == "d" and stacked and oy >= y + h - 1) then
+        return true
+      end
+    end
+  end
+  return false
+end
+
+for key, direction in pairs({ LEFT = "l", RIGHT = "r", UP = "u", DOWN = "d" }) do
+  o.rebind("SUPER + SHIFT + " .. key, "Swap window, or move it to the next screen", function()
+    local window = hl.get_active_window()
+    if not window then
+      return
+    end
+    if window.floating or not window.workspace or tiled_neighbour(window, direction) then
+      hl.dispatch(hl.dsp.window.swap({ direction = direction }))
+      return
+    end
+    local target = hl.get_monitor(direction)
+    if target then
+      hl.dispatch(hl.dsp.window.move({ monitor = target.name }))
+    end
+  end)
+end

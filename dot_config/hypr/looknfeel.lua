@@ -1,8 +1,23 @@
 -- Personal look-and-feel overrides, loaded after Omarchy's defaults and the
 -- current theme.
 
--- Floating cards: rounded, borderless windows on a soft drop shadow. The
--- focused window casts the deeper shadow.
+-- The current theme's accent, as rrggbb. Changing theme reloads Hyprland, so
+-- this follows every theme. Black if a theme has no accent.
+local function theme_accent()
+  local state_home = require("default.hypr.paths").state_home
+  local file = io.open(state_home .. "/omarchy/current/theme/colors.toml", "r")
+  if not file then
+    return "000000"
+  end
+  local colors = file:read("*a")
+  file:close()
+  return colors:match('%f[%w_]accent%s*=%s*"#(%x%x%x%x%x%x)"') or "000000"
+end
+
+local accent = theme_accent()
+
+-- Floating cards: rounded, borderless windows on a soft shadow in the theme's
+-- accent. The focused window casts the stronger one.
 hl.config({
   general = {
     gaps_in = 4,
@@ -18,8 +33,8 @@ hl.config({
       range = 14,
       render_power = 3,
       offset = { 0, 3 },
-      color = "rgba(00000040)",
-      color_inactive = "rgba(0000001a)",
+      color = "rgba(" .. accent .. "40)",
+      color_inactive = "rgba(" .. accent .. "1a)",
     },
   },
 })
