@@ -1,30 +1,29 @@
 -- Personal look-and-feel overrides, loaded after Omarchy's defaults and the
 -- current theme.
 
--- Whether the current theme is dark. Changing theme reloads Hyprland, so this
--- follows every theme.
-local function theme_is_dark()
+-- The current theme's mode and accent. Changing theme reloads Hyprland, so
+-- these follow every theme.
+local function theme_colors()
   local state_home = require("default.hypr.paths").state_home
   local file = io.open(state_home .. "/omarchy/current/theme/colors.toml", "r")
   if not file then
-    return false
+    return {}
   end
   local colors = file:read("*a")
   file:close()
-  return colors:match('%f[%w_]mode%s*=%s*"(%a+)"') == "dark"
+  return {
+    dark = colors:match('%f[%w_]mode%s*=%s*"(%a+)"') == "dark",
+    accent = colors:match('%f[%w_]accent%s*=%s*"#(%x%x%x%x%x%x)"'),
+  }
 end
 
--- Black shadow alpha (focused, unfocused): lighter on dark themes, where a
--- black shadow reads as a heavy halo.
-local shadow = theme_is_dark() and { "26", "0d" } or { "40", "1a" }
+local theme = theme_colors()
 
--- Floating cards: rounded, borderless windows on a soft drop shadow. The
--- focused window casts the deeper one.
+-- Rounded windows with tight gaps and a small, soft drop shadow.
 hl.config({
   general = {
     gaps_in = 4,
     gaps_out = 8,
-    border_size = 0,
   },
 
   decoration = {
@@ -32,11 +31,29 @@ hl.config({
 
     shadow = {
       enabled = true,
-      range = 14,
+      range = 8,
       render_power = 3,
-      offset = { 0, 3 },
-      color = "rgba(000000" .. shadow[1] .. ")",
-      color_inactive = "rgba(000000" .. shadow[2] .. ")",
+      offset = { 0, 2 },
+    },
+  },
+})
+
+-- A hairline draws each window's edge, in the accent for the focused window.
+-- On dark themes it replaces the shadow, which barely shows against a dark
+-- desktop. Unfocused windows get a faint light line on dark themes and a
+-- faint dark one on light themes.
+hl.config({
+  general = {
+    border_size = 1,
+    col = {
+      active_border = "rgba(" .. (theme.accent or "808080") .. "cc)",
+      inactive_border = theme.dark and "rgba(ffffff12)" or "rgba(00000014)",
+    },
+  },
+  decoration = {
+    shadow = {
+      color = "rgba(00000033)",
+      color_inactive = "rgba(0000000d)",
     },
   },
 })
